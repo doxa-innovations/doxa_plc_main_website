@@ -6,6 +6,7 @@ import hexagon3 from '../images/SVGs/hexagon3.svg'
 import circle from '../images/SVGs/circle.svg'
 import EphremBW from '../images/EphremBW.png'
 import ephremPic from '../images/Ephrem.png'
+import gedion from '../images/gedion,png'
 
 
 export const Team = ()=>{
@@ -180,7 +181,7 @@ const Gedion = ({showing, setShowing})=>{
                     </div>
                     <div className="md:w-2 md:h-full bg-pj-secondary"></div>
                     <div className="col-span-3 mx-auto relative">
-                        <img className="w-64 relative z-30" src={ephremPic} alt="" />
+                        <img className="w-64 relative z-30" src={gedion} alt="" />
                         <img className="absolute top-12 left-2 w-72" src={circle} alt="" />
                     </div>
                 </div>
