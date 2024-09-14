@@ -14,6 +14,7 @@ import zenaKristosPage from '../images/zenakristosPage.png'
 import zoePage from '../images/zoePage.png'
 import ymPage from '../images/YMPage.png'
 import emebetPage from '../images/emebetPage.png'
+import classic from '../images/classic.png'
 
 export const Works = ()=>{
 
@@ -40,36 +41,36 @@ export const Works = ()=>{
         <div className={`${showing == null && 'hidden md:flex' || 'hidden'} flex-col items-center mt-4 w-full absolute top-1/2 transform -translate-y-1/2`}>
             <div className='grid grid-flow-col col-span-5 w-fit -mb-6 gap-3'>
                 <div onClick={()=>setShowing('zenaKristos')} className='relative w-32 cursor-pointer hover:-translate-y-1 transition ease-in-out duration-200'>
-                    <img className="w-32 z-20" src={hexagon} alt="" />
-                    <div className="absolute z-30 w-full h-full left-0 top-0 flex flex-col justify-center items-center gap-1">
+                        <img className="w-36 z-20" src={hexagon} alt="" />
+                        <div className="absolute z-30 w-full h-full left-0 top-0 flex flex-col justify-center items-center gap-0.5">
                         <img className="w-14 z-20" src={zenaKristos} alt="" />
                         <p className='text-sm text-pj-primary'>Zena Kristos</p>
                     </div>
                 </div>
                 <div onClick={()=>setShowing('yenetaMaster')} className='relative w-32 cursor-pointer hover:-translate-y-1 transition ease-in-out duration-200'>
-                    <img className="w-32 z-20" src={hexagon} alt="" />
-                    <div className="absolute z-30 w-full h-full left-0 top-0 flex flex-col justify-center items-center gap-1">
+                        <img className="w-36 z-20" src={hexagon} alt="" />
+                        <div className="absolute z-30 w-full h-full left-0 top-0 flex flex-col justify-center items-center gap-0.5">
                         <img className="w-12 z-20" src={yeneta} alt="" />
                         <p className='text-sm text-pj-primary'>Yeneta Master</p>
                     </div>
                 </div>
-                <div onClick={()=>setShowing('maor')} className='relative w-32 cursor-pointer hover:-translate-y-1 transition ease-in-out duration-200'>
-                    <img className="w-32 z-20" src={hexagon2} alt="" />
-                    <div className="absolute z-30 w-full h-full left-0 top-0 flex flex-col justify-center items-center gap-1">
-                        <img className="w-12 z-20" src={maor} alt="" />
-                        <p className='text-sm text-pj-white'>Maor Seminary (MLTS)</p>
+                    <div onClick={() => setShowing('Classic')} className='relative w-32 cursor-pointer hover:-translate-y-1 transition ease-in-out duration-200'>
+                        <img className="w-36 z-20" src={hexagon2} alt="" />
+                        <div className="absolute z-30 w-full h-full left-0 top-0 flex flex-col justify-center items-center gap-0.5">
+                            <img className="w-20 z-20" src={classic} alt="" />
+                            <p className='text-sm text-pj-white px-4'>Classic Noodle & Burger</p>
                     </div>
                 </div>
                 <div onClick={()=>setShowing('kofficho')} className='relative w-32 cursor-pointer hover:-translate-y-1 transition ease-in-out duration-200'>
-                    <img className="w-32 z-20" src={hexagon} alt="" />
-                    <div className="absolute z-30 w-full h-full left-0 top-0 flex flex-col justify-center items-center gap-1">
+                        <img className="w-36 z-20" src={hexagon} alt="" />
+                        <div className="absolute z-30 w-full h-full left-0 top-0 flex flex-col justify-center items-center gap-0.5">
                         <img className="w-14 z-20" src={kofficho} alt="" />
-                        <p className='text-sm text-pj-primary'>Kofficho Coffee</p>
+                            <p className='text-sm text-pj-primary px-4'>Kofficho Coffee</p>
                     </div>
                 </div>
                 <Link to={'/contact'} className='relative w-32 cursor-pointer hover:-translate-y-1 transition ease-in-out duration-200'>
-                    <img className="w-32 z-20" src={hexagon2} alt="" />
-                    <div className="absolute z-30 w-full h-full left-0 top-0 flex flex-col justify-center items-center gap-1">
+                        <img className="w-36 z-20" src={hexagon2} alt="" />
+                        <div className="absolute z-30 w-full h-full left-0 top-0 flex flex-col justify-center items-center gap-0.5">
                         <p className='text-pj-white px-2'>Put Your Business Right Here</p>
                     </div>
                 </Link>
@@ -77,29 +78,29 @@ export const Works = ()=>{
           
             <div className='grid grid-flow-col col-span-4 gap-3'>
                 <div onClick={()=>setShowing('zoe')} className='relative w-32 cursor-pointer hover:translate-y-1 transition ease-in-out duration-200'>
-                    <img className="w-32 z-20" src={hexagon2} alt="" />
-                    <div className="absolute z-30 w-full h-full left-0 top-0 flex flex-col justify-center items-center gap-1">
+                        <img className="w-36 z-20" src={hexagon2} alt="" />
+                        <div className="absolute z-30 w-full h-full left-0 top-0 flex flex-col justify-center items-center gap-0.5">
                         <img className="w-16 z-20" src={zoe} alt="" />
                         <p className='text-sm text-pj-white'>Zoe Delivery</p>
                     </div>
                 </div>
                 <div onClick={()=>setShowing('emebet')} className='relative w-32 cursor-pointer hover:translate-y-1 transition ease-in-out duration-200'>
-                    <img className="w-32 z-20" src={hexagon} alt="" />
-                    <div className="absolute z-30 w-full h-full left-0 top-0 flex flex-col justify-center items-center gap-1">
+                        <img className="w-36 z-20" src={hexagon} alt="" />
+                        <div className="absolute z-30 w-full h-full left-0 top-0 flex flex-col justify-center items-center gap-0.5">
                         <img className="w-8 z-20" src={emebet} alt="" />
                         <p className='text-sm text-pj-primary px-2'>Dr Emebet Dental</p>
                     </div>
                 </div>
                 <div onClick={()=>setShowing('lce')} className='relative w-32 cursor-pointer hover:translate-y-1 transition ease-in-out duration-200'>
-                    <img className="w-32 z-20" src={hexagon2} alt="" />
-                    <div className="absolute z-30 w-full h-full left-0 top-0 flex flex-col justify-center items-center gap-1">
+                        <img className="w-36 z-20" src={hexagon2} alt="" />
+                        <div className="absolute z-30 w-full h-full left-0 top-0 flex flex-col justify-center items-center gap-0.5">
                         <img className="w-14 z-20 -mt-6" src={lce} alt="" />
                         <p className='text-sm text-pj-white'>The LCE</p>
                     </div>
                 </div>
-                <div onClick={()=>setShowing('more')} className='relative w-32 cursor-pointer hover:translate-y-1 transition ease-in-out duration-200'>
-                    <img className="w-32 z-20" src={hexagon} alt="" />
-                    <div className="absolute z-30 w-full h-full left-0 top-0 flex flex-col justify-center items-center gap-1">
+                    <div className='relative w-32 cursor-pointer hover:translate-y-1 transition ease-in-out duration-200'>
+                        <img className="w-36 z-20" src={hexagon} alt="" />
+                        <div className="absolute z-30 w-full h-full left-0 top-0 flex flex-col justify-center items-center gap-0.5">
                         <p className='text-pj-primary px-2'>Even More to Come</p>
                     </div>
                 </div>
@@ -111,8 +112,8 @@ export const Works = ()=>{
         <div className='flex md:hidden flex-col items-center mt-20'>
             <div className='grid grid-flow-col col-span-2 w-fit -mb-5 md:-mb-6 gap-2'>
                 <div onClick={()=>setShowing('zenaKristos')} className='relative w-32 cursor-pointer hover:-translate-y-1 transition ease-in-out duration-200'>
-                    <img className="w-32 z-20" src={hexagon} alt="" />
-                    <div className="absolute z-30 w-full h-full left-0 top-0 flex flex-col justify-center items-center gap-1">
+                        <img className="w-36 z-20" src={hexagon} alt="" />
+                        <div className="absolute z-30 w-full h-full left-0 top-0 flex flex-col justify-center items-center gap-0.5">
                         <img className="w-14 z-20" src={zenaKristos} alt="" />
                         <p className='text-sm text-pj-primary'>Zena Kristos</p>
                     </div>
@@ -120,15 +121,15 @@ export const Works = ()=>{
             </div>
             <div className='grid grid-flow-col col-span-2 w-fit -mb-5 md:-mb-6 gap-2'>
                 <div onClick={()=>setShowing('yenetaMaster')} className='relative w-32 cursor-pointer hover:-translate-y-1 transition ease-in-out duration-200'>
-                    <img className="w-32 z-20" src={hexagon} alt="" />
-                    <div className="absolute z-30 w-full h-full left-0 top-0 flex flex-col justify-center items-center gap-1">
+                        <img className="w-36 z-20" src={hexagon} alt="" />
+                        <div className="absolute z-30 w-full h-full left-0 top-0 flex flex-col justify-center items-center gap-0.5">
                         <img className="w-12 z-20" src={yeneta} alt="" />
                         <p className='text-sm text-pj-primary'>Yeneta Master</p>
                     </div>
                 </div>
                 <div onClick={()=>setShowing('zoe')} className='relative w-32 cursor-pointer hover:translate-y-1 transition ease-in-out duration-200'>
-                    <img className="w-32 z-20" src={hexagon2} alt="" />
-                    <div className="absolute z-30 w-full h-full left-0 top-0 flex flex-col justify-center items-center gap-1">
+                        <img className="w-36 z-20" src={hexagon2} alt="" />
+                        <div className="absolute z-30 w-full h-full left-0 top-0 flex flex-col justify-center items-center gap-0.5">
                         <img className="w-16 z-20" src={zoe} alt="" />
                         <p className='text-sm text-pj-white'>Zoe Delivery</p>
                     </div>
@@ -137,24 +138,24 @@ export const Works = ()=>{
           
             <div className='grid grid-flow-col col-span-3 gap-2'>
                 <div onClick={()=>setShowing('emebet')} className='relative w-32 cursor-pointer hover:translate-y-1 transition ease-in-out duration-200'>
-                    <img className="w-32 z-20" src={hexagon} alt="" />
-                    <div className="absolute z-30 w-full h-full left-0 top-0 flex flex-col justify-center items-center gap-1">
+                        <img className="w-36 z-20" src={hexagon} alt="" />
+                        <div className="absolute z-30 w-full h-full left-0 top-0 flex flex-col justify-center items-center gap-0.5">
                         <img className="w-8 z-20" src={emebet} alt="" />
                         <p className='text-sm text-pj-primary px-2'>Dr Emebet Dental</p>
                     </div>
                 </div>
 
                 <div onClick={()=>setShowing('kofficho')} className='relative w-32 cursor-pointer hover:-translate-y-1 transition ease-in-out duration-200'>
-                    <img className="w-32 z-20" src={hexagon} alt="" />
-                    <div className="absolute z-30 w-full h-full left-0 top-0 flex flex-col justify-center items-center gap-1">
+                        <img className="w-36 z-20" src={hexagon} alt="" />
+                        <div className="absolute z-30 w-full h-full left-0 top-0 flex flex-col justify-center items-center gap-0.5">
                         <img className="w-14 z-20" src={kofficho} alt="" />
                         <p className='text-sm text-pj-primary'>Kofficho Coffee</p>
                     </div>
                 </div>
 
                 <div onClick={()=>setShowing('lce')} className='relative w-32 cursor-pointer hover:translate-y-1 transition ease-in-out duration-200'>
-                    <img className="w-32 z-20" src={hexagon} alt="" />
-                    <div className="absolute z-30 w-full h-full left-0 top-0 flex flex-col justify-center items-center gap-1">
+                        <img className="w-36 z-20" src={hexagon} alt="" />
+                        <div className="absolute z-30 w-full h-full left-0 top-0 flex flex-col justify-center items-center gap-0.5">
                         <img className="w-14 z-20 -mt-6" src={lce} alt="" />
                         <p className='text-sm text-pj-primary'>The LCE</p>
                     </div>
@@ -164,16 +165,16 @@ export const Works = ()=>{
           
             <div className='grid grid-flow-col col-span-2 w-fit -mt-5 gap-2'>
                 <div onClick={()=>setShowing('maor')} className='relative w-32 cursor-pointer hover:-translate-y-1 transition ease-in-out duration-200'>
-                    <img className="w-32 z-20" src={hexagon2} alt="" />
-                    <div className="absolute z-30 w-full h-full left-0 top-0 flex flex-col justify-center items-center gap-1">
+                        <img className="w-36 z-20" src={hexagon2} alt="" />
+                        <div className="absolute z-30 w-full h-full left-0 top-0 flex flex-col justify-center items-center gap-0.5">
                         <img className="w-12 z-20" src={maor} alt="" />
                         <p className='text-sm text-pj-white'>Maor Seminary (MLTS)</p>
                     </div>
                 </div>
             
                 <Link to={'/contact'} className='relative w-32 cursor-pointer hover:-translate-y-1 transition ease-in-out duration-200'>
-                    <img className="w-32 z-20" src={hexagon} alt="" />
-                    <div className="absolute z-30 w-full h-full left-0 top-0 flex flex-col justify-center items-center gap-1">
+                        <img className="w-36 z-20" src={hexagon} alt="" />
+                        <div className="absolute z-30 w-full h-full left-0 top-0 flex flex-col justify-center items-center gap-0.5">
                         <p className='text-pj-primary px-2'>Put Your Business Right Here</p>
                     </div>
                 </Link>
@@ -183,7 +184,7 @@ export const Works = ()=>{
 
         {showing == 'zenaKristos' && <ZenaKristos showing={showing} setShowing={setShowing} />}
         {showing == 'yenetaMaster' && <YenetaMaster showing={showing} setShowing={setShowing} />}
-        {showing == 'maor' && <Maor showing={showing} setShowing={setShowing} />}
+            {showing == 'Classic' && <Classic showing={showing} setShowing={setShowing} />}
         {showing == 'kofficho' && <Kofficho showing={showing} setShowing={setShowing} />}
         {showing == 'zoe' && <Zoe showing={showing} setShowing={setShowing} />}
         {showing == 'emebet' && <Emebet showing={showing} setShowing={setShowing} />}
@@ -195,8 +196,7 @@ export const Works = ()=>{
 }
 
 
-const ZenaKristos = ({showing, setShowing})=>{
-
+const ZenaKristos = ({ showing, setShowing }) => {
     return (
         <div className={`${showing != null && 'block' || 'hidden'} w-full h-fit md:h-[80%] bg-pj-dark bottom-0 absolute z-30 pb-8 px-5 md:px-10 transition ease-in duration-500`}>
             <div className="relative">
@@ -234,8 +234,7 @@ const ZenaKristos = ({showing, setShowing})=>{
     )
 }
 
-const YenetaMaster = ({showing, setShowing})=>{
-
+const YenetaMaster = ({ showing, setShowing }) => {
     return (
         <div className={`${showing != null && 'block' || 'hidden'} w-full h-fit md:h-[80%] bg-pj-dark bottom-0 absolute z-30 pb-8 px-5 md:px-10 transition ease-in duration-500`}>
             <div className="relative">
@@ -276,12 +275,11 @@ const YenetaMaster = ({showing, setShowing})=>{
     )
 }
 
-const Maor = ({showing, setShowing})=>{
-
+const Classic = ({ showing, setShowing }) => {
     return (
         <div className={`${showing != null && 'block' || 'hidden'} w-full h-fit md:h-[80%] bg-pj-dark bottom-0 absolute z-30 pb-8 px-5 md:px-10 transition ease-in duration-500`}>
             <div className="relative">
-                <h3 className="text-2xl md:text-4xl font-bold text-pj-primary py-5">Maor Lutheran Theological Seminary</h3>
+                <h3 className="text-2xl md:text-4xl font-bold text-pj-primary py-5">Classic Noodle & Burger</h3>
                 <button
                     onClick={()=>{setShowing(null);}} 
                     className="text-xl md:text-2xl text-pj-secondary absolute top-0 right-0 py-5 md:p-5 hover:text-pj-primary hover:-scale-105"
@@ -292,21 +290,24 @@ const Maor = ({showing, setShowing})=>{
                 <div className="grid place-items-center grid-flow-row md:grid-flow-col md:grid-cols-4 gap-5 md:gap-0 pt-3 md:py-10">
                     <div className="col-span-2 text-pj-white px-3 md:px-6">
                         <div className="text-xl md:text-3xl text-pj-secondary font-semibold py-3 flex items-center justify-center">
-                            The Theologocal Seminary Website
-                            <Link to={"https://demo.yenetamaster.net"} target="_blank" className="px-6 py-2 mx-3 w-fit text-base rounded-full bg-pj-accent text-pj-secondary hover:bg-opacity-80">
+                            Classic Noodle & Burger
+                            <Link to={"https://classicnoodle.com"} target="_blank" className="px-6 py-2 mx-3 w-fit text-base rounded-full bg-pj-accent text-pj-secondary hover:bg-opacity-80">
                                 Visit
                             </Link>
                         </div>
                         <p className="">
-                            {/* Description is needed here */}
+                            At Classic Noodle and Burger, we believe in bringing people together through the joy of food and music.
+                            Nestled in the heart of Bishoftu, our restaurant offers a delightful fusion of mouthwatering noodles and
+                            delectable burgers, perfect for every palate and occasion.
                         </p>
                         <ul className="flex gap-2 my-5 px-2 items-center flex-wrap">
                             <h4 className="pr-2 text-sm md:text-base">Technologies Used:</h4>
                             <li className="px-3 py-1 rounded-full text-xs md:text-sm bg-pj-secondary text-pj-accent">React</li>
-                            <li className="px-3 py-1 rounded-full text-xs md:text-sm bg-pj-secondary text-pj-accent">SCSS</li>
+                            <li className="px-3 py-1 rounded-full text-xs md:text-sm bg-pj-secondary text-pj-accent">Tailwind</li>
+                            <li className="px-3 py-1 rounded-full text-xs md:text-sm bg-pj-secondary text-pj-accent">Laravel</li>
                         </ul>
                     </div>
-                    <img className="col-span-2 md:px-6 py-6 border-t-2 md:border-t-0 md:border-l-2 border-pj-secondary" src={maor} alt="" />
+                    <img className="col-span-2 md:px-6 py-6 border-t-2 md:border-t-0 md:border-l-2 border-pj-secondary" src={classic} alt="" />
                 </div>
             </div>
         </div>
@@ -346,7 +347,7 @@ const Kofficho = ({showing, setShowing})=>{
                             <li className="px-3 py-1 rounded-full text-xs md:text-sm bg-pj-secondary text-pj-accent">Laravel</li>
                         </ul>
                     </div>
-                    <img className="col-span-2 md:px-6 py-6 border-t-2 md:border-t-0 md:border-l-2 border-pj-secondary" src={maor} alt="" />
+                    <img className="col-span-2 md:px-6 py-6 border-t-2 md:border-t-0 md:border-l-2 border-pj-secondary" src={kofficho} alt="" />
                 </div>
             </div>
         </div>

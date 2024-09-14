@@ -17,7 +17,7 @@ import { Prices } from './pages/Prices'
 function App() {
 
   return (
-    <div className='min-h-dvh max-h-dvh md:min-h-screen md:max-h-screen overflow-none grid w-screen max-w-screen m-0 p-0 font-pj-font'>
+    <div className='h-dvh overflow-none grid w-screen max-w-screen m-0 p-0 font-pj-font'>
       <div className='bg-pj-light-Dark w-full h-full relative'>
         <img className='absolute top-0 right-0 w-28 md:w-44 z-0' src={honeycone} alt="" />
         <img className='absolute top-16 md:top-28 right-2 w-20 md:w-36 z-0' src={bee1} alt="" />
