@@ -6,7 +6,8 @@ import hexagon3 from '../images/SVGs/hexagon3.svg'
 import circle from '../images/SVGs/circle.svg'
 import EphremBW from '../images/EphremBW.png'
 import ephremPic from '../images/Ephrem.png'
-import gedion from '../images/gedion.png'
+import gedion from '../images/Gedion.png'
+import cheri from '../images/Cheri.png'
 import user from '../images/user.png'
 
 
@@ -53,7 +54,7 @@ export const Team = ()=>{
                 // onClick={()=>{setShowing('cherinet')}} 
                 className='relative grid place-items-center cursor-pointer hover:scale-105 transition ease-in-out duration-200'
             >
-                    <img className="w-24 md:w-36 relative z-30 self-end" src={user} alt="" />
+                    <img className="w-24 md:w-36 relative z-30 self-end" src={cheri} alt="" />
                 <div className="w-52 md:w-64 h-20 md:h-24 bg-pj-secondary rounded-xl text-center px-3 relative z-30">
                     <p className="text-base md:text-xl text-pj-accent pt-3 pb-2 font-semibold border-b border-pj-accent">
                         Cherinet D. Lemma
@@ -68,7 +69,7 @@ export const Team = ()=>{
                 // onClick={()=>{setShowing('gedion')}} 
                 className='relative grid place-items-center cursor-pointer hover:scale-105 transition ease-in-out duration-200'
             >
-                    <img className="w-24 md:w-36 relative z-30 self-end" src={user} alt="" />
+                    <img className="w-24 md:w-36 relative z-30 self-end" src={gedion} alt="" />
                 <div className="w-52 md:w-64 h-20 md:h-24 bg-pj-secondary rounded-xl text-center px-3 relative z-30">
                     <p className="text-base md:text-xl text-pj-accent pt-3 pb-2 font-semibold border-b border-pj-accent">
                         Gedion G. Tadesse
