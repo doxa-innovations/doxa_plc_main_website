@@ -14,7 +14,8 @@ import zenaKristosPage from '../images/zenakristosPage.png'
 import zoePage from '../images/zoePage.png'
 import ymPage from '../images/YMPage.png'
 import emebetPage from '../images/emebetPage.png'
-import classic from '../images/classic.png'
+import classic from '../images/classic_logo.png'
+import classicPage from '../images/classic.png'
 
 export const Works = ()=>{
 
@@ -91,7 +92,7 @@ export const Works = ()=>{
                         <p className='text-sm text-pj-primary px-2'>Dr Emebet Dental</p>
                     </div>
                 </div>
-                <div onClick={()=>setShowing('lce')} className='relative w-32 cursor-pointer hover:translate-y-1 transition ease-in-out duration-200'>
+                <div onClick={()=>{/*setShowing('lce')*/}} className='relative w-32 cursor-pointer hover:translate-y-1 transition ease-in-out duration-200'>
                         <img className="w-36 z-20" src={hexagon2} alt="" />
                         <div className="absolute z-30 w-full h-full left-0 top-0 flex flex-col justify-center items-center gap-0.5">
                         <img className="w-14 z-20 -mt-6" src={lce} alt="" />
@@ -138,33 +139,33 @@ export const Works = ()=>{
           
             <div className='grid grid-flow-col col-span-3 gap-2'>
                 <div onClick={()=>setShowing('emebet')} className='relative w-32 cursor-pointer hover:translate-y-1 transition ease-in-out duration-200'>
-                        <img className="w-36 z-20" src={hexagon} alt="" />
+                        <img className="w-36 z-20" src={hexagon2} alt="" />
                         <div className="absolute z-30 w-full h-full left-0 top-0 flex flex-col justify-center items-center gap-0.5">
                         <img className="w-8 z-20" src={emebet} alt="" />
-                        <p className='text-sm text-pj-primary px-2'>Dr Emebet Dental</p>
+                        <p className='text-sm text-pj-white px-2'>Dr Emebet Dental</p>
                     </div>
                 </div>
 
-                <div onClick={()=>setShowing('kofficho')} className='relative w-32 cursor-pointer hover:-translate-y-1 transition ease-in-out duration-200'>
+                <div onClick={()=>{/*setShowing('lce')*/}} className='relative w-32 cursor-pointer hover:-translate-y-1 transition ease-in-out duration-200'>
                         <img className="w-36 z-20" src={hexagon} alt="" />
                         <div className="absolute z-30 w-full h-full left-0 top-0 flex flex-col justify-center items-center gap-0.5">
-                        <img className="w-14 z-20" src={kofficho} alt="" />
-                        <p className='text-sm text-pj-primary'>Kofficho Coffee</p>
-                    </div>
-                </div>
-
-                <div onClick={()=>setShowing('lce')} className='relative w-32 cursor-pointer hover:translate-y-1 transition ease-in-out duration-200'>
-                        <img className="w-36 z-20" src={hexagon} alt="" />
-                        <div className="absolute z-30 w-full h-full left-0 top-0 flex flex-col justify-center items-center gap-0.5">
-                        <img className="w-14 z-20 -mt-6" src={lce} alt="" />
+                        <img className="w-14 z-20" src={lce} alt="" />
                         <p className='text-sm text-pj-primary'>The LCE</p>
+                    </div>
+                </div>
+
+                <div onClick={()=>setShowing('Classic')} className='relative w-32 cursor-pointer hover:translate-y-1 transition ease-in-out duration-200'>
+                        <img className="w-36 z-20" src={hexagon2} alt="" />
+                        <div className="absolute z-30 w-full h-full left-0 top-0 flex flex-col justify-center items-center gap-0.5">
+                        <img className="w-14 z-20 -mt-6" src={classic} alt="" />
+                        <p className='text-sm text-pj-white'>Classic Noodles</p>
                     </div>
                 </div>
             </div>
 
           
             <div className='grid grid-flow-col col-span-2 w-fit -mt-5 gap-2'>
-                <div onClick={()=>setShowing('maor')} className='relative w-32 cursor-pointer hover:-translate-y-1 transition ease-in-out duration-200'>
+                <div onClick={()=>{/*setShowing('maor')*/}} className='relative w-32 cursor-pointer hover:-translate-y-1 transition ease-in-out duration-200'>
                         <img className="w-36 z-20" src={hexagon2} alt="" />
                         <div className="absolute z-30 w-full h-full left-0 top-0 flex flex-col justify-center items-center gap-0.5">
                         <img className="w-12 z-20" src={maor} alt="" />
@@ -262,10 +263,10 @@ const YenetaMaster = ({ showing, setShowing }) => {
                         </p>
                         <ul className="flex gap-2 my-5 px-2 items-center flex-wrap">
                             <h4 className="pr-2 text-sm md:text-base">Technologies Used:</h4>
-                            <li className="px-3 py-1 rounded-full text-xs md:text-sm bg-pj-secondary text-pj-accent">Blade</li>
-                            <li className="px-3 py-1 rounded-full text-xs md:text-sm bg-pj-secondary text-pj-accent">Bootstrap</li>
+                            <li className="px-3 py-1 rounded-full text-xs md:text-sm bg-pj-secondary text-pj-accent">ReactJS</li>
+                            <li className="px-3 py-1 rounded-full text-xs md:text-sm bg-pj-secondary text-pj-accent">Tailwind</li>
                             <li className="px-3 py-1 rounded-full text-xs md:text-sm bg-pj-secondary text-pj-accent">Laravel</li>
-                            <li className="px-3 py-1 rounded-full text-xs md:text-sm bg-pj-secondary text-pj-accent">Inispinia Template</li>
+                            <li className="px-3 py-1 rounded-full text-xs md:text-sm bg-pj-secondary text-pj-accent">MySQL</li>
                         </ul>
                     </div>
                     <img className="col-span-2 md:px-6 py-6 border-t-2 md:border-t-0 md:border-l-2 border-pj-secondary" src={ymPage} alt="" />
@@ -307,7 +308,7 @@ const Classic = ({ showing, setShowing }) => {
                             <li className="px-3 py-1 rounded-full text-xs md:text-sm bg-pj-secondary text-pj-accent">Laravel</li>
                         </ul>
                     </div>
-                    <img className="col-span-2 md:px-6 py-6 border-t-2 md:border-t-0 md:border-l-2 border-pj-secondary" src={classic} alt="" />
+                    <img className="col-span-2 md:px-6 py-6 border-t-2 md:border-t-0 md:border-l-2 border-pj-secondary" src={classicPage} alt="" />
                 </div>
             </div>
         </div>

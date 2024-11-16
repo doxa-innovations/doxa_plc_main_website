@@ -32,14 +32,18 @@ export const Team = ()=>{
         >
             <path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 288 480 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-370.7 0 73.4-73.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-128 128z"/>
         </svg>
+        <div 
+            className={`flex flex-col md:flex-row justify-center gap-2 md:gap-32 w-full absolute top-1/2 transform -translate-y-1/2 `}
+        >
 
-            <div className={`flex flex-col md:flex-row justify-center gap-2 md:gap-32 w-full absolute top-1/2 transform -translate-y-1/2`}>
             <div
                 // onClick={()=>{setShowing('ephrem')}} 
-                className='relative grid place-items-center cursor-pointer hover:scale-105 transition ease-in-out duration-200'
+                className='relative w-52 md:w-64 grid grid-rows-4 place-items-center cursor-pointer hover:scale-105 transition ease-in-out duration-200'
             >
-                    <img className="w-24 md:w-48 relative z-30" src={EphremBW} alt="" />
-                <div className="w-52 md:w-64 h-20 md:h-24 bg-pj-secondary rounded-xl text-center px-3 relative z-30">
+                <div className="row-span-3 grid h-full">
+                    <img className="w-11/12 relative z-30 justify-self-center self-end" src={EphremBW} alt="" />
+                </div>
+                <div className="row-span-1 h-full w-full bg-pj-secondary rounded-xl text-center px-3 -mt-1 relative z-30">
                     <p className="text-base md:text-xl text-pj-accent pt-3 pb-2 font-semibold border-b border-pj-accent">
                         Ephrem K. Getachew
                     </p>
@@ -51,35 +55,38 @@ export const Team = ()=>{
             </div>
 
             <div
-                // onClick={()=>{setShowing('cherinet')}} 
-                className='relative grid place-items-center cursor-pointer hover:scale-105 transition ease-in-out duration-200'
+                // onClick={()=>{setShowing('ephrem')}} 
+                className='relative w-52 md:w-64 grid grid-rows-4 place-items-center cursor-pointer hover:scale-105 transition ease-in-out duration-200'
             >
-                    <img className="w-24 md:w-36 relative z-30 self-end" src={cheri} alt="" />
-                <div className="w-52 md:w-64 h-20 md:h-24 bg-pj-secondary rounded-xl text-center px-3 relative z-30">
+                <div className="row-span-3 grid h-full">
+                    <img className="w-11/12 relative z-30 justify-self-center self-end" src={cheri} alt="" />
+                </div>
+                <div className="row-span-1 h-full w-full bg-pj-secondary rounded-xl text-center px-3 -mt-1 relative z-30">
                     <p className="text-base md:text-xl text-pj-accent pt-3 pb-2 font-semibold border-b border-pj-accent">
                         Cherinet D. Lemma
                     </p>
                     <p className="pt-1 text-sm md:text-base md:pt-3 text-pj-black">Creative Designer</p>
                 </div>
+                <img className="absolute top-4 right-5 w-32 md:w-60" src={pentagon} alt="" />
 
-                <img className="absolute top-5 w-32 md:w-60" src={pentagon} alt="" />
             </div>
 
             <div
-                // onClick={()=>{setShowing('gedion')}} 
-                className='relative grid place-items-center cursor-pointer hover:scale-105 transition ease-in-out duration-200'
+                // onClick={()=>{setShowing('ephrem')}} 
+                className='relative w-52 md:w-64 grid grid-rows-4 place-items-center cursor-pointer hover:scale-105 transition ease-in-out duration-200'
             >
-                    <img className="w-24 md:w-36 relative z-30 self-end" src={gedion} alt="" />
-                <div className="w-52 md:w-64 h-20 md:h-24 bg-pj-secondary rounded-xl text-center px-3 relative z-30">
+                <div className="row-span-3 grid h-full">
+                    <img className="w-11/12 relative z-30 justify-self-center self-end" src={gedion} alt="" />
+                </div>
+                <div className="row-span-1 h-full w-full bg-pj-secondary rounded-xl text-center px-3 -mt-1 relative z-30">
                     <p className="text-base md:text-xl text-pj-accent pt-3 pb-2 font-semibold border-b border-pj-accent">
                         Gedion G. Tadesse
                     </p>
                     <p className="pt-1 text-sm md:text-base md:pt-3 text-pj-black">Frontend Developer</p>
                 </div>
-
-                <img className="absolute top-5 w-32 md:w-60" src={hexagon3} alt="" />
+                <img className="absolute top-2 w-32 md:w-60 right-3" src={hexagon3} alt="" />
             </div>
-            </div>
+        </div>
     </div>
     )
 }
