@@ -307,7 +307,7 @@ export const Prices = ()=>{
         </div>
         <div className="grid items-end absolute md:right-[10%] w-full md:w-auto md:top-20 bottom-20 md:bottom-auto">
             <button onClick={()=>{setCustoms(!customs)}} className="w-fit px-10 h-12 mx-auto bg-pj-secondary grid place-content-center rounded-lg cursor-pointer hover:bg-opacity-90 duration-200">
-                {!customs && <h3 className="text-lg">Looking for Something Powerfull?</h3> || <h3 className="text-lg">Looking for Something regular?</h3>}                
+                {!customs && <h3 className="text-lg">Looking for Something Powerfull?</h3> || <h3 className="text-lg">Looking for Something Regular?</h3>}                
             </button>
         </div>
         
