@@ -36,9 +36,9 @@ export const Services = ()=>{
                 className='relative w-28 md:w-44 cursor-pointer hover:scale-105 transition ease-in-out duration-200'
             >
                 <img className="w-28 md:w-44" src={hexagon2} alt="" />
-                <div className="absolute flex flex-col items-center justify-center w-28 md:w-44 top-1/2 transform -translate-y-1/2">
-                    <img className="w-10 md:w-14" src={branding} alt="" />
-                    <p className='text-base md:text-2xl text-pj-white -mb-1 md:-mb-3 mt-1 md:mt-3'>Branding</p>
+                <div className="absolute flex flex-col gap-3 items-center justify-center w-28 md:w-44 top-1/2 transform -translate-y-1/2">
+                    <img className="w-10" src={branding} alt="" />
+                    <p className='text-base md:text-2xl text-pj-white'>Branding</p>
                 </div>
             </div>
 
@@ -47,9 +47,9 @@ export const Services = ()=>{
                 className='relative w-28 md:w-44 cursor-pointer hover:scale-105 transition ease-in-out duration-200'
             >
                 <img className="w-28 md:w-44" src={hexagon2} alt="" />
-                <div className="absolute flex flex-col items-center justify-center w-28 md:w-44 top-1/2 transform -translate-y-1/2">
-                    <img className="w-10 md:w-14" src={website} alt="" />
-                    <p className='text-base md:text-2xl text-pj-white -mb-1 md:-mb-3 mt-1 md:mt-3'>Website</p>
+                <div className="absolute flex flex-col gap-3 items-center justify-center w-28 md:w-44 top-1/2 transform -translate-y-1/2">
+                    <img className="w-10" src={website} alt="" />
+                    <p className='text-base md:text-2xl text-pj-white'>Website</p>
                 </div>
             </div>
 
@@ -58,17 +58,17 @@ export const Services = ()=>{
                 className='relative w-28 md:w-44 cursor-pointer hover:scale-105 transition ease-in-out duration-200'
             >
                 <img className="w-28 md:w-44" src={hexagon2} alt="" />
-                <div className="absolute flex flex-col items-center justify-center w-28 md:w-44 top-1/2 transform -translate-y-1/2">
-                    <img className="w-10 md:w-14" src={promotion} alt="" />
-                    <p className='text-base md:text-2xl text-pj-white -mb-1 md:-mb-3 mt-1 md:mt-3'>Promotion</p>
+                <div className="absolute flex flex-col gap-3 items-center justify-center w-28 md:w-44 top-1/2 transform -translate-y-1/2">
+                    <img className="w-10" src={promotion} alt="" />
+                    <p className='text-base md:text-2xl text-pj-white'>Promotion</p>
                 </div>
             </div>
         </div>
 
         
-        {showing == 'branding' && <Branding showing={showing} setShowing={setShowing} />}
-        {showing == 'website' && <Website showing={showing} setShowing={setShowing} />}
-        {showing == 'promotion' && <Promotion showing={showing} setShowing={setShowing} />}
+        {showing === 'branding' && <Branding showing={showing} setShowing={setShowing} />}
+        {showing === 'website' && <Website showing={showing} setShowing={setShowing} />}
+        {showing === 'promotion' && <Promotion showing={showing} setShowing={setShowing} />}
 
 
     </div>
