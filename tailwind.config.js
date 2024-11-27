@@ -1,10 +1,16 @@
 /** @type {import('tailwindcss').Config} */
+import fluid, { extract, screens, fontSize } from 'fluid-tailwind'
+
+
+
 export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    screens, // Tailwind's default screens, in `rem`
+    fontSize, // Tailwind's default font sizes, in `rem` (including line heights)
     fontFamily: {
       'pj-font': 'Poppins'
     },
@@ -26,6 +32,9 @@ export default {
         'pj-accent': '#5F3A0D'
       }
     },
+    extract
   },
-  plugins: [],
+  plugins: [
+    fluid
+  ],
 }

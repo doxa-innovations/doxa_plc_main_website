@@ -1,0 +1,56 @@
+[
+  {
+    "title": "Classic Noodles",
+    "image": "classic_logo.png",
+    "tag": "classic",
+    "clamp": true
+  },
+  {
+    "title": "Zena Kristos",
+    "image": "zenakristos.png",
+    "tag": "zenaKristos",
+    "clamp": true
+  },
+  {
+    "title": "Zoe Delivery",
+    "image": "Zoe.png",
+    "tag": "zoe",
+    "clamp": true
+  },
+  {
+    "title": "Yeneta Master",
+    "image": "yenetaMaster.png",
+    "tag": "yenetaMaster",
+    "clamp": true
+  },
+  {
+    "title": "The LCE",
+    "image": "lce.png",
+    "tag": "lce",
+    "clamp": true
+  },
+  {
+    "title": "Maor Seminary",
+    "image": "maor.png",
+    "tag": "maor",
+    "clamp": true
+  },
+  {
+    "title": "Dr Emebet Dental",
+    "image": "emebet.png",
+    "tag": "emebet",
+    "clamp": true
+  },
+  {
+    "title": "Kofficho Coffee",
+    "image": "kofficho.png",
+    "tag": "kofficho",
+    "clamp": true
+  },
+  {
+    "title": "Put Your business",
+    "image": "",
+    "tag": "",
+    "clamp": false
+  }
+]
