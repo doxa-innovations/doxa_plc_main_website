@@ -4,7 +4,7 @@ import hexagon from '../../public/images/SVGs/hexagon.svg'
 import hexagon2 from '../../public/images/SVGs/hexagon2.svg'
 import worksData from '../FileDatabase.json'
 import {Link} from "react-router-dom";
-import {WorkData} from "../global";
+
 import {LiveBGStatic} from "../Components/LiveBG.tsx";
 
 
@@ -166,7 +166,7 @@ export const Work = ():ReactElement =>{
 																<h4 className="pr-2 mt-5 text-sm md:text-base text-center">Technologies Used:</h4>
 																<ul className="flex gap-2 mt-2 mb-5 px-2 justify-center items-center flex-wrap">
 																		{
-																				showing !== null && showing.details.techStack.map(stack => {
+																				showing !== null && showing.details.techStack.map((stack: string) => {
 																						return (
 																								<li className="px-3 py-1 rounded-full text-xs md:text-sm bg-pj-secondary text-pj-accent">{stack}</li>
 																						)
