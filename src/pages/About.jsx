@@ -1,10 +1,12 @@
-import { useState } from "react";
+import axios from "axios";
+import React, { useState } from "react";
 import { Link, useNavigate } from 'react-router-dom'
 
 export const About = ()=>{
 
     const [showing, setShowing] = useState();
     const navigate = useNavigate();
+    const [loading, setLoading] = useState('Error');
 
 
     return (
