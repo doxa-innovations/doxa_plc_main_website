@@ -1,6 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-import fluid, { extract, screens, fontSize } from 'fluid-tailwind'
-
+import fluid, {extract, fontSize, screens} from 'fluid-tailwind'
 
 
 export default {
@@ -12,7 +11,7 @@ export default {
     screens, // Tailwind's default screens, in `rem`
     fontSize, // Tailwind's default font sizes, in `rem` (including line heights)
     fontFamily: {
-      'pj-font': 'Poppins'
+      'pj-font': ['Georama', 'sans-serif'],
     },
     extend: {
       backgroundSize: {
@@ -30,6 +29,28 @@ export default {
         'pj-primary': '#E37E03',
         'pj-secondary': '#F4BC33',
         'pj-accent': '#5F3A0D'
+      },
+      animation: {
+        "blob": "blob 10s infinite ease-in-out",
+      },
+      keyframes: {
+        "blob": {
+          "0%": {
+            transform: "translate(0, 0) scale(1)",
+          },
+          "25%": {
+            transform: "translate(10px, 10px) scale(1.05)",
+          },
+          "50%": {
+            transform: "translate(-20px, -20px) scale(1.1)",
+          },
+          "75%": {
+            transform: "translate(-10px, 10px) scale(1.05)",
+          },
+          "100%": {
+            transform: "translate(0, 0) scale(1)",
+          }
+        }
       }
     },
     extract

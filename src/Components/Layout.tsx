@@ -9,31 +9,40 @@ import {Helmet} from "react-helmet";
 
 
 type propsType = {
-		children: ReactElement,
+		children: ReactElement | ReactElement[],
 		title: string,
-		link: string | null,
+		description?: string,
+		backLink: string | null,
 		logoShow?: boolean,
 		lgLogoShow?: boolean,
 }
 
-function Layout({children, title = 'Home', link, lgLogoShow = true, logoShow = true}: propsType): ReactElement {
+function Layout({
+										children,
+										title = 'Home',
+										description = '',
+										backLink,
+										lgLogoShow = true,
+										logoShow = true
+								}: propsType): ReactElement {
 		
 		const navigate = useNavigate();
 		
+		
 		return (
-				<main className="h-dvh w-full overflow-hidden">
+				<main className="h-dvh w-full overflow-hidden font-pj-font">
 						<Helmet>
 								<title>{title} - Bee Design</title>
 						</Helmet>
 						<div className="w-full h-full bg-pj-light-Dark grid grid-rows-12 relative">
 								{
-										typeof link === 'string' && (
+										typeof backLink === 'string' && (
 												<div
-														className={'fill-pj-primary absolute w-10 h-10 top-0 left-0 z-50 mx-4 md:mx-10 my-5 cursor-pointer hover:fill-pj-secondary'}
+														className={'fill-pj-primary absolute w-10 h-10 top-0 left-0 z-20 mx-4 md:mx-10 my-5 cursor-pointer hover:fill-pj-secondary'}
 												>
 														<svg
 																onClick={() => {
-																		navigate(link);
+																		navigate(backLink);
 																}}
 																className="fill-inherit"
 																xmlns="http://www.w3.org/2000/svg"
@@ -48,19 +57,31 @@ function Layout({children, title = 'Home', link, lgLogoShow = true, logoShow = t
 										)
 								}
 								
-								<div className={`h-full row-span-2 grid grid-flow-col grid-cols-3`}>
-										<div className={`flex md:justify-center items-start`}>
+								<div className={`h-full relative z-10 row-span-2 grid grid-flow-col grid-cols-3`}>
+										<div className={`flex justify-end md:justify-center items-start`}>
 												<img className='w-8/12 md:w-3/12' src={bee2} alt=""/>
 										</div>
-										<div className={`grid justify-items-center mt-8`}>
+										<div className={`grid justify-items-center mt-5`}>
 												{logoShow && <img className={`${!lgLogoShow && 'lg:hidden'} w-full md:w-2/3 lg:w-2/4`} src={logo} alt=""/>}
+												
+												{
+														!lgLogoShow &&
+                            <div className={`py-4 text-center w-full`}>
+                                <h1 className='text-2xl sm:text-4xl md:text-6xl font-bold text-pj-white text-center'>
+																		{title}
+                                </h1>
+                                <h2 className="text-pj-white font-medium ">
+																		{description}
+                                </h2>
+                            </div>
+												}
 										</div>
 										<div className={`h-full grid justify-end relative`}>
 												<img className={'md:w-3/5 absolute -top-[35%] -right-[15%] md:-top-[55%] lg:-top-[50%]'}
 														 src={honeyCone} alt=""/>
 										</div>
 								</div>
-								<div className={`row-span-10 `}>
+								<div className={`row-span-10`}>
 										{children}
 								</div>
 								<div className={`absolute z-0 w-full top-2/3 sm:top-1/2 bottom-1/2 m-auto`}>

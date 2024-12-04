@@ -5,29 +5,27 @@ import hexagon3 from '../../public/images/SVGs/hexagon3.svg'
 import EphremBW from '../../public/images/EphremBW.png'
 import gedion from '../../public/images/Gedion.png'
 import cheri from '../../public/images/Cheri.png'
-import Layout from "../Components/layout.tsx";
+import Layout from "../Components/Layout.tsx";
+import {LiveBGMain} from "../Components/LiveBG.tsx";
 
 export const Team = ():ReactElement =>{
 		
 		return (
-				<Layout title={'Team'} link={'/'} lgLogoShow={false}>
-						<div className="h-full z-10 relative lg:-top-20 overflow-y-scroll scrollbar">
-								<div className={`py-4 text-center`}>
-										<h1 className='text-3xl md:text-6xl font-bold text-pj-white text-center'>
-												Team
-										</h1>
-										<h2 className="text-pj-white font-medium">Team members & Collaborators</h2>
-								</div>
+				<Layout title={'Team'} description={`Team members & Collaborators`} backLink={'/'} lgLogoShow={false}>
+						<div className="h-full mt-10 md:mt-0 grid place-items-center z-10 relative overflow-y-scroll scrollbar">
 								<div
 										className={`flex flex-col lg:flex-row justify-center items-center gap-14 sm:gap-16 md:gap-24 lg:gap-32 w-full mt-16`}
 								>
 										<Profile bgImage={triangle} userImage={EphremBW} name={'Ephrem K. Getachew'} profession={'Full Stack Developer'} />
 										
-										<Profile bgImage={pentagon} userImage={cheri} name={'Cherinet D. Lemma'} profession={'Creative Designer'} />
+										<Profile bgImage={pentagon} userImage={cheri} name={'Cherinet D. Lemma'}
+														 profession={'UI/UX Designer'}/>
 										
 										<Profile bgImage={hexagon3} userImage={gedion} name={'Gedion G. Tadesse'} profession={'Frontend Developer'} />
 								</div>
 						</div>
+						
+						<LiveBGMain itemNumber={3}/>
 				</Layout>
 		)
 }
