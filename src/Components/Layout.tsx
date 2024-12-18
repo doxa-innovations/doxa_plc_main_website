@@ -1,8 +1,5 @@
 import {ReactElement} from "react";
-import honeyCone from '../../public/images/SVGs/honeycone.svg'
-import honeyCone2 from '../../public/images/SVGs/honeycone2.svg'
 import bee2 from '../../public/images/SVGs/bee2.svg'
-import bee3 from '../../public/images/SVGs/bee3.svg'
 import logo from '../../public/images/logo.png'
 import {useNavigate} from "react-router";
 import {Helmet} from "react-helmet";
@@ -34,7 +31,7 @@ function Layout({
 						<Helmet>
 								<title>{title} - Bee Design</title>
 						</Helmet>
-						<div className="w-full h-full bg-pj-light-Dark grid grid-rows-12 relative">
+						<div className="w-full h-full bg-pj-dark grid grid-rows-12 relative">
 								{
 										typeof backLink === 'string' && (
 												<div
@@ -62,12 +59,14 @@ function Layout({
 												<img className='w-8/12 md:w-3/12' src={bee2} alt=""/>
 										</div>
 										<div className={`grid justify-items-center mt-5`}>
-												{logoShow && <img className={`${!lgLogoShow && 'lg:hidden'} w-full md:w-2/3 lg:w-2/4`} src={logo} alt=""/>}
+												{logoShow &&
+                            <img className={`${!lgLogoShow && 'lg:hidden'} w-2/4 md:w-1/3 xl:w-1/5`} src={logo}
+                                 alt=""/>}
 												
 												{
 														!lgLogoShow &&
                             <div className={`py-4 text-center w-full`}>
-                                <h1 className='text-2xl sm:text-4xl md:text-6xl font-bold text-pj-white text-center'>
+                                <h1 className='text-2xl sm:text-4xl md:text-6xl font-bold text-pj-primary text-center'>
 																		{title}
                                 </h1>
                                 <h2 className="text-pj-white font-medium ">
@@ -76,20 +75,20 @@ function Layout({
                             </div>
 												}
 										</div>
-										<div className={`h-full grid justify-end relative`}>
-												<img className={'md:w-3/5 absolute -top-[35%] -right-[15%] md:-top-[55%] lg:-top-[50%]'}
-														 src={honeyCone} alt=""/>
-										</div>
+										{/*<div className={`h-full grid justify-end relative`}>*/}
+										{/*		<img className={'md:w-3/5 absolute -top-[35%] -right-[15%] md:-top-[55%] lg:-top-[50%]'}*/}
+										{/*				 src={honeyCone} alt=""/>*/}
+										{/*</div>*/}
 								</div>
 								<div className={`row-span-10`}>
 										{children}
 								</div>
-								<div className={`absolute z-0 w-full top-2/3 sm:top-1/2 bottom-1/2 m-auto`}>
-										<div className={`relative flex sm:w-1/2 md:w-2/5 lg:w-1/3 `}>
-												<img className='w-4/12' src={honeyCone2} alt=""/>
-												<img className='w-4/12 -ml-12 mb-5' src={bee3} alt=""/>
-										</div>
-								</div>
+								{/*<div className={`absolute z-0 w-full top-2/3 sm:top-1/2 bottom-1/2 m-auto`}>*/}
+								{/*		<div className={`relative flex sm:w-1/2 md:w-2/5 lg:w-1/3 `}>*/}
+								{/*				<img className='w-4/12' src={honeyCone2} alt=""/>*/}
+								{/*				<img className='w-4/12 -ml-12 mb-5' src={bee3} alt=""/>*/}
+								{/*		</div>*/}
+								{/*</div>*/}
 								<div className={`row-span-1 self-end`}>
 										<p className='text-sm mx-auto py-5 bottom-6 text-pj-primary w-max z-50'>
 												©{new Date().getFullYear()} Copyright - Bee Design Studio</p>

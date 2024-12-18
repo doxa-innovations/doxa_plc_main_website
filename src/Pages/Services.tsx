@@ -180,7 +180,7 @@ const Services = (): ReactElement => {
 																		<g filter="url(#filter0_d_2001_7)">
 																				<path
 																						d="M100.25 5.67062L158.687 39.4095C165.958 43.6074 170.437 51.3654 170.437 59.7611V127.239C170.437 135.635 165.958 143.393 158.687 147.59L100.25 181.329C92.9791 185.527 84.0209 185.527 76.75 181.329L18.3125 147.59C11.0416 143.393 6.56252 135.635 6.56252 127.239V59.7611C6.56252 51.3654 11.0416 43.6074 18.3125 39.4095L76.75 5.67062C84.0209 1.47275 92.9791 1.47275 100.25 5.67062Z"
-																						stroke="#E37E03" stroke-width="5" shape-rendering="crispEdges"/>
+																						stroke="#b277d3" stroke-width="5" shape-rendering="crispEdges"/>
 																		</g>
 																</svg>
 																<p className='absolute z-30 flex justify-center w-full px-3 top-1/2 transform
@@ -285,7 +285,7 @@ const Services = (): ReactElement => {
 																		<g filter="url(#filter0_d_2001_7)">
 																				<path
 																						d="M100.25 5.67062L158.687 39.4095C165.958 43.6074 170.437 51.3654 170.437 59.7611V127.239C170.437 135.635 165.958 143.393 158.687 147.59L100.25 181.329C92.9791 185.527 84.0209 185.527 76.75 181.329L18.3125 147.59C11.0416 143.393 6.56252 135.635 6.56252 127.239V59.7611C6.56252 51.3654 11.0416 43.6074 18.3125 39.4095L76.75 5.67062C84.0209 1.47275 92.9791 1.47275 100.25 5.67062Z"
-																						stroke="#E37E03" stroke-width="5" shape-rendering="crispEdges"/>
+																						stroke="#b277d3" stroke-width="5" shape-rendering="crispEdges"/>
 																		</g>
 																</svg>
 																<p className='absolute z-30 flex justify-center w-full px-3 top-1/2 transform

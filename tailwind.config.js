@@ -26,9 +26,9 @@ export default {
         'pj-black': '#000000',
         'pj-white': '#ECECEC',
         'pj-dark': '#1E1E1E',
-        'pj-primary': '#E37E03',
-        'pj-secondary': '#F4BC33',
-        'pj-accent': '#5F3A0D'
+        'pj-primary': '#7851A9',
+        'pj-secondary': '#b277d3',
+        'pj-accent': '#19003a'
       },
       animation: {
         "blob": "blob 10s infinite ease-in-out",

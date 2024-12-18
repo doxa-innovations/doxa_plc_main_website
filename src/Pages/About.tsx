@@ -8,13 +8,13 @@ const About = (): ReactElement => {
 				<Layout title={'About'} description={'Get to know us a little'} backLink={'/'} lgLogoShow={false}>
 						<div className={`text-justify mt-16 lg:mt-20 md:px-14 lg:px-20 relative z-50`}>
 								<p className=" md:text-lg lg:text-xl font-thin px-5 md:px-80 sm:mt-5 lg:mt-10 text-pj-white ">
-										Bee Design Studio is an online creative hub dedicated to helping businesses establish a strong and
-										professional brand identity at an affordable price. With a focus on enhancing how businesses present
-										themselves to their clients, the studio provides branding solutions that help companies stand out
-										and effectively communicate their vision.
+										Doxa Innovative Software Development PLC is an online creative hub dedicated to helping businesses
+										establish a strong and professional brand identity at an affordable price. With a focus on enhancing
+										how businesses present themselves to their clients, the studio provides branding solutions that help
+										companies stand out and effectively communicate their vision.
 										<br/>
 										<br/>
-										Based in Addis Ababa or Bishoftu, Ethiopia, Bee Design Studio primarily serves local businesses in
+										Based in Addis Ababa or Bishoftu, Ethiopia, Doxa Innovative primarily serves local businesses in
 										the area. The team is composed of passionate, skilled professionals committed to empowering
 										businesses to grow and reach more customers. Their mission is to deliver high-quality, visually
 										appealing designs that reflect each client’s unique identity while fostering trust and engagement

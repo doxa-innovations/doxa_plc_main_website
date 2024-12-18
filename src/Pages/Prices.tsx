@@ -40,14 +40,14 @@ export const Prices = (): ReactElement => {
 																your business...
 														</p>
 														
-														<h4 className="text-4xl w-full border-b border-pj-white text-end pt-3 py-3 font-bold">
+														<h4 className="text-4xl w-full border-b border-pj-secondary text-end pt-3 py-3 font-bold">
 																<span className="text-base mx-1">Up to</span>
 																30,000
 																<span className="text-base mx-1">ETB</span>
 														</h4>
 														<ul className="px-3 pt-3">
 																<li className="flex gap-1 items-center mb-2">
-																		<svg className="w-4 h-4 fill-white" xmlns="http://www.w3.org/2000/svg"
+																		<svg className="w-4 h-4 fill-pj-white" xmlns="http://www.w3.org/2000/svg"
 																				 viewBox="0 0 512 512">
 																				<path
 																						d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/>
@@ -55,7 +55,7 @@ export const Prices = (): ReactElement => {
 																		<p className="text-sm">Website Design Included</p>
 																</li>
 																<li className="flex gap-1 items-center my-2">
-																		<svg className="w-4 h-4 fill-white" xmlns="http://www.w3.org/2000/svg"
+																		<svg className="w-4 h-4 fill-pj-white" xmlns="http://www.w3.org/2000/svg"
 																				 viewBox="0 0 512 512">
 																				<path
 																						d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/>
@@ -63,7 +63,7 @@ export const Prices = (): ReactElement => {
 																		<p className="text-sm">Clean & Responsive Design</p>
 																</li>
 																<li className="flex gap-1 items-center my-2">
-																		<svg className="w-4 h-4 fill-white" xmlns="http://www.w3.org/2000/svg"
+																		<svg className="w-4 h-4 fill-pj-white" xmlns="http://www.w3.org/2000/svg"
 																				 viewBox="0 0 512 512">
 																				<path
 																						d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/>
@@ -71,7 +71,7 @@ export const Prices = (): ReactElement => {
 																		<p className="text-sm">Basic Contact Forms</p>
 																</li>
 																<li className="flex gap-1 items-center my-2">
-																		<svg className="w-4 h-4 fill-white" xmlns="http://www.w3.org/2000/svg"
+																		<svg className="w-4 h-4 fill-pj-white" xmlns="http://www.w3.org/2000/svg"
 																				 viewBox="0 0 512 512">
 																				<path
 																						d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/>
@@ -79,7 +79,7 @@ export const Prices = (): ReactElement => {
 																		<p className="text-sm">Image Optimization</p>
 																</li>
 																<li className="flex gap-1 items-center my-2">
-																		<svg className="w-4 h-4 fill-white" xmlns="http://www.w3.org/2000/svg"
+																		<svg className="w-4 h-4 fill-pj-white" xmlns="http://www.w3.org/2000/svg"
 																				 viewBox="0 0 512 512">
 																				<path
 																						d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/>
@@ -87,7 +87,7 @@ export const Prices = (): ReactElement => {
 																		<p className="text-sm">Basic SEO</p>
 																</li>
 																<li className="flex gap-1 items-center my-2">
-																		<svg className="w-4 h-4 fill-white" xmlns="http://www.w3.org/2000/svg"
+																		<svg className="w-4 h-4 fill-pj-white" xmlns="http://www.w3.org/2000/svg"
 																				 viewBox="0 0 512 512">
 																				<path
 																						d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/>
@@ -110,7 +110,7 @@ export const Prices = (): ReactElement => {
 														<div className={`pb-1 pt-2 grid place-items-center`}>
 																<Link
 																		to={'/contact'}
-																		className="px-8 py-2 w-44 mx-auto text-center mb-2 mt-4 bg-pj-white text-pj-accent rounded-full cursor-pointer hover:bg-pj-accent hover:border border-pj-white hover:text-pj-white duration-300"
+																		className="px-8 py-2 w-44 mx-auto text-center mb-2 mt-4 bg-pj-secondary text-pj-accent rounded-full cursor-pointer hover:bg-pj-accent hover:border border-pj-white hover:text-pj-white duration-300"
 																>
 																		Contact Us
 																</Link>
@@ -234,7 +234,7 @@ export const Prices = (): ReactElement => {
 																		d="M353.8 54.1L330.2 6.3c-3.9-8.3-16.1-8.6-20.4 0L286.2 54.1l-52.3 7.5c-9.3 1.4-13.3 12.9-6.4 19.8l38 37-9 52.1c-1.4 9.3 8.2 16.5 16.8 12.2l46.9-24.8 46.6 24.4c8.6 4.3 18.3-2.9 16.8-12.2l-9-52.1 38-36.6c6.8-6.8 2.9-18.3-6.4-19.8l-52.3-7.5zM256 256c-17.7 0-32 14.3-32 32V480c0 17.7 14.3 32 32 32H384c17.7 0 32-14.3 32-32V288c0-17.7-14.3-32-32-32H256zM32 320c-17.7 0-32 14.3-32 32V480c0 17.7 14.3 32 32 32H160c17.7 0 32-14.3 32-32V352c0-17.7-14.3-32-32-32H32zm416 96v64c0 17.7 14.3 32 32 32H608c17.7 0 32-14.3 32-32V416c0-17.7-14.3-32-32-32H480c-17.7 0-32 14.3-32 32z"/>
 														</svg>
 														<div>
-																<h3 className="text-xl md:text-2xl font-semibold">Premium <span
+																<h3 className="text-xl md:text-2xl font-semibold">Business Starter <span
 																		className="font-light">Package</span></h3>
 																<p className="text-sm ">Business Kit</p>
 														</div>
@@ -340,7 +340,7 @@ export const Prices = (): ReactElement => {
 												<button onClick={() => {
 														setShowing('custom')
 												}}
-																className="w-full px-10 py-5 h-12 text-sm md:text-lg mx-auto bg-pj-secondary grid place-content-center rounded-lg cursor-pointer hover:bg-opacity-90 duration-200"
+																className="w-full px-10 py-5 h-12 text-sm md:text-lg mx-auto bg-pj-accent text-pj-white grid place-content-center rounded-lg cursor-pointer hover:bg-opacity-90 duration-200"
 												>
 														Looking for Something Powerful?
 												</button>

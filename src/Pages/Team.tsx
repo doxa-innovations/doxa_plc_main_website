@@ -48,9 +48,9 @@ const Profile = ({bgImage, userImage, name, profession} : ProfilePropsType):Reac
 							<img className="w-3/5 lg:w-11/12 relative z-30 justify-self-center self-end" src={userImage} alt=""/>
 					</div>
 					<div
-							className="h-full w-full bg-pj-secondary rounded-xl text-center p-3 -mt-1 relative z-30"
+							className="h-full w-full bg-pj-primary rounded-xl text-center p-3 -mt-1 relative z-30"
 					>
-							<p className="text-base md:text-xl text-pj-accent pb-2 font-semibold border-b border-pj-accent">
+							<p className="text-base md:text-xl text-pj-white pb-2 font-semibold border-b border-pj-accent">
 									{name}
 							</p>
 							<p className="py-1 text-sm md:text-base text-pj-black">{profession}</p>
