@@ -86,7 +86,7 @@ function Layout({
 								<div className={`row-span-10`}>
 										{children}
 								</div>
-								<div className={`absolute z-[99999] w-full -bottom-16 ml-3 mr-auto`}>
+								<div className={`absolute z-0 w-full -bottom-16 ml-3 mr-auto`}>
 										<div className={`relative flex sm:w-1/2 md:w-2/5 lg:w-1/3 `}>
 												<img className='w-1/2 -scale-x-[1]' src={chariot} alt=""/>
 										</div>
