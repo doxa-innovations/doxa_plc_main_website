@@ -7,7 +7,7 @@ const About = (): ReactElement => {
 		return (
 				<Layout title={'About'} description={'Get to know us a little'} backLink={'/'} lgLogoShow={false}>
 						<div className={`text-justify mt-16 lg:mt-20 md:px-14 lg:px-20 relative z-50`}>
-								<p className=" md:text-lg lg:text-xl font-thin px-5 md:px-80 sm:mt-5 lg:mt-10 text-pj-white ">
+								<p className="text-sm md:text-lg lg:text-xl font-thin px-5 md:px-20 lg:px-80 sm:mt-5 lg:mt-10 text-pj-white ">
 										Doxa Innovative Software Development PLC is an online creative hub dedicated to helping businesses
 										establish a strong and professional brand identity at an affordable price. With a focus on enhancing
 										how businesses present themselves to their clients, the studio provides branding solutions that help
