@@ -3,7 +3,8 @@ import bee2 from '../../public/images/SVGs/bee2.svg'
 import logo from '../../public/images/logo.png'
 import {useNavigate} from "react-router";
 import {Helmet} from "react-helmet";
-
+import chariot from "../../public/images/SVGs/chariot.svg"
+import crownSword from "../../public/images/SVGs/sword_crown.svg"
 
 type propsType = {
 		children: ReactElement | ReactElement[],
@@ -66,7 +67,7 @@ function Layout({
 												{
 														!lgLogoShow &&
                             <div className={`py-4 text-center w-full`}>
-                                <h1 className='text-2xl sm:text-4xl md:text-6xl font-bold text-pj-primary text-center'>
+                                <h1 className='text-2xl sm:text-2xl lg:text-6xl font-bold text-pj-primary text-center'>
 																		{title}
                                 </h1>
                                 <h2 className="text-pj-white font-medium ">
@@ -75,22 +76,23 @@ function Layout({
                             </div>
 												}
 										</div>
-										{/*<div className={`h-full grid justify-end relative`}>*/}
-										{/*		<img className={'md:w-3/5 absolute -top-[35%] -right-[15%] md:-top-[55%] lg:-top-[50%]'}*/}
-										{/*				 src={honeyCone} alt=""/>*/}
-										{/*</div>*/}
+										<div className={`h-full grid justify-end relative`}>
+												<img
+														className={'md:w-1/4 absolute z-10 top-0 right-0'}
+														src={crownSword} alt=""
+												/>
+										</div>
 								</div>
 								<div className={`row-span-10`}>
 										{children}
 								</div>
-								{/*<div className={`absolute z-0 w-full top-2/3 sm:top-1/2 bottom-1/2 m-auto`}>*/}
-								{/*		<div className={`relative flex sm:w-1/2 md:w-2/5 lg:w-1/3 `}>*/}
-								{/*				<img className='w-4/12' src={honeyCone2} alt=""/>*/}
-								{/*				<img className='w-4/12 -ml-12 mb-5' src={bee3} alt=""/>*/}
-								{/*		</div>*/}
-								{/*</div>*/}
+								<div className={`absolute z-[99999] w-full -bottom-16 ml-3 mr-auto`}>
+										<div className={`relative flex sm:w-1/2 md:w-2/5 lg:w-1/3 `}>
+												<img className='w-1/2 -scale-x-[1]' src={chariot} alt=""/>
+										</div>
+								</div>
 								<div className={`row-span-1 self-end`}>
-										<p className='text-sm mx-auto py-5 bottom-6 text-pj-primary w-max z-50'>
+										<p className='text-sm mx-auto py-5 bottom-1 md:bottom-6 text-pj-primary w-max z-50'>
 												©{new Date().getFullYear()} Copyright - Bee Design Studio</p>
 								</div>
 						</div>

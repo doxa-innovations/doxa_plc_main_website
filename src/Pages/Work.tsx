@@ -123,14 +123,16 @@ export const Work = ():ReactElement =>{
 												}}
 										></div>
 										<div
-												className={`${showing === null && 'h-0' || 'h-fit lg:h-4/5'} w-full bg-pj-accent absolute bottom-0 z-50 transition-all duration-800`}>
-												<div className={`grid place-items-center mx-2 h-16 border-b border-pj-secondary relative`}>
-														<p className={`text-2xl md:text-3xl text-white`}>
+												className={`${showing === null && 'h-0' || 'h-[80%] lg:h-4/5'} w-full bg-pj-accent absolute bottom-0 z-50 transition-all duration-800 overflow-x-hidden overflow-y-scroll scrollbar`}>
+												<div className={`relative w-full h-full bottom-0 px-2`}>
+														<div
+																className={`grid place-items-center h-16 border-b border-pj-secondary sticky top-0 bg-pj-accent`}>
+																<p className={`text-lg sm:text-xl md:text-3xl text-white`}>
 																{showing !== null ? showing.title : ''}
 														</p>
 														<div
 																className={`absolute w-6 fill-pj-primary top-0 right-0 mt-4 mr-4 z-50 cursor-pointer
-																		hover:scale-[1.05] hover:fill-pj-secondary transition-all duration-800`}
+																				hover:scale-[1.05] hover:fill-pj-secondary transition-all duration-800`}
 																onClick={() => {
 																		setShowing(null)
 																}}
@@ -144,48 +146,49 @@ export const Work = ():ReactElement =>{
 																</svg>
 														</div>
 												</div>
-												<div
-														className={`flex flex-wrap justify-center items-center p-5 lg:py-10`}
-												>
-														<div className="w-full lg:w-1/2 text-pj-white px-3 md:px-6">
-																<div
-																		className="text-xl md:text-3xl text-pj-secondary font-semibold py-3 flex items-center justify-center">
-																		{showing !== null ? showing.details.subTitle : ''}
-																		<Link to={showing !== null ? showing.link : ''} target="_blank"
-																					className="w-4 ml-3 fill-pj-primary hover:bg-opacity-80 over:scale-[1.05] hover:fill-pj-secondary transition-all duration-800">
-																				<svg xmlns="http://www.w3.org/2000/svg"
-																						 viewBox="0 0 512 512">
-																						<path
-																								d="M320 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l82.7 0L201.4 265.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L448 109.3l0 82.7c0 17.7 14.3 32 32 32s32-14.3 32-32l0-160c0-17.7-14.3-32-32-32L320 0zM80 32C35.8 32 0 67.8 0 112L0 432c0 44.2 35.8 80 80 80l320 0c44.2 0 80-35.8 80-80l0-112c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 112c0 8.8-7.2 16-16 16L80 448c-8.8 0-16-7.2-16-16l0-320c0-8.8 7.2-16 16-16l112 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L80 32z"/>
-																				</svg>
-																		</Link>
-																</div>
-																<p className="">
-																		{showing !== null ? showing.details.description : ''}
-																</p>
-																<h4 className="pr-2 mt-5 text-sm md:text-base text-center">Technologies Used:</h4>
-																<ul className="flex gap-2 mt-2 mb-5 px-2 justify-center items-center flex-wrap">
-																		{
-																				showing !== null && showing.details.techStack.map((stack: string) => {
-																						return (
-																								<li className="px-3 py-1 rounded-full text-xs md:text-sm bg-pj-secondary text-pj-accent">{stack}</li>
-																						)
-																				})
-																		}
-																</ul>
-														</div>
 														<div
-																className={`w-full lg:w-1/2 border-t-2 lg:border-t-0 lg:border-l-2 border-pj-secondary`}>
-																<img
-																		className="md:px-6 py-6 mx-auto"
-																		src={showing !== null ? '/images/' + showing.details.image : ''} alt=""/>
+																className={`flex flex-wrap justify-center items-center p-5 lg:py-10`}
+														>
+																<div className="w-full lg:w-1/2 text-pj-white px-3 md:px-6">
+																		<div
+																				className="text-xl md:text-3xl text-pj-secondary font-semibold py-3 flex items-center justify-center">
+																				{showing !== null ? showing.details.subTitle : ''}
+																				<Link to={showing !== null ? showing.link : ''} target="_blank"
+																							className="w-4 ml-3 fill-pj-primary hover:bg-opacity-80 over:scale-[1.05] hover:fill-pj-secondary transition-all duration-800">
+																						<svg xmlns="http://www.w3.org/2000/svg"
+																								 viewBox="0 0 512 512">
+																								<path
+																										d="M320 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l82.7 0L201.4 265.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L448 109.3l0 82.7c0 17.7 14.3 32 32 32s32-14.3 32-32l0-160c0-17.7-14.3-32-32-32L320 0zM80 32C35.8 32 0 67.8 0 112L0 432c0 44.2 35.8 80 80 80l320 0c44.2 0 80-35.8 80-80l0-112c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 112c0 8.8-7.2 16-16 16L80 448c-8.8 0-16-7.2-16-16l0-320c0-8.8 7.2-16 16-16l112 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L80 32z"/>
+																						</svg>
+																				</Link>
+																		</div>
+																		<p className="">
+																				{showing !== null ? showing.details.description : ''}
+																		</p>
+																		<h4 className="pr-2 mt-5 text-sm md:text-base text-center">Technologies Used:</h4>
+																		<ul className="flex gap-2 mt-2 mb-5 px-2 justify-center items-center flex-wrap">
+																				{
+																						showing !== null && showing.details.techStack.map((stack: string) => {
+																								return (
+																										<li className="px-3 py-1 rounded-full text-xs md:text-sm bg-pj-secondary text-pj-accent">{stack}</li>
+																								)
+																						})
+																				}
+																		</ul>
+																</div>
+																<div
+																		className={`w-full lg:w-1/2 border-t-2 lg:border-t-0 lg:border-l-2 border-pj-secondary`}>
+																		<img
+																				className="md:px-6 py-6 mx-auto"
+																				src={showing !== null ? '/images/' + showing.details.image : ''} alt=""/>
+																</div>
 														</div>
 												</div>
 										</div>
 								</div>
 						</div>
 						
-						<LiveBGStatic itemNumber={5}/>
+						<LiveBGStatic/>
 				
 				</Layout>
 		)

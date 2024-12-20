@@ -13,12 +13,12 @@
 }
 
 .scrollbar::-webkit-scrollbar-thumb {
-    background: #eaa927c8;
+    background: #7851A9;
     border-radius: 10px;
 }
 
 .scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #EAA827;
+    background: #7851A9;
 }
 
 .georama {

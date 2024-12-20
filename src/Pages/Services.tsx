@@ -356,7 +356,7 @@ const Services = (): ReactElement => {
 												<div className={`relative w-full h-full bottom-0 px-2`}>
 														<div
 																className={`grid place-items-center h-16 border-b border-pj-secondary sticky top-0 bg-pj-accent`}>
-																<p className={`text-2xl md:text-3xl text-white`}>
+																<p className={`text-lg sm:text-xl md:text-3xl text-white`}>
 																		{slideUpData !== null ? slideUpData.title : ''}
 																</p>
 																<div

@@ -12,7 +12,7 @@ export const Team = ():ReactElement =>{
 		
 		return (
 				<Layout title={'Team'} description={`Team members & Collaborators`} backLink={'/'} lgLogoShow={false}>
-						<div className="h-full mt-10 md:mt-0 grid place-items-center z-10 relative overflow-y-scroll scrollbar">
+						<div className="h-full mt-10 lg:mt-0 grid place-items-center z-10 relative overflow-y-scroll scrollbar">
 								<div
 										className={`flex flex-col lg:flex-row justify-center items-center gap-14 sm:gap-16 md:gap-24 lg:gap-32 w-full mt-16`}
 								>
