@@ -5,15 +5,8 @@ import {useNavigate} from "react-router";
 import {Helmet} from "react-helmet";
 import chariot from "../../public/images/SVGs/chariot.svg"
 import crownSword from "../../public/images/SVGs/sword_crown.svg"
+import {propsType} from "../../bee_design_studio/next-env";
 
-type propsType = {
-		children: ReactElement | ReactElement[],
-		title: string,
-		description?: string,
-		backLink: string | null,
-		logoShow?: boolean,
-		lgLogoShow?: boolean,
-}
 
 function Layout({
 										children,
@@ -56,7 +49,7 @@ function Layout({
 								}
 								
 								<div className={`h-full relative z-10 row-span-2 grid grid-flow-col grid-cols-3`}>
-										<div className={`flex justify-end md:justify-center items-start`}>
+										<div className={`flex justify-center items-start`}>
 												<img className='w-8/12 md:w-3/12' src={bee2} alt=""/>
 										</div>
 										<div className={`grid justify-items-center mt-5`}>
@@ -78,7 +71,7 @@ function Layout({
 										</div>
 										<div className={`h-full grid justify-end relative`}>
 												<img
-														className={'md:w-1/4 absolute z-10 top-0 right-0'}
+														className={'w-3/5 md:w-1/4 absolute z-10 top-0 right-0'}
 														src={crownSword} alt=""
 												/>
 										</div>
@@ -86,7 +79,7 @@ function Layout({
 								<div className={`row-span-10`}>
 										{children}
 								</div>
-								<div className={`absolute z-0 w-full -bottom-16 ml-3 mr-auto`}>
+								<div className={`absolute z-0 w-full -bottom-2 md:-bottom-16 ml-3 mr-auto`}>
 										<div className={`relative flex sm:w-1/2 md:w-2/5 lg:w-1/3 `}>
 												<img className='w-1/2 -scale-x-[1]' src={chariot} alt=""/>
 										</div>

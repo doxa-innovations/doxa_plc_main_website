@@ -1,0 +1,158 @@
+[
+  {
+    "title": "Classic Noodles",
+    "image": "classic_logo.png",
+    "tag": "classic",
+    "clamp": true,
+    "filled": true,
+    "link": "https://classicnoodle.com",
+    "details": {
+      "subTitle": "Cafe Website",
+      "description": "At Classic Noodle and Burger, we believe in bringing people together through the joy of food and music. Nestled in the heart of Bishoftu, our restaurant offers a delightful fusion of mouthwatering noodles and delectable burgers, perfect for every palate and occasion.",
+      "techStack": [
+        "React",
+        "Tailwind",
+        "Laravel"
+      ],
+      "image": "classic.png"
+    }
+  },
+  {
+    "title": "Zena Kristos",
+    "image": "zenakristos.png",
+    "tag": "zenaKristos",
+    "clamp": true,
+    "filled": false,
+    "link": "https://zenakristos.org",
+    "details": {
+      "subTitle": "A Podcast Website",
+      "description": "This website was built for Amharic readers  in 2022 GC and was updated in 2023. It has an article pages, Podcasts and more. It also includes a CMS(Content Management System) that helps to upload articles and perform other dynamic changes.",
+      "techStack": [
+        "Laravel",
+        "Tailwind"
+      ],
+      "image": "zenakristosPage.png"
+    }
+  },
+  {
+    "title": "Zoe Delivery",
+    "image": "Zoe.png",
+    "tag": "zoe",
+    "clamp": true,
+    "filled": true,
+    "link": "https://zoedelivery.com",
+    "details": {
+      "subTitle": "A Plant Delivery Service Web App",
+      "description": "Zoe Delivery is a company that sells and delivers various types of plants and pots to customers. It also provides gardeners who can take care of the plants and green areas. The company promises to deliver the plants quickly and seamlessly from the nearest florist to the customer’s doorsteps. The Website is built to attract customers and give them a seemless experience. On top of the stylish presentation it was built with a strong backend CMS(content managment system) based on world class libraries and templates. ",
+      "techStack": [
+        "React",
+        "Tailwind",
+        "Laravel"
+      ],
+      "image": "zoePage.png"
+    }
+  },
+  {
+    "title": "Yeneta Master",
+    "image": "yenetaMaster.png",
+    "tag": "yenetaMaster",
+    "clamp": true,
+    "filled": true,
+    "link": "https://yenetamaster.net",
+    "details": {
+      "subTitle": "A School Management Web App",
+      "description": "Yeneta Master is a website application that allows schools to manage their students, teachers and other workers. It accomplishes this by helping owners and administrators to regularly check on attendances, grades and disciplines. Yeneta Master is built based on a strong structural design enabling parallal workload. It is also built so that teachers can manage their students while parents can see their children's progress. ",
+      "techStack": [
+        "React",
+        "Tailwind",
+        "InertiaJS",
+        "Laravel",
+        "MySQL"
+      ],
+      "image": "YMPage.png"
+    }
+  },
+  {
+    "title": "The LCE",
+    "image": "lce.png",
+    "tag": "lce",
+    "clamp": true,
+    "filled": false,
+    "link": "https://lcechurch.org",
+    "details": {
+      "subTitle": "A Church Website",
+      "description": "A Confessional Lutheran Church ",
+      "techStack": [
+        "React",
+        "SCSS"
+      ],
+      "image": "lce.png"
+    }
+  },
+  {
+    "title": "Maor Seminary",
+    "image": "maor.png",
+    "tag": "maor",
+    "clamp": true,
+    "filled": true,
+    "link": "https://MLTS.lcechurch.org",
+    "details": {
+      "subTitle": "A Seminary Website",
+      "description": "",
+      "techStack": [
+        "React",
+        "SCSS"
+      ],
+      "image": "maor.png"
+    }
+  },
+  {
+    "title": "Dr Emebet Dental",
+    "image": "emebet.png",
+    "tag": "emebet",
+    "clamp": true,
+    "filled": false,
+    "link": "https://dremebetclinic.com/",
+    "details": {
+      "subTitle": "A Special Higher Dental Clinic Website",
+      "description": "Dr. Emebet Special Higher Dental Clinic is a unique dental clinic in Ethiopia with a team of 9 certified professional Doctors and multiple dental hygienists, assistants and dental technicians, who have a passion for the science and art of dentistry. Our team of highly competent dental specialists, hygienists and support staff are committed to giving you the best, most up-to-date and friendliest dental healthcare there is. We treat each client with utmost respect, courtesy, professionalism, honesty, and confidentiality.",
+      "techStack": [
+        "Laravel",
+        "Blade",
+        "Bootsrap"
+      ],
+      "image": "emebetPage.png"
+    }
+  },
+  {
+    "title": "Kofficho Coffee",
+    "image": "kofficho.png",
+    "tag": "kofficho",
+    "clamp": true,
+    "filled": false,
+    "link": "https://koffichoCoffee.com",
+    "details": {
+      "subTitle": "A Coffee Export Company Website",
+      "description": "An informatory page for a coffee exporter company",
+      "techStack": [
+        "Laravel",
+        "Tailwind"
+      ],
+      "image": "kofficho.png"
+    }
+  },
+  {
+    "title": "Put Your business",
+    "image": "",
+    "tag": "",
+    "clamp": false,
+    "filled": true,
+    "link": "",
+    "details": {
+      "subTitle": "",
+      "description": "",
+      "techStack": [],
+      "image": ""
+    }
+  }
+]
