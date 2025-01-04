@@ -1,7 +1,7 @@
 import {ReactElement} from "react";
 import Layout from "../Components/Layout.tsx";
 import {Link} from "react-router-dom";
-import {LiveBGMain} from "../Components/LiveBG.tsx";
+import {LiveBGStatic} from "../Components/LiveBG.tsx";
 
 const About = (): ReactElement => {
 		return (
@@ -27,7 +27,7 @@ const About = (): ReactElement => {
 								</h3>
 						</div>
 						
-						<LiveBGMain itemNumber={4}/>
+						<LiveBGStatic/>
 				</Layout>
 		)
 }
