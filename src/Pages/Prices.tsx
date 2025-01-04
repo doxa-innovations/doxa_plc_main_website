@@ -1,11 +1,34 @@
-import {ReactElement, useState} from "react";
+import {ReactElement, useEffect, useState} from "react";
 import Layout from "../Components/Layout.tsx";
 import {Link} from "react-router-dom";
-import {LiveBGMain} from "../Components/LiveBG.tsx";
+import {LiveBGStatic} from "../Components/LiveBG.tsx";
 
 export const Prices = (): ReactElement => {
 		
 		const [showing, setShowing] = useState<string | null>(null);
+		
+		const [isEthiopian, setIsEthiopian] = useState<boolean | null>(null);
+		
+		useEffect(() => {
+				const fetchLocation = async () => {
+						try {
+								// Replace with your chosen IP Geolocation API
+								const response = await fetch('https://ipapi.co/json/'); // Example API
+								const data = await response.json();
+								
+								if (data.country_code === 'ET') {
+										setIsEthiopian(true);
+								} else {
+										setIsEthiopian(false);
+								}
+						} catch (error) {
+								console.error('Error fetching geolocation data:', error);
+								setIsEthiopian(false);
+						}
+				};
+				
+				fetchLocation().then(() => null);
+		}, []);
 		
 		return (
 				<Layout
@@ -42,8 +65,8 @@ export const Prices = (): ReactElement => {
 														
 														<h4 className="text-4xl w-full border-b border-pj-secondary text-end pt-3 py-3 font-bold">
 																<span className="text-base mx-1">Up to</span>
-																30,000
-																<span className="text-base mx-1">ETB</span>
+																{isEthiopian ? '30,000' : '3,000'}
+																<span className="text-base mx-1">{isEthiopian ? 'ETB' : 'USD'}</span>
 														</h4>
 														<ul className="px-3 pt-3">
 																<li className="flex gap-1 items-center mb-2">
@@ -142,8 +165,8 @@ export const Prices = (): ReactElement => {
 														</p>
 														
 														<h4 className="text-4xl w-full border-b border-pj-accent text-end pt-3 py-3 font-bold">
-																60,000
-																<span className="text-base mx-1">ETB</span>
+																{isEthiopian ? '60,000' : '7,000'}
+																<span className="text-base mx-1">{isEthiopian ? 'ETB' : 'USD'}</span>
 														</h4>
 														<ul className="px-3 pt-3">
 																<li className="flex gap-1 items-center mb-2">
@@ -246,8 +269,8 @@ export const Prices = (): ReactElement => {
 														</p>
 														<h4 className="text-4xl w-full border-b border-pj-accent text-end pt-3 py-3 font-bold">
 																<span className="text-base mx-1">Starting from</span>
-																100,000
-																<span className="text-base mx-1">ETB</span>
+																{isEthiopian ? '100,000' : '12,000'}
+																<span className="text-base mx-1">{isEthiopian ? 'ETB' : 'USD'}</span>
 														</h4>
 														<ul className="px-3 pt-3">
 																<li className="flex gap-1 items-center mb-2">
@@ -464,7 +487,7 @@ export const Prices = (): ReactElement => {
 										</div>
 								</div>
 						</div>
-						<LiveBGMain itemNumber={6}/>
+						<LiveBGStatic/>
 				</Layout>
 		)
 }

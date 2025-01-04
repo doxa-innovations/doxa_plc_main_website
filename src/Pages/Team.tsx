@@ -6,7 +6,7 @@ import EphremBW from '../../public/images/EphremBW.png'
 import gedion from '../../public/images/Gedion.png'
 import cheri from '../../public/images/Cheri.png'
 import Layout from "../Components/Layout.tsx";
-import {LiveBGMain} from "../Components/LiveBG.tsx";
+import {LiveBGStatic} from "../Components/LiveBG.tsx";
 
 export const Team = ():ReactElement =>{
 		
@@ -25,7 +25,7 @@ export const Team = ():ReactElement =>{
 								</div>
 						</div>
 						
-						<LiveBGMain itemNumber={3}/>
+						<LiveBGStatic/>
 				</Layout>
 		)
 }

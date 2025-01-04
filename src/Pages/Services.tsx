@@ -1,7 +1,7 @@
 import {ReactElement, useState} from "react";
 import Layout from "../Components/Layout.tsx";
 import hexagon2 from "../../public/images/SVGs/hexagon2.svg";
-import {LiveBGMain} from "../Components/LiveBG.tsx";
+import {LiveBGStatic} from "../Components/LiveBG.tsx";
 import logoPic from "../../public/images/Services/1.svg"
 import graphicDesign from "../../public/images/Services/2.svg"
 import brandIdentity from "../../public/images/Services/3.svg"
@@ -341,7 +341,7 @@ const Services = (): ReactElement => {
 								</div>
 						</div>
 						
-						<LiveBGMain itemNumber={5}/>
+						<LiveBGStatic/>
 						
 						<div className={`${slideUpData === null && 'invisible'} w-full h-full absolute bottom-0 z-50`}>
 								<div className={`w-full h-full relative `}>

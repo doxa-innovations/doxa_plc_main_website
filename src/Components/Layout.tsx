@@ -78,7 +78,7 @@ function Layout({
 										</div>
 										<div className={`h-full grid justify-end relative`}>
 												<img
-														className={'md:w-1/4 absolute z-10 top-0 right-0'}
+														className={'w-2/3 p-3 md:p-0 md:w-1/4 absolute z-10 top-0 right-0'}
 														src={crownSword} alt=""
 												/>
 										</div>
