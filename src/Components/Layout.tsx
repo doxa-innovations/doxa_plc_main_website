@@ -30,7 +30,7 @@ function Layout({
 		return (
 				<main className="h-dvh w-full overflow-hidden font-pj-font">
 						<Helmet>
-								<title>{title} - Bee Design</title>
+								<title>{title} - Doxa Innovations</title>
 						</Helmet>
 						<div className="w-full h-full bg-pj-dark grid grid-rows-12 relative">
 								{
