@@ -7,7 +7,7 @@ export const Prices = (): ReactElement => {
 		
 		const [showing, setShowing] = useState<string | null>(null);
 		
-		const [isEthiopian, setIsEthiopian] = useState<boolean | null>(null);
+		const [isEthiopian, setIsEthiopian] = useState<boolean | null>(false);
 		
 		useEffect(() => {
 				const fetchLocation = async () => {
