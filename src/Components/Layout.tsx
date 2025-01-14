@@ -93,7 +93,8 @@ function Layout({
 								</div>
 								<div className={`row-span-1 self-end`}>
 										<p className='text-sm mx-auto py-5 bottom-1 md:bottom-6 text-pj-primary w-max z-50'>
-												©{new Date().getFullYear()} Copyright - Bee Design Studio</p>
+												©{new Date().getFullYear()} Copyright - Doxa Innovations PLC
+										</p>
 								</div>
 						</div>
 				</main>
