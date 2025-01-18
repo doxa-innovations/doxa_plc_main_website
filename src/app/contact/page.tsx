@@ -125,7 +125,7 @@ const Contact = (): ReactElement => {
 								<div className="mt-5 md:m-0">
 										<div className="flex md:block gap-3 w-full justify-center">
 												{/* Telegram */}
-												<Link href={'https://t.me/solagracia4all'} target="_blank"
+												<Link href={'https://t.me/Doxaplc'} target="_blank"
 															className="md:absolute top-52 left-72 z-50 hover:scale-105 duration-300">
 														<svg className="w-14 sm:w-16 md:w-20" viewBox="0 0 110 124" fill="none"
 																 xmlns="http://www.w3.org/2000/svg">
