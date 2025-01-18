@@ -22,6 +22,8 @@ jobs:
           protocol: ${{ secrets.FTP_PROTOCOL }}
           local-dir: ./
           server-dir: /doxa_nextjs/
+          exclude: |
+            node_modules/**
 
       - name: Create SSH key
         env:
@@ -40,4 +42,3 @@ jobs:
           source /home/doxapldm/nodevenv/doxa_nextjs/20/bin/activate && cd /home/doxapldm/doxa_nextjs 
           rm -rf .next
           npm install
-          npm run build
