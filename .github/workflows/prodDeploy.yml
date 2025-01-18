@@ -33,7 +33,7 @@ jobs:
           local-dir: ./
           server-dir: /doxa_nextjs/
           exclude: |
-            node_modules
+            node_modules/**
 
       - name: Create SSH key
         env:
