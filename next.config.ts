@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
 				// be enabled to allow parallel threads
 				// with nextjs automatic static generation
 				workerThreads: false,
-				cpus: 1
+				cpus: 4
 		}
 };
 
