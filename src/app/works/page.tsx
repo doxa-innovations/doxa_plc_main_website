@@ -81,9 +81,9 @@ export default function Work(): ReactElement {
 												}
 												{
 														worksData.length < 10 &&
-														Array.from({length: 10 - worksData.length}).map((_, key) => (
+														Array.from({length: 10 - worksData.length}).map(() => (
 																<WorkProfile
-																		key={key}
+																		key={null}
 																		filled={true}
 																		setShowing={setShowing}
 																		data={{
@@ -202,11 +202,11 @@ type WorkProfileType = {
 		data: WorkData,
 }
 
-const WorkProfile = ({key, i, filled = false, setShowing, data}: WorkProfileType): ReactElement => {
+const WorkProfile = ({key, filled = false, setShowing, data}: WorkProfileType): ReactElement => {
 		
 		return (
 				<div
-						key={key ?? i}
+						key={key ?? 432}
 						onClick={() => setShowing(data.link.length > 0 ? data : null)}
 						className={`relative w-1/4 sm:w-32 md:w-36 cursor-pointer hover:-translate-y-1 transition ease-in-out duration-200`}
 				>

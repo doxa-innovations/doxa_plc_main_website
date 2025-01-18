@@ -17,6 +17,9 @@
 /.next/
 /out/
 
+#Zip files
+*.zip
+
 # production
 /build
 

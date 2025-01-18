@@ -1,5 +1,5 @@
 "use client"
-import React, {ReactElement} from "react";
+import React, {ReactElement, useEffect, useRef, useState} from "react";
 import chariot from "../../public/images/SVGs/chariot.svg"
 import crownSword from "../../public/images/SVGs/sword_crown.svg"
 import bee2 from '../../public/images/SVGs/bee2.svg'
@@ -23,9 +23,28 @@ export default function LayoutOutline({
 																					description = '',
 																					backLink,
 																					lgLogoShow = true,
-																					logoShow = true
+																					logoShow = true,
 																			}: LayoutPropsType) {
 		
+		const [isOpen, setIsOpen] = useState(false); // State to track if the div is active/open
+		const divRef = useRef<HTMLDivElement | null>(null); // Ref for the target div
+		
+		const handleClickOutside = (event: MouseEvent) => {
+				// Check if the clicked element is outside the div
+				if (divRef.current && !divRef.current.contains(event.target as Node)) {
+						setIsOpen(false); // Close the div (or change the state)
+				}
+		};
+		
+		useEffect(() => {
+				// Add event listener for clicks on the document
+				document.addEventListener("mousedown", handleClickOutside);
+				
+				return () => {
+						// Clean up the event listener
+						document.removeEventListener("mousedown", handleClickOutside);
+				};
+		}, []);
 		
 		return (
 				<main className="h-dvh w-full overflow-hidden font-pj-font">
@@ -50,7 +69,8 @@ export default function LayoutOutline({
 										)
 								}
 								
-								<div className={`h-full relative z-10 row-span-2 grid grid-flow-col grid-cols-3`}>
+								<div
+										className={`h-full relative ${isOpen && 'z-[60]' || 'z-10'} row-span-2 grid grid-flow-col grid-cols-3`}>
 										<div className={`flex justify-center items-start`}>
 												<Image className='w-8/12 md:w-3/12' src={bee2} alt=""/>
 										</div>
@@ -75,10 +95,44 @@ export default function LayoutOutline({
 												}
 										</div>
 										<div className={`h-full grid justify-end relative`}>
-												<Image
-														className={'w-3/5 md:w-1/4 absolute z-10 top-0 right-0'}
-														src={crownSword} alt=""
-												/>
+												{
+														typeof backLink !== 'string' ?
+																<Image
+																		className={`w-3/5 md:w-1/4 absolute z-10 top-0 right-0`}
+																		src={crownSword} alt=""
+																/> :
+																<div
+																		className={`pt-4 px-4 mx-3 h-fit relative`}
+																		ref={divRef}
+																>
+																		<button
+																				onClick={() => {
+																						setIsOpen(!isOpen)
+																				}}
+																				className={`px-4 md:px-8 py-1.5 md:py-2 h-fit border border-pj-secondary bg-pj-secondary text-pj-accent font-semibold rounded hover:scale-105 hover:bg-pj-accent hover:text-pj-secondary transition-all duration-300`}>
+																				Go to
+																		</button>
+																		<div
+																				
+																				className={`w-full ${isOpen ? 'visible h-44' : 'invisible h-0'} py-2 bg-pj-secondary text-pj-accent absolute z-[60] top-full left-0 my-2 text-center rounded transition-all duration-300`}
+																		>
+																				<div className={'grid gap-y-0.5'}>
+																						<Link className={'hover:underline w-full'}
+																									href={`/`}>Home</Link>
+																						<Link className={'hover:underline w-full'}
+																									href={`/works`}>Works</Link>
+																						<Link className={'hover:underline w-full'}
+																									href={`/team`}>Team</Link>
+																						<Link className={'hover:underline w-full'}
+																									href={`/prices`}>Prices</Link>
+																						<Link className={'hover:underline w-full'}
+																									href={`/about`}>About</Link>
+																						<Link className={'hover:underline w-full'}
+																									href={`/contact`}>Contact</Link>
+																				</div>
+																		</div>
+																</div>
+												}
 										</div>
 								</div>
 								<div className={`row-span-10`}>
@@ -92,7 +146,7 @@ export default function LayoutOutline({
 								</div>
 								<div className={`row-span-1 self-end`}>
 										<p className='text-sm mx-auto py-5 bottom-1 md:bottom-6 text-pj-primary w-max z-50'>
-												©{new Date().getFullYear()} Copyright - Bee Design Studio</p>
+												©{new Date().getFullYear()} Copyright - Doxa Innovations PLC</p>
 								</div>
 						</div>
 				</main>
