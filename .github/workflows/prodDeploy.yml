@@ -38,5 +38,6 @@ jobs:
         run: |
           ssh -i ../private.key doxapldm@91.204.209.38 
           source /home/doxapldm/nodevenv/doxa_nextjs/20/bin/activate && cd /home/doxapldm/doxa_nextjs 
+          rm -rf .next
           npm install
           npm run build
