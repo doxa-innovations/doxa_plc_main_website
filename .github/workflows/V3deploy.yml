@@ -36,4 +36,4 @@ jobs:
 
       - name: Configuration to cPanel
         run: |
-          ssh -i ../private.key yenetamasternet@yenetamaster.net "source /home/doxapldm/nodevenv/doxa_nextjs/20/bin/activate && cd /home/doxapldm/doxa_nextjs && npm run build"
+          ssh -i ../private.key doxapldm@91.204.209.38 "source /home/doxapldm/nodevenv/doxa_nextjs/20/bin/activate && cd /home/doxapldm/doxa_nextjs && npm run build"
