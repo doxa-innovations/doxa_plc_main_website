@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DdlMappings">
+    <mapping uuid="f8744bab-c45f-4f21-a0e6-354acd486307" name="@127.0.0.1 Mapping">
+      <data-sources db="266b3fb0-3457-457f-af3a-463c37fd3625" />
+      <scope>
+        <node kind="schema" qname="yenetamaster_dev" />
+      </scope>
+    </mapping>
+  </component>
+</project>
