@@ -26,7 +26,7 @@ export default function Work(): ReactElement {
 		const [showing, setShowing] = useState<WorkData | null>(null);
 		
 		return (
-				<LayoutOutline title={'Team'} description={`Previous Projects`} backLink={'/'} lgLogoShow={false}>
+				<LayoutOutline title={'Works'} description={`Previous Projects`} backLink={'/'} lgLogoShow={false}>
 						<div className="h-full grid place-items-center z-10 relative overflow-y-scroll scrollbar">
 								<div
 										className={`lg:mt-7 mx-2`}
