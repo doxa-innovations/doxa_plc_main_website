@@ -3,7 +3,6 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
 		distDir: 'build',
-		output: 'export',
 		experimental: {
 				// This is experimental but can
 				// be enabled to allow parallel threads
