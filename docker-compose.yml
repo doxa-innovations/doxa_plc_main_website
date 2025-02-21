@@ -1,6 +1,5 @@
 services:
   nextjs:
-    container_name: doxa_plc
     build:
       context: ./
       dockerfile: Dockerfile
