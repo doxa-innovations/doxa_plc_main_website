@@ -18,6 +18,8 @@ services:
       - traefik.http.routers.project2-https.tls.certresolver=le
       - traefik.http.routers.project2-https.service=project2-service
       - traefik.http.services.project2-service.loadbalancer.server.port=3000
+    deploy:
+      replicas: 3
     networks:
       - traefik-public
 
