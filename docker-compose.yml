@@ -7,11 +7,11 @@ services:
       - traefik.enable=true
 
       - traefik.http.routers.project2-http.rule=Host(`${DOMAIN}`)
-      - traefik.http.routers.project2-http.entrypoints=http
+      - traefik.http.routers.project2-http.entrypoints=web
       - traefik.http.routers.project2-http.middlewares=https-redirect
       - traefik.http.routers.project2-https.rule=Host(`${DOMAIN}`)
 
-      - traefik.http.routers.project2-https.entrypoints=https
+      - traefik.http.routers.project2-https.entrypoints=websecure
       - traefik.http.routers.project2-https.tls=true
       - traefik.http.routers.project2-https.tls.certresolver=le
       - traefik.http.routers.project2-https.service=project2-service
