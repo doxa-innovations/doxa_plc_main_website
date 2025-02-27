@@ -4,15 +4,18 @@ services:
     environment:
       - NODE_ENV=production
     labels:
-      - 'traefik.enable=true'
-      # Change the host url here
-      - 'traefik.docker.network=traefik-public'
-      - 'traefik.http.routers.doxa-app.rule=Host(`doxaplc.com`)'
-      - 'traefik.http.services.doxa-app.loadbalancer.server.port=3000'
-      - 'traefik.http.routers.doxa-app.entrypoints=websecure'
-      - 'traefik.http.routers.doxa-app.tls=true'
-      - 'traefik.http.routers.doxa-app.tls.certresolver=leresolver'
+      - traefik.enable=true
 
+      - traefik.http.routers.project2-http.rule=Host(`${DOMAIN}`)
+      - traefik.http.routers.project2-http.entrypoints=http
+      - traefik.http.routers.project2-http.middlewares=https-redirect
+      - traefik.http.routers.project2-https.rule=Host(`${DOMAIN}`)
+
+      - traefik.http.routers.project2-https.entrypoints=https
+      - traefik.http.routers.project2-https.tls=true
+      - traefik.http.routers.project2-https.tls.certresolver=le
+      - traefik.http.routers.project2-https.service=project2-service
+      - traefik.http.services.project2-service.loadbalancer.server.port=3000
     deploy:
       replicas: 3
     networks:
