@@ -6,15 +6,15 @@ services:
     labels:
       - traefik.enable=true
       - traefik.docker.network=traefik-public
-      - traefik.http.routers.project2-http.rule=Host(`${DOMAIN}`)
-      - traefik.http.routers.project2-http.entrypoints=web
-      - traefik.http.routers.project2-http.middlewares=https-redirect
-      - traefik.http.routers.project2-https.rule=Host(`${DOMAIN}`)
+      - traefik.http.routers.doxa_app.rule=Host(`${DOMAIN}`)
+      - traefik.http.routers.doxa_app.entrypoints=web
+      - traefik.http.routers.doxa_app.middlewares=https-redirect
+      - traefik.http.routers.doxa_app-secure.rule=Host(`${DOMAIN}`)
 
-      - traefik.http.routers.project2-https.entrypoints=websecure
-      - traefik.http.routers.project2-https.tls=true
-      - traefik.http.routers.project2-https.tls.certresolver=le
-      - traefik.http.routers.project2-https.service=project2-service
+      - traefik.http.routers.doxa_app-secure.entrypoints=websecure
+      - traefik.http.routers.doxa_app-secure.tls=true
+      - traefik.http.routers.doxa_app-secure.tls.certresolver=le
+      - traefik.http.routers.doxa_app-secure.service=project2-service
       - traefik.http.services.project2-service.loadbalancer.server.port=3000
     deploy:
       replicas: 3
