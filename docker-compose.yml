@@ -8,18 +8,17 @@ services:
     labels:
       - traefik.enable=true
       - traefik.docker.network=traefik-public
-      - traefik.http.routers.doxa_app.rule=Host(`${DOMAIN}`)
+      - traefik.http.routers.doxa_app.rule=Host(`doxaplc.com`)
       - traefik.http.routers.doxa_app.entrypoints=web
       - traefik.http.routers.doxa_app.middlewares=https-redirect
-      - traefik.http.routers.doxa_app-secure.rule=Host(`${DOMAIN}`)
-
+      - traefik.http.routers.doxa_app-secure.rule=Host(`doxaplc.com`)
       - traefik.http.routers.doxa_app-secure.entrypoints=websecure
       - traefik.http.routers.doxa_app-secure.tls=true
       - traefik.http.routers.doxa_app-secure.tls.certresolver=le
-      - traefik.http.routers.doxa_app-secure.service=project2-service
-      - traefik.http.services.project2-service.loadbalancer.server.port=3000
+      - traefik.http.routers.doxa_app-secure.service=doxa_app-service
+      - traefik.http.services.doxa_app-service.loadbalancer.server.port=3000
     deploy:
-      replicas: 3
+      mode: global
     networks:
       - traefik-public
 
