@@ -6,7 +6,7 @@ services:
     environment:
       - NODE_ENV=production
     deploy:
-      mode: global
+      mode: replicated
       replicas: 3
       labels:
         - traefik.enable=true
