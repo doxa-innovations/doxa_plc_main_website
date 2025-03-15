@@ -38,6 +38,7 @@ export default function Work(): ReactElement {
 																		return (
 																				<WorkProfile
 																						key={key}
+																						i={key}
 																						filled={work.filled}
 																						setShowing={setShowing}
 																						data={work}
@@ -54,6 +55,7 @@ export default function Work(): ReactElement {
 																		return (
 																				<WorkProfile
 																						key={key}
+																						i={key}
 																						filled={work.filled}
 																						setShowing={setShowing}
 																						data={work}
@@ -71,6 +73,7 @@ export default function Work(): ReactElement {
 																		return (
 																				<WorkProfile
 																						key={key}
+																						i={key}
 																						filled={work.filled}
 																						setShowing={setShowing}
 																						data={work}
@@ -81,9 +84,10 @@ export default function Work(): ReactElement {
 												}
 												{
 														worksData.length < 10 &&
-														Array.from({length: 10 - worksData.length}).map(() => (
+														Array.from({length: 10 - worksData.length}).map((_, i) => (
 																<WorkProfile
-																		key={null}
+																		key={i}
+																		i={i}
 																		filled={true}
 																		setShowing={setShowing}
 																		data={{
@@ -108,7 +112,6 @@ export default function Work(): ReactElement {
                                 className={`relative w-1/4 sm:w-32 md:w-36 cursor-pointer hover:-translate-y-1 transition ease-in-out duration-200`}
                             >
                                 <Image className="w-full z-20 mt-3" src={hexagon2} alt=""/>
-                            
                             </div>
 												}
 										</div>
@@ -196,17 +199,17 @@ export default function Work(): ReactElement {
 
 type WorkProfileType = {
 		i?: number | null,
-		key: number | null,
+		key?: number | null,
 		filled: boolean,
 		setShowing: Dispatch<SetStateAction<WorkData | null>>,
 		data: WorkData,
 }
 
-const WorkProfile = ({key, filled = false, setShowing, data}: WorkProfileType): ReactElement => {
+const WorkProfile = ({i, filled = false, setShowing, data}: WorkProfileType): ReactElement => {
 		
 		return (
 				<div
-						key={key ?? 432}
+						key={i ?? 432}
 						onClick={() => setShowing(data.link.length > 0 ? data : null)}
 						className={`relative w-1/4 sm:w-32 md:w-36 cursor-pointer hover:-translate-y-1 transition ease-in-out duration-200`}
 				>
