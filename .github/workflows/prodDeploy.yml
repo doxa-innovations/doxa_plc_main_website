@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - ephi_dev
+      - main
 
 name: 🚀 Deploy Code to Development Website
 
