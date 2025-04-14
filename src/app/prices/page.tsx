@@ -14,8 +14,11 @@ export default function Prices(): ReactElement {
 				const fetchLocation = async () => {
 						try {
 								// Replace with your chosen IP Geolocation API
-								const response = await fetch('https://ipapi.co/json/'); // Example API
-								const data = await response.json();
+								const data = await fetch('https://ipapi.co/json/').then((response)=>{
+										return response.json();
+								}).catch((e)=>{
+										console.log(e)
+								}); // Example API
 								
 								if (data.country_code === 'ET') {
 										setIsEthiopian(true);
@@ -64,16 +67,16 @@ export default function Prices(): ReactElement {
 																your business...
 														</p>
 														
-														<h4 className="text-4xl w-full border-b border-pj-secondary text-end pt-3 py-3 font-bold">
+														<h4 className={'text-4xl w-full border-b border-pj-secondary text-end pt-3 py-3 font-bold'}>
 																{
 																		isEthiopian !== null ?
-																				<>
+																				(!isEthiopian && <>
 																						<span className="text-base mx-1">Starting From</span>
-																						{isEthiopian ? '30,000' : '1,500'}
+																						1,500
 																						<span className="text-base mx-1">
-																								{isEthiopian ? 'ETB' : 'USD'}
+																								USD
 																						</span>
-																				</> :
+																				</>) :
 																				<Loading color={'text-pj-secondary'}/>
 																}
 														</h4>
@@ -173,16 +176,16 @@ export default function Prices(): ReactElement {
 																...
 														</p>
 														
-														<h4 className="text-4xl w-full border-b border-pj-accent text-end pt-3 py-3 font-bold">
+														<h4 className={'text-4xl w-full border-b border-pj-accent text-end pt-3 py-3 font-bold'}>
 																{
 																		isEthiopian !== null ?
-																				<>
+																				(!isEthiopian && <>
 																						<span className="text-base mx-1">Starting From</span>
-																						{isEthiopian ? '60,000' : '4,000'}
+																						4,000
 																						<span className="text-base mx-1">
-																								{isEthiopian ? 'ETB' : 'USD'}
+																								USD
 																						</span>
-																				</> :
+																				</>) :
 																				<Loading color={'text-pj-accent'}/>
 																}
 														</h4>
@@ -285,16 +288,16 @@ export default function Prices(): ReactElement {
 														<p className="text-sm text-start">
 																Boost your business&#39;s outreach...
 														</p>
-														<h4 className="text-4xl w-full border-b border-pj-accent text-end pt-3 py-3 font-bold">
+														<h4 className={'text-4xl w-full border-b border-pj-accent text-end pt-3 py-3 font-bold'}>
 																{
 																		isEthiopian !== null ?
-																				<>
+																				(!isEthiopian && <>
 																						<span className="text-base mx-1">Starting From</span>
-																						{isEthiopian ? '100,000' : '10,000'}
+																						10,000
 																						<span className="text-base mx-1">
-																								{isEthiopian ? 'ETB' : 'USD'}
+																								USD
 																						</span>
-																				</> :
+																				</>) :
 																				<Loading color={'text-pj-accent'}/>
 																}
 														</h4>
