@@ -10,12 +10,13 @@ import partnerC from "@/../public/images/Zoe.png";
 import partnerD from "@/../public/images/classic_logo.png";
 import partnerF from "@/../public/images/myseed.png";
 import partnerG from "@/../public/images/kla.svg";
+import {StaticImport} from "next/dist/shared/lib/get-img-props";
 
 
 type Partner = {
     name: string;
     href: string;
-    logo: any;
+    logo: string | StaticImport;
     width?: number;
     height?: number;
 };
