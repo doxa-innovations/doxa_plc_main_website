@@ -8,7 +8,7 @@ import gedion from '../../../public/images/Gedion.png'
 import cheri from '../../../public/images/Cheri.png'
 import LayoutOutline from "@/app/_LayoutOutline";
 import Image, {StaticImageData} from "next/image";
-import StatCardRow from "@/Components/StatCardRow";
+
 
 export default function Team(): ReactElement {
 		
