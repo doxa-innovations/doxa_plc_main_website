@@ -3,6 +3,7 @@ import hexagon from '../../public/images/SVGs/hexagon.svg';
 import logo from '../../public/images/logo.png'
 import Image from "next/image";
 import LayoutOutline from "@/app/_LayoutOutline";
+import Partnership from "../Components/Partnership";
 
 
 export default function Home() {
@@ -65,6 +66,7 @@ export default function Home() {
             </div>
           </div>
         </div>
+          <Partnership/>
       </LayoutOutline>
   );
 }
