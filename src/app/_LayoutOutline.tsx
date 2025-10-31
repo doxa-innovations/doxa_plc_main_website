@@ -72,7 +72,7 @@ export default function LayoutOutline({
 								<div
 										className={`h-full relative ${isOpen && 'z-[60]' || 'z-10'} row-span-2 grid grid-flow-col grid-cols-3`}>
 										<div className={`flex justify-center items-start`}>
-												<Image className='w-8/12 md:w-3/12' src={bee2} alt=""/>
+												<Image className='w-8/12 md:w-3/12 animate-pulse' src={bee2} alt=""/>
 										</div>
 										<div className={`grid justify-items-center mt-5`}>
 												{
@@ -140,7 +140,7 @@ export default function LayoutOutline({
 										<LiveBGStatic/>
 								</div>
 								<div className={`absolute z-0 w-full -bottom-2 md:-bottom-16 ml-3 mr-auto`}>
-										<div className={`relative flex sm:w-1/2 md:w-2/5 lg:w-1/3 `}>
+										<div className={`relative flex w-2/6 md:w-2/5 lg:w-1/3 `}>
 												<Image className='w-1/2 -scale-x-[1]' src={chariot} alt=""/>
 										</div>
 								</div>
