@@ -33,7 +33,7 @@ const About = (): ReactElement => {
                 </div>
 
                 {/* Cards: pinned, perfectly centered, above everything */}
-                <div className="relative left-1/2 -translate-x-1/2 bottom-6 md:bottom-10 z-[60]">
+                <div className="relative left-1/2 mt-24 -translate-x-1/2 bottom-6 md:bottom-10 z-[60]">
                     <StatCardRow />
                 </div>
             </div>
