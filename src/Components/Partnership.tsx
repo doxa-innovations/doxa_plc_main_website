@@ -10,13 +10,12 @@ import partnerC from "@/../public/images/Zoe.png";
 import partnerD from "@/../public/images/classic_logo.png";
 import partnerF from "@/../public/images/myseed.png";
 import partnerG from "@/../public/images/kla.svg";
-import {StaticImport} from "next/dist/shared/lib/get-img-props";
 
 
 type Partner = {
     name: string;
     href: string;
-    logo: string | StaticImport;
+    logo: File;
     width?: number;
     height?: number;
 };
@@ -50,12 +49,13 @@ const PARTNERS: Partner[] = [
 
 ];
 
+
 export default function PartnerStrip() {
     // duplicate list for seamless loop
     const scrollingList = useMemo(() => [...PARTNERS, ...PARTNERS], []);
 
     return (
-        <section aria-label="Partner companies" className="absolute bottom-44 md:bottom-28 w-full mt-8 md:mt-12 z-50">
+        <section aria-label="Partner companies" className="absolute bottom-24 md:bottom-10 w-full md:mt-12 z-50">
             <div className="mx-auto px-4 text-center">
                 <div className="flex items-center justify-center">
                     <h2 className="text-[11px] sm:text-xs md:text-sm font-medium tracking-wider uppercase text-pj-primary">

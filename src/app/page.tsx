@@ -12,10 +12,10 @@ export default function Home() {
           title={'Home'} backLink={null} lgLogoShow={true}
       >
         <div className={`h-full flex flex-col mt-5 md:mt-10 gap-5 z-50 relative`}>
-          <h1 className='text-2xl sm:text-4xl md:text-5xl text-pj-white text-center leading-[140%] md:leading-[120%]'>
-            Doxa Innovations<br/> <strong
-              className=' text-pj-primary text-2xl sm:text-4xl md:text-5xl'>PLC</strong>
-          </h1>
+            <strong className='text-2xl sm:text-4xl md:text-5xl text-pj-white text-center leading-[140%] md:leading-[120%]'>
+            Doxa <strong
+              className=' text-pj-primary text-2xl sm:text-4xl md:text-5xl'>Innovations</strong>
+            </strong>
           <div className='flex flex-col items-center md:mt-0 relative z-50'>
             <div className='grid grid-flow-col col-span-2 w-fit -mb-5 md:-mb-4 gap-2'>
               <Link href={'/services'}

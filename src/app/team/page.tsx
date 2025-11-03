@@ -9,6 +9,7 @@ import cheri from '../../../public/images/Cheri.png'
 import LayoutOutline from "@/app/_LayoutOutline";
 import Image, {StaticImageData} from "next/image";
 
+
 export default function Team(): ReactElement {
 		
 		return (
@@ -41,24 +42,31 @@ type ProfilePropsType = {
 
 const Profile = ({bgImage, userImage, name, profession}: ProfilePropsType): ReactElement => {
 		return (
-				<div
-						// onClick={()=>{setShowing('ephrem')}}
-						className='relative z-20 w-3/5 lg:w-64 grid  place-items-center cursor-pointer hover:scale-105
+
+                <div
+                // onClick={()=>{setShowing('ephrem')}}
+                className='relative z-20 w-3/5 lg:w-64 grid  place-items-center cursor-pointer hover:scale-105
 														transition ease-in-out duration-200'
-				>
-						<div className="grid h-full">
-								<Image className="w-3/5 lg:w-11/12 relative z-30 justify-self-center self-end" src={userImage} alt=""/>
-						</div>
-						<div
-								className="h-full w-full bg-pj-primary rounded-xl text-center p-3 -mt-1 relative z-30"
-						>
-								<p className="text-base md:text-xl text-pj-white pb-2 font-semibold border-b border-pj-accent">
-										{name}
-								</p>
-								<p className="py-1 text-sm md:text-base text-pj-black">{profession}</p>
-						</div>
-						
-						<Image className="absolute -top-6 w-40 md:w-60" src={bgImage} alt=""/>
-				</div>
+            >
+                <div className="grid h-full">
+                    <Image className="w-3/5 lg:w-11/12 relative z-30 justify-self-center self-end" src={userImage} alt=""/>
+                </div>
+                <div
+                    className="h-full w-full bg-pj-primary rounded-xl text-center p-3 -mt-1 relative z-30"
+                >
+                    <p className="text-base md:text-xl text-pj-white pb-2 font-semibold border-b border-pj-accent">
+                        {name}
+                    </p>
+                    <p className="py-1 text-sm md:text-base text-pj-black">{profession}</p>
+                </div>
+
+                <Image className="absolute -top-6 w-40 md:w-60" src={bgImage} alt=""/>
+
+            </div>
+
+
+
+
 		)
+
 }
