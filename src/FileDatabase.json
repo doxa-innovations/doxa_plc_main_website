@@ -1,7 +1,7 @@
 [
   {
     "title": "Classic Noodles",
-    "image": "classic_logo.png",
+    "image": "https://cdn.doxaplc.com/doxa-public/classic_logo.png",
     "tag": "classic",
     "clamp": true,
     "filled": true,
@@ -14,12 +14,12 @@
         "Tailwind",
         "Laravel"
       ],
-      "image": "classic.png"
+      "image": "https://cdn.doxaplc.com/doxa-public/classic.png"
     }
   },
   {
     "title": "Zena Kristos",
-    "image": "zenakristos.png",
+    "image": "https://cdn.doxaplc.com/doxa-public/zenakristos.png",
     "tag": "zenaKristos",
     "clamp": true,
     "filled": false,
@@ -31,12 +31,12 @@
         "Laravel",
         "Tailwind"
       ],
-      "image": "zenakristosPage.png"
+      "image": "https://cdn.doxaplc.com/doxa-public/zenakristosPage.avif"
     }
   },
   {
     "title": "Zoe Delivery",
-    "image": "Zoe.png",
+    "image": "https://cdn.doxaplc.com/doxa-public/Zoe.png",
     "tag": "zoe",
     "clamp": true,
     "filled": true,
@@ -49,12 +49,12 @@
         "Tailwind",
         "Laravel"
       ],
-      "image": "zoePage.png"
+      "image": "https://cdn.doxaplc.com/doxa-public/zoePage.avif"
     }
   },
   {
     "title": "Yeneta Master",
-    "image": "yenetaMaster.png",
+    "image": "https://cdn.doxaplc.com/doxa-public/yenetaMaster.png",
     "tag": "yenetaMaster",
     "clamp": true,
     "filled": true,
@@ -69,12 +69,12 @@
         "Laravel",
         "MySQL"
       ],
-      "image": "YMPage.png"
+      "image": "https://cdn.doxaplc.com/doxa-public/YMPage.png"
     }
   },
   {
     "title": "The LCE",
-    "image": "lce.png",
+    "image": "https://cdn.doxaplc.com/doxa-public/lce.png",
     "tag": "lce",
     "clamp": true,
     "filled": false,
@@ -86,12 +86,12 @@
         "React",
         "SCSS"
       ],
-      "image": "lce.png"
+      "image": "https://cdn.doxaplc.com/doxa-public/lce.png"
     }
   },
   {
     "title": "Maor Seminary",
-    "image": "maor.png",
+    "image": "https://cdn.doxaplc.com/doxa-public/maor.png",
     "tag": "maor",
     "clamp": true,
     "filled": true,
@@ -103,12 +103,12 @@
         "React",
         "SCSS"
       ],
-      "image": "maor.png"
+      "image": "https://cdn.doxaplc.com/doxa-public/maor.png"
     }
   },
   {
     "title": "Dr Emebet Dental",
-    "image": "emebet.png",
+    "image": "https://cdn.doxaplc.com/doxa-public/emebet.png",
     "tag": "emebet",
     "clamp": true,
     "filled": false,
@@ -121,12 +121,12 @@
         "Blade",
         "Bootsrap"
       ],
-      "image": "emebetPage.png"
+      "image": "https://cdn.doxaplc.com/doxa-public/emebetPage.png"
     }
   },
   {
     "title": "Kofficho Coffee",
-    "image": "kofficho.png",
+    "image": "https://cdn.doxaplc.com/doxa-public/kofficho.png",
     "tag": "kofficho",
     "clamp": true,
     "filled": false,
@@ -138,12 +138,12 @@
         "Laravel",
         "Tailwind"
       ],
-      "image": "kofficho.png"
+      "image": "https://cdn.doxaplc.com/doxa-public/kofficho.png"
     }
   },
   {
     "title": "Put Your business",
-    "image": "",
+    "image": "https://cdn.doxaplc.com/doxa-public/logo.png",
     "tag": "",
     "clamp": false,
     "filled": true,
@@ -152,7 +152,7 @@
       "subTitle": "",
       "description": "",
       "techStack": [],
-      "image": ""
+      "image": "https://cdn.doxaplc.com/doxa-public/logo.png"
     }
   }
 ]

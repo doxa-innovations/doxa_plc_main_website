@@ -1,10 +1,5 @@
 "use client"
 import React, {ReactElement, useEffect, useRef, useState} from "react";
-import chariot from "../../public/images/SVGs/chariot.svg"
-import crownSword from "../../public/images/SVGs/sword_crown.svg"
-import bee2 from '../../public/images/SVGs/bee2.svg'
-import logo from '../../public/images/logo.png'
-import Image from "next/image";
 import {LiveBGStatic} from "@/Components/LiveBG";
 import Link from "next/link";
 
@@ -25,9 +20,14 @@ export default function LayoutOutline({
 										  lgLogoShow = true,
 										  logoShow = true,
 									  }: LayoutPropsType) {
+	const chariot = "https://cdn.doxaplc.com/doxa-public/SVGs/chariot.svg";
+	const crownSword = "https://cdn.doxaplc.com/doxa-public/SVGs/sword_crown.svg";
+	const bee2 = "https://cdn.doxaplc.com/doxa-public/SVGs/bee2.svg";
+	const logo = "https://cdn.doxaplc.com/doxa-public/logo.png";
 	
 	const [isOpen, setIsOpen] = useState(false); // State to track if the div is active/open
 	const divRef = useRef<HTMLDivElement | null>(null); // Ref for the target div
+	const [loading, setLoading] = useState(true)
 	
 	const handleClickOutside = (event: MouseEvent) => {
 		// Check if the clicked element is outside the div
@@ -40,6 +40,10 @@ export default function LayoutOutline({
 		// Add event listener for clicks on the document
 		document.addEventListener("mousedown", handleClickOutside);
 		
+		setTimeout(()=>{
+			setLoading(false)
+		}, 300)
+		
 		return () => {
 			// Clean up the event listener
 			document.removeEventListener("mousedown", handleClickOutside);
@@ -47,8 +51,8 @@ export default function LayoutOutline({
 	}, []);
 	
 	return (
-		<main className="h-dvh w-full overflow-hidden font-pj-font">
-			<div className="w-full h-full bg-pj-dark grid grid-rows-12 relative">
+		<main className={`h-dvh w-full overflow-hidden font-pj-font`}>
+			<div className={`w-full h-full bg-pj-dark grid grid-rows-12 relative ${loading && 'invisible'}`}>
 				{
 					typeof backLink === 'string' && (
 						<Link
@@ -72,12 +76,12 @@ export default function LayoutOutline({
 				<div
 					className={`h-full relative ${isOpen && 'z-[60]' || 'z-10'} row-span-2 grid grid-flow-col grid-cols-3`}>
 					<div className={`flex justify-center items-start`}>
-						<Image className='w-1/2 md:w-3/12 animate-pulse' src={bee2} alt=""/>
+						<img className='w-1/2 md:w-3/12 animate-pulse' src={bee2} alt=""/>
 					</div>
 					<div className={`grid justify-items-center mt-5`}>
 						{
 							logoShow &&
-                            <Image className={`${!lgLogoShow && 'lg:hidden'} w-2/4 md:w-1/3 xl:w-1/5`} src={logo}
+                            <img className={`${!lgLogoShow && 'lg:hidden'} w-2/4 md:w-1/3 xl:w-1/5`} src={logo}
                                    alt=""
                             />
 						}
@@ -97,7 +101,7 @@ export default function LayoutOutline({
 					<div className={`h-full grid justify-end relative`}>
 						{
 							typeof backLink !== 'string' ?
-								<Image
+								<img
 									className={`w-1/2 md:w-1/4 absolute z-10 top-0 right-0`}
 									src={crownSword} alt=""
 								/> :
@@ -141,12 +145,18 @@ export default function LayoutOutline({
 				</div>
 				<div className={`absolute z-0 w-full -bottom-2 md:-bottom-16 ml-3 mr-auto`}>
 					<div className={`relative flex w-2/6 md:w-1/5 `}>
-						<Image className='w-1/2 -scale-x-[1]' src={chariot} alt=""/>
+						<img className='w-1/2 -scale-x-[1]' src={chariot} alt=""/>
 					</div>
 				</div>
 				<div className={`row-span-1 self-end`}>
 					<p className='text-sm mx-auto py-5 bottom-1 md:bottom-6 text-pj-primary w-max z-50'>
 						©{new Date().getFullYear()} Copyright - Doxa Innovations PLC</p>
+				</div>
+			</div>
+			<div
+				className={`w-full h-full bg-pj-accent grid grid-rows-12 absolute z-50 top-0 left-0 ${!loading && 'invisible'}`}>
+				<div className="row-start-6 justify-self-center">
+					<div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-pj-secondary"></div>
 				</div>
 			</div>
 		</main>

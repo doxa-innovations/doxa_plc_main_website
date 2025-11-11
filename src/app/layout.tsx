@@ -21,7 +21,6 @@ const georama = localFont({
 });
 
 export const metadata: Metadata = {
-    title: "Doxa Innovations",
     icons: { icon: "/logo.svg" },
     description:
         "Doxa Innovative Software Development PLC is an online creative hub dedicated to helping businesses " +
@@ -73,7 +72,23 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en">
-        <body className={`${georama.className} antialiased`}>{children}</body>
+			<head>
+				{/* Preconnect to CDN */}
+				<link rel="preconnect" href="https://cdn.doxaplc.com" />
+				{/* Preload your images */}
+				<link rel="preload" as="image" href="https://cdn.doxaplc.com/doxa-public/logo.png" />
+				<link rel="preload" as="image" href="https://cdn.doxaplc.com/doxa-public/classic.png" />
+				<link rel="preload" as="image" href="https://cdn.doxaplc.com/doxa-public/zoePage.avif" />
+				<link rel="preload" as="image" href="https://cdn.doxaplc.com/doxa-public/YMPage.png" />
+				<link rel="preload" as="image" href="https://cdn.doxaplc.com/doxa-public/zenakristosPage.avif" />
+				<link rel="preload" as="image" href="https://cdn.doxaplc.com/doxa-public/Cheri.avif" />
+				<link rel="preload" as="image" href="https://cdn.doxaplc.com/doxa-public/Gedion.avif" />
+				<link rel="preload" as="image" href="https://cdn.doxaplc.com/doxa-public/EphremBW.png" />
+				<link rel="preload" as="image" href="https://cdn.doxaplc.com/doxa-public/SVGs/hexagon.svg" />
+				<link rel="preload" as="image" href="https://cdn.doxaplc.com/doxa-public/SVGs/hexagon2.svg" />
+				<title>Doxa Innovations</title>
+			</head>
+			<body className={`${georama.className} antialiased`}>{children}</body>
         </html>
     );
 }
