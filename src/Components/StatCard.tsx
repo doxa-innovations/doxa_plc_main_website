@@ -3,9 +3,6 @@
 import Link from "next/link";
 import Image from "next/image";
 
-// Use your downloaded gradient card asset
-import cardBg from "../../public/images/cardgradient.svg";
-
 type StatCardProps = {
 	title: string;
 	value: string | number;
@@ -14,6 +11,7 @@ type StatCardProps = {
 };
 
 export default function StatCard({title, value, description, href}: StatCardProps) {
+	const cardBg = "https://cdn.doxaplc.com/doxa-public/cardgradient.svg";
 	return (
 		<div
 			className="

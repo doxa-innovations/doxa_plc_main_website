@@ -1,58 +1,45 @@
 "use client";
-
-import Image from "next/image";
 import Link from "next/link";
 import { useMemo } from "react";
-
-import partnerA from "@/../public/images/maor.png";
-import partnerB from "@/../public/images/ZOA.svg";
-import partnerC from "@/../public/images/Zoe.png";
-import partnerD from "@/../public/images/classic_logo.png";
-import partnerF from "@/../public/images/myseed.png";
-import partnerG from "@/../public/images/kla.svg";
-import {StaticImport} from "next/dist/shared/lib/get-img-props";
 
 
 type Partner = {
     name: string;
     href: string;
-    logo: string | StaticImport;
+    logo: string;
     width?: number;
     height?: number;
 };
 
 const PARTNERS: Partner[] = [
-    { name: "Maor Lutheran Theological Seminary", href: "https://mlts.lcechurch.org", logo: partnerA, width: 140, height: 48 },
-    { name: "ZOA International", href: "https://www.zoa-international.com/", logo: partnerB, width: 140, height: 48 },
-    { name: "Zoe Delivery", href: "https://zoedelivery.com", logo: partnerC, width: 140, height: 48 },
-    { name: "Classic Noodle & Burger House", href: "https://classicnoodle.com", logo: partnerD, width: 140, height: 48 },
-    { name: "MySeed", href: "https://myseed.et/", logo: partnerF, width: 140, height: 48 },
-    { name: "KLA Constructions LLP", href: "https://klaconstructionequipment.com", logo: partnerG, width: 140, height: 48 },
-    { name: "Maor Lutheran Theological Seminary", href: "https://mlts.lcechurch.org", logo: partnerA, width: 140, height: 48 },
-    { name: "ZOA International", href: "https://www.zoa-international.com/", logo: partnerB, width: 140, height: 48 },
-    { name: "Zoe Delivery", href: "https://zoedelivery.com", logo: partnerC, width: 140, height: 48 },
-    { name: "Classic Noodle & Burger House", href: "https://classicnoodle.com", logo: partnerD, width: 140, height: 48 },
-    { name: "MySeed", href: "https://myseed.et/", logo: partnerF, width: 140, height: 48 },
-    { name: "KLA Constructions LLP", href: "https://klaconstructionequipment.com", logo: partnerG, width: 140, height: 48 },
-    { name: "Maor Lutheran Theological Seminary", href: "https://mlts.lcechurch.org", logo: partnerA, width: 140, height: 48 },
-    { name: "ZOA International", href: "https://www.zoa-international.com/", logo: partnerB, width: 140, height: 48 },
-    { name: "Zoe Delivery", href: "https://zoedelivery.com", logo: partnerC, width: 140, height: 48 },
-    { name: "Classic Noodle & Burger House", href: "https://classicnoodle.com", logo: partnerD, width: 140, height: 48 },
-    { name: "MySeed", href: "https://myseed.et/", logo: partnerF, width: 140, height: 48 },
-    { name: "KLA Constructions LLP", href: "https://klaconstructionequipment.com", logo: partnerG, width: 140, height: 48 },
-    { name: "Maor Lutheran Theological Seminary", href: "https://mlts.lcechurch.org", logo: partnerA, width: 140, height: 48 },
-    { name: "ZOA International", href: "https://www.zoa-international.com/", logo: partnerB, width: 140, height: 48 },
-    { name: "Zoe Delivery", href: "https://zoedelivery.com", logo: partnerC, width: 140, height: 48 },
-    { name: "Classic Noodle & Burger House", href: "https://classicnoodle.com", logo: partnerD, width: 140, height: 48 },
-    { name: "MySeed", href: "https://myseed.et/", logo: partnerF, width: 140, height: 48 },
-    { name: "KLA Constructions LLP", href: "https://klaconstructionequipment.com", logo: partnerG, width: 140, height: 48 },
-
-
+    { name: "Maor Lutheran Theological Seminary", href: "https://mlts.lcechurch.org", logo: "https://cdn.doxaplc.com/doxa-public/maor.png" },
+    { name: "ZOA International", href: "https://www.zoa-international.com/", logo: "https://cdn.doxaplc.com/doxa-public/ZOA.svg" },
+    { name: "Zoe Delivery", href: "https://zoedelivery.com", logo: "https://cdn.doxaplc.com/doxa-public/Zoe.png" },
+    { name: "Classic Noodle & Burger House", href: "https://classicnoodle.com", logo: "https://cdn.doxaplc.com/doxa-public/classic_logo.png" },
+    { name: "MySeed", href: "https://myseed.et/", logo: "https://cdn.doxaplc.com/doxa-public/myseed.png" },
+    { name: "KLA Constructions LLP", href: "https://klaconstructionequipment.com", logo: "https://cdn.doxaplc.com/doxa-public/kla.svg" },
+    { name: "Maor Lutheran Theological Seminary", href: "https://mlts.lcechurch.org", logo: "https://cdn.doxaplc.com/doxa-public/maor.png" },
+    { name: "ZOA International", href: "https://www.zoa-international.com/", logo: "https://cdn.doxaplc.com/doxa-public/ZOA.svg" },
+    { name: "Zoe Delivery", href: "https://zoedelivery.com", logo: "https://cdn.doxaplc.com/doxa-public/Zoe.png" },
+    { name: "Classic Noodle & Burger House", href: "https://classicnoodle.com", logo: "https://cdn.doxaplc.com/doxa-public/classic_logo.png" },
+    { name: "MySeed", href: "https://myseed.et/", logo: "https://cdn.doxaplc.com/doxa-public/myseed.png" },
+    { name: "KLA Constructions LLP", href: "https://klaconstructionequipment.com", logo: "https://cdn.doxaplc.com/doxa-public/kla.svg" },
+    { name: "Maor Lutheran Theological Seminary", href: "https://mlts.lcechurch.org", logo: "https://cdn.doxaplc.com/doxa-public/maor.png" },
+    { name: "ZOA International", href: "https://www.zoa-international.com/", logo: "https://cdn.doxaplc.com/doxa-public/ZOA.svg" },
+    { name: "Zoe Delivery", href: "https://zoedelivery.com", logo: "https://cdn.doxaplc.com/doxa-public/Zoe.png" },
+    { name: "Classic Noodle & Burger House", href: "https://classicnoodle.com", logo: "https://cdn.doxaplc.com/doxa-public/classic_logo.png" },
+    { name: "MySeed", href: "https://myseed.et/", logo: "https://cdn.doxaplc.com/doxa-public/myseed.png" },
+    { name: "KLA Constructions LLP", href: "https://klaconstructionequipment.com", logo: "https://cdn.doxaplc.com/doxa-public/kla.svg" },
+    { name: "Maor Lutheran Theological Seminary", href: "https://mlts.lcechurch.org", logo: "https://cdn.doxaplc.com/doxa-public/maor.png" },
+    { name: "ZOA International", href: "https://www.zoa-international.com/", logo: "https://cdn.doxaplc.com/doxa-public/ZOA.svg" },
+    { name: "Zoe Delivery", href: "https://zoedelivery.com", logo: "https://cdn.doxaplc.com/doxa-public/Zoe.png" },
+    { name: "Classic Noodle & Burger House", href: "https://classicnoodle.com", logo: "https://cdn.doxaplc.com/doxa-public/classic_logo.png" },
+    { name: "MySeed", href: "https://myseed.et/", logo: "https://cdn.doxaplc.com/doxa-public/myseed.png" },
+    { name: "KLA Constructions LLP", href: "https://klaconstructionequipment.com", logo: "https://cdn.doxaplc.com/doxa-public/kla.svg" },
 ];
 
 
 export default function PartnerStrip() {
-    // duplicate list for seamless loop
     const scrollingList = useMemo(() => [...PARTNERS, ...PARTNERS], []);
 
     return (
@@ -77,14 +64,11 @@ export default function PartnerStrip() {
                                     className="flex min-w-[70px] sm:min-w-[160px] md:min-w-[180px] items-center justify-center px-4 sm:px-5 md:px-6 py-3 sm:py-4 md:py-5 opacity-80 hover:opacity-100 transition"
                                     aria-label={p.name}
                                 >
-                                    <Image
+                                    <img
                                         src={p.logo}
                                         alt={p.name}
-                                        width={p.width ?? 140}
-                                        height={p.height ?? 48}
                                         className="h-10 md:h-12 w-auto object-contain"
                                         sizes="(max-width:640px) 100px, (max-width:768px) 120px, 140px"
-                                        priority={idx < 4}
                                     />
                                 </Link>
                             ))}

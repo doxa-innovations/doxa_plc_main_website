@@ -1,16 +1,16 @@
 "use client"
 import {ReactElement} from "react";
-import triangle from '../../../public/images/SVGs/triangle.svg'
-import pentagon from '../../../public/images/SVGs/pentagon.svg'
-import hexagon3 from '../../../public/images/SVGs/hexagon3.svg'
-import EphremBW from '../../../public/images/EphremBW.png'
-import gedion from '../../../public/images/Gedion.png'
-import cheri from '../../../public/images/Cheri.png'
 import LayoutOutline from "@/app/_LayoutOutline";
-import Image, {StaticImageData} from "next/image";
 
 
 export default function Team(): ReactElement {
+	
+	const triangle = "https://cdn.doxaplc.com/doxa-public/SVGs/triangle.svg"
+	const pentagon = "https://cdn.doxaplc.com/doxa-public/SVGs/pentagon.svg"
+	const hexagon3 = "https://cdn.doxaplc.com/doxa-public/SVGs/hexagon3.svg"
+	const EphremBW = "https://cdn.doxaplc.com/doxa-public/EphremBW.png"
+	const gedion = "https://cdn.doxaplc.com/doxa-public/Gedion.avif"
+	const cheri = "https://cdn.doxaplc.com/doxa-public/Cheri.avif"
 	
 	return (
 		<LayoutOutline title={'Team'} description={`Team members & Collaborators`} backLink={'/'} lgLogoShow={false}>
@@ -35,7 +35,7 @@ export default function Team(): ReactElement {
 
 type ProfilePropsType = {
 	bgImage: string,
-	userImage: string | StaticImageData,
+	userImage: string,
 	name: string,
 	profession: string,
 }
@@ -49,7 +49,7 @@ const Profile = ({bgImage, userImage, name, profession}: ProfilePropsType): Reac
 														transition ease-in-out duration-200'
 		>
 			<div className="grid h-full">
-				<Image className="w-3/5 lg:w-11/12 relative z-30 justify-self-center self-end" src={userImage} alt=""/>
+				<img className="w-3/5 lg:w-11/12 relative z-30 justify-self-center self-end" src={userImage} alt=""/>
 			</div>
 			<div
 				className="h-full w-full bg-pj-primary rounded-xl text-center p-3 -mt-1 relative z-30"
@@ -59,9 +59,7 @@ const Profile = ({bgImage, userImage, name, profession}: ProfilePropsType): Reac
 				</p>
 				<p className="py-1 text-sm md:text-base text-pj-black">{profession}</p>
 			</div>
-			
-			<Image className="absolute -top-6 w-40 md:w-60" src={bgImage} alt=""/>
-		
+			<img className="absolute -top-6 w-40 md:w-60" src={bgImage} alt=""/>
 		</div>
 	
 	

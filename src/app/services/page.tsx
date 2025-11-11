@@ -1,19 +1,6 @@
 "use client"
-import {ReactElement, useState} from "react";
+import {ReactElement, useEffect, useState} from "react";
 import LayoutOutline from "@/app/_LayoutOutline";
-import hexagon2 from "../../../public/images/SVGs/hexagon2.svg";
-import logoPic from "../../../public/images/Services/1.svg"
-import graphicDesign from "../../../public/images/Services/2.svg"
-import brandIdentity from "../../../public/images/Services/3.svg"
-import productPackaging from "../../../public/images/Services/4.svg"
-import brandStrategy from "../../../public/images/Services/5.svg"
-import contentCreation from "../../../public/images/Services/6.svg"
-import classicImg from "../../../public/images/classic.png"
-import ecommerce from "../../../public/images/zoePage.png"
-import erpSystem from "../../../public/images/YMPage.png"
-import phoneApp from "../../../public/images/Services/8.svg"
-import cloudSystem from "../../../public/images/Services/9.svg"
-import Image from "next/image";
 import Link from "next/link";
 
 
@@ -26,96 +13,108 @@ type Showing = {
 }
 
 export default function Services(): ReactElement {
-	
+	const hexagon2 = "https://cdn.doxaplc.com/doxa-public/SVGs/hexagon2.svg";
 	const [showing, setShowing] = useState<string | null>(null);
 	const [slideUpData, setSlideUpData] = useState<Showing | null>(null);
-	
+	const [loading, setLoading] = useState<boolean>(false);
 	const data: Showing[] = [
 		{
 			title: "Logo Design",
 			subTitle: "Crafting unique, memorable, and versatile logos",
 			description: "Crafting unique, memorable, and versatile logos that reflect the brand's identity and vision.",
 			techStack: ["Photoshop", "Illustrator"],
-			image: logoPic
+			image: "https://cdn.doxaplc.com/doxa-public/Services/1.svg"
 		},
 		{
 			title: "Graphic Design",
 			subTitle: "Creating visual content",
 			description: "Includes social media graphics, brochures, flyers, business cards, and banners that align with the brand's style.",
 			techStack: ["Photoshop", "Illustrator", "InDesign"],
-			image: graphicDesign
+			image: "https://cdn.doxaplc.com/doxa-public/Services/2.svg"
 		},
 		{
 			title: "Brand Identity Development",
 			subTitle: "Defining the brand’s style guide",
 			description: "Includes color schemes, typography, and visual tone for consistent representation.",
 			techStack: ["Photoshop", "Illustrator", "Canva"],
-			image: brandIdentity
+			image: "https://cdn.doxaplc.com/doxa-public/Services/3.svg"
 		},
 		{
 			title: "Product Packaging Design",
 			subTitle: "Designing branded websites and assets",
 			description: "Includes user interfaces, digital assets like email templates, and online advertisements.",
 			techStack: ["Photoshop", "Illustrator", "XD", "Figma"],
-			image: productPackaging
+			image: "https://cdn.doxaplc.com/doxa-public/Services/4.svg"
 		},
 		{
 			title: "Brand Strategy Consulting",
 			subTitle: "Offering guidance on branding essentials",
 			description: "Covers the brand’s voice, positioning, target audience, and long-term marketing goals.",
 			techStack: ["Google Docs", "Notion", "Trello"],
-			image: brandStrategy
+			image: "https://cdn.doxaplc.com/doxa-public/Services/5.svg"
 		},
 		{
 			title: "Content Creation",
 			subTitle: "Planning, shooting, and publishing content",
 			description: "Involves shooting high-quality photos and videos, editing, and publishing optimized content across platforms to engage the target audience effectively.",
 			techStack: ["Photoshop", "Premiere Pro", "After Effects", "Final Cut Pro"],
-			image: contentCreation
+			image: "https://cdn.doxaplc.com/doxa-public/Services/6.svg"
 		},
 		{
 			title: "Custom Website Development",
 			subTitle: "Building responsive and user-friendly websites",
 			description: "Tailored website solutions designed to meet client-specific requirements.",
 			techStack: ["HTML", "CSS", "JavaScript", "React", "Laravel", "Tailwind", "WordPress"],
-			image: classicImg
+			image: "https://cdn.doxaplc.com/doxa-public/classic.png"
 		},
 		{
 			title: "Mobile App Development",
 			subTitle: "Designing and developing intuitive mobile apps",
 			description: "Custom mobile applications for Android and iOS platforms with a focus on user experience.",
 			techStack: ["React Native", "Flutter", "Firebase", "Swift", "Kotlin"],
-			image: phoneApp
+			image: "https://cdn.doxaplc.com/doxa-public/Services/8.svg"
 		},
 		{
 			title: "E-commerce Solutions",
 			subTitle: "Creating seamless online stores",
 			description: "Includes payment integration, inventory management, and a great shopping experience.",
 			techStack: ["Laravel", "Shopify", "WooCommerce", "Stripe", "PayPal"],
-			image: ecommerce
+			image: "https://cdn.doxaplc.com/doxa-public/zoePage.png"
 		},
 		{
 			title: "SEO Services",
 			subTitle: "Boosting online visibility",
 			description: "SEO optimization, social media marketing, and ad campaign management to increase reach.",
 			techStack: ["Google Ads", "Analytics", "SEMrush", "Hootsuite", "Canva"],
-			image: cloudSystem
+			image: "https://cdn.doxaplc.com/doxa-public/Services/9.svg"
 		},
 		{
 			title: "Cloud Integration and Hosting",
 			subTitle: "Providing scalable cloud-based solutions",
 			description: "Cloud hosting, storage, and collaboration tools to ensure reliability and efficiency.",
 			techStack: ["AWS", "Azure", "Google Cloud", "Docker"],
-			image: cloudSystem
+			image: "https://cdn.doxaplc.com/doxa-public/Services/9.svg"
 		},
 		{
 			title: "ERP Systems",
 			subTitle: "Developing tailored software solutions",
 			description: "Optimizing business operations, finance and resource management with custom-built software and applications.",
 			techStack: ["Java", "C++", "PHP", "MySQL", "MongoDB"],
-			image: erpSystem
+			image: "https://cdn.doxaplc.com/doxa-public/YMPage.png"
 		}
 	];
+	
+	
+	useEffect(() => {
+		if (slideUpData != null) {
+			setTimeout(()=>{
+				setLoading(false)
+			}, 800)
+			
+			return
+		}
+		setLoading(true);
+	}, [slideUpData]);
 	
 	return (
 		<LayoutOutline
@@ -136,7 +135,7 @@ export default function Services(): ReactElement {
 								className={`relative z-50 w-24 md:w-28 cursor-pointer ${showing !== 'branding' ?
 									'translate-x-8 translate-y-8 invisible' : 'visible -translate-x-2.5'} hover:scale-95 transition ease-in-out duration-500`}
 							>
-								<Image className="w-full z-20" src={hexagon2} alt=""/>
+								<img className="w-full z-20" src={hexagon2} alt=""/>
 								<p
 									className='absolute z-30 flex justify-center w-full top-1/2 transform text-center
 																						-translate-y-1/2 text-sm md:text-base text-pj-white px-2'
@@ -150,7 +149,7 @@ export default function Services(): ReactElement {
 								className={`relative z-50 w-24 md:w-28 cursor-pointer ${showing !== 'branding' ?
 									'-translate-x-8 translate-y-8 invisible' : 'visible translate-x-2.5'} hover:scale-95 transition ease-in-out duration-500`}
 							>
-								<Image className="w-full z-20" src={hexagon2} alt=""/>
+								<img className="w-full z-20" src={hexagon2} alt=""/>
 								<p className='absolute z-30 flex justify-center w-full top-1/2 transform text-center
 																		-translate-y-1/2 text-sm md:text-base text-pj-white px-2'
 								>
@@ -164,7 +163,7 @@ export default function Services(): ReactElement {
 								className={`relative z-50 w-24 md:w-28 cursor-pointer grid place-items-center ${showing !== 'branding' ?
 									'translate-x-8 invisible' : 'visible -translate-x-1'} hover:scale-95 transition ease-in-out duration-500`}
 							>
-								<Image className="w-full z-20" src={hexagon2} alt=""/>
+								<img className="w-full z-20" src={hexagon2} alt=""/>
 								<p
 									className='absolute z-30 flex justify-center w-full top-1/2 transform text-center
 																						-translate-y-1/2 text-sm md:text-base text-pj-white px-2'
@@ -197,7 +196,7 @@ export default function Services(): ReactElement {
 								className={`relative z-50 w-24 md:w-28 cursor-pointer grid place-items-center ${showing !== 'branding' ? '-translate-x-8 invisible' : 'visible translate-x-1'}
 																		 hover:scale-95	transition ease-in-out duration-500`}
 							>
-								<Image className="w-full z-20" src={hexagon2} alt=""/>
+								<img className="w-full z-20" src={hexagon2} alt=""/>
 								<p
 									className='absolute z-30 flex justify-center w-full top-1/2 transform text-center
 																						-translate-y-1/2 text-sm md:text-base text-pj-white px-2'
@@ -212,7 +211,7 @@ export default function Services(): ReactElement {
 								className={`relative z-[999] w-24 md:w-28 cursor-pointer ${showing !== 'branding' ? 'translate-x-8 ' +
 									'-translate-y-8 invisible' : 'visible -translate-x-2.5'} hover:scale-95 transition ease-in-out duration-500`}
 							>
-								<Image className="w-full z-20" src={hexagon2} alt=""/>
+								<img className="w-full z-20" src={hexagon2} alt=""/>
 								<p
 									className='absolute z-30 flex justify-center w-full top-1/2 transform text-center
 																				-translate-y-1/2 text-sm md:text-base text-pj-white px-2'
@@ -226,7 +225,7 @@ export default function Services(): ReactElement {
 								className={`relative z-[999] w-24 md:w-28 cursor-pointer ${showing !== 'branding' ? '-translate-x-8 ' +
 									'-translate-y-8 invisible' : 'visible translate-x-2.5'} hover:scale-95 transition ease-in-out duration-500`}
 							>
-								<Image className="w-full z-20" src={hexagon2} alt=""/>
+								<img className="w-full z-20" src={hexagon2} alt=""/>
 								<p className='absolute z-30 flex justify-center w-full top-1/2 transform text-center
 																						-translate-y-1/2 text-sm md:text-base text-pj-white leading-tight'>
 									Content Creation
@@ -241,7 +240,7 @@ export default function Services(): ReactElement {
 								className={`relative z-50 w-24 md:w-28 cursor-pointer ${showing !== 'digital' ?
 									'translate-x-8 translate-y-8 invisible' : 'visible -translate-x-2.5'} hover:scale-95 transition ease-in-out duration-500`}
 							>
-								<Image className="w-full z-20" src={hexagon2} alt=""/>
+								<img className="w-full z-20" src={hexagon2} alt=""/>
 								<p
 									className='absolute z-30 flex justify-center w-full top-1/2 transform text-center
 																						-translate-y-1/2 text-sm md:text-base text-pj-white px-2'
@@ -255,7 +254,7 @@ export default function Services(): ReactElement {
 								className={`relative z-50 w-24 md:w-28 cursor-pointer ${showing !== 'digital' ?
 									'-translate-x-8 translate-y-8 invisible' : 'visible translate-x-2.5'} hover:scale-95 transition ease-in-out duration-500`}
 							>
-								<Image className="w-full z-20" src={hexagon2} alt=""/>
+								<img className="w-full z-20" src={hexagon2} alt=""/>
 								<p className='absolute z-30 flex justify-center w-full top-1/2 transform text-center
 																		-translate-y-1/2 text-sm md:text-base text-pj-white px-2'
 								>
@@ -269,7 +268,7 @@ export default function Services(): ReactElement {
 								className={`relative z-50 w-24 md:w-28 cursor-pointer grid place-items-center ${showing !== 'digital' ?
 									'translate-x-8 invisible' : 'visible -translate-x-1'} hover:scale-95 transition ease-in-out duration-500`}
 							>
-								<Image className="w-full z-20" src={hexagon2} alt=""/>
+								<img className="w-full z-20" src={hexagon2} alt=""/>
 								<p
 									className='absolute z-30 flex justify-center w-full top-1/2 transform text-center
 																						-translate-y-1/2 text-sm md:text-base text-pj-white px-2'
@@ -302,7 +301,7 @@ export default function Services(): ReactElement {
 								className={`relative z-50 w-24 md:w-28 cursor-pointer grid place-items-center ${showing !== 'digital' ? '-translate-x-8 invisible' : 'visible translate-x-1'}
 																		 hover:scale-95	transition ease-in-out duration-500`}
 							>
-								<Image className="w-full z-20" src={hexagon2} alt=""/>
+								<img className="w-full z-20" src={hexagon2} alt=""/>
 								<p
 									className='absolute z-30 flex justify-center w-full top-1/2 transform text-center
 																						-translate-y-1/2 text-sm md:text-base text-pj-white px-2'
@@ -317,7 +316,7 @@ export default function Services(): ReactElement {
 								className={`relative z-50 w-24 md:w-28 cursor-pointer ${showing !== 'digital' ? 'translate-x-8 ' +
 									'-translate-y-8 invisible' : 'visible -translate-x-2.5'} hover:scale-95 transition ease-in-out duration-500`}
 							>
-								<Image className="w-full z-20" src={hexagon2} alt=""/>
+								<img className="w-full z-20" src={hexagon2} alt=""/>
 								<p
 									className='absolute z-30 flex justify-center w-full top-1/2 transform text-center
 																				-translate-y-1/2 text-sm md:text-base text-pj-white px-2'
@@ -331,7 +330,7 @@ export default function Services(): ReactElement {
 								className={`relative z-50 w-24 md:w-28 cursor-pointer ${showing !== 'digital' ? '-translate-x-8 ' +
 									'-translate-y-8 invisible' : 'visible translate-x-2.5'} hover:scale-95 transition ease-in-out duration-500`}
 							>
-								<Image className="w-full z-20" src={hexagon2} alt=""/>
+								<img className="w-full z-20" src={hexagon2} alt=""/>
 								<p className='absolute z-30 flex justify-center w-full top-1/2 transform text-center
 																						-translate-y-1/2 text-sm md:text-base text-pj-white leading-tight'
 								>
@@ -370,62 +369,68 @@ export default function Services(): ReactElement {
 							setSlideUpData(null)
 						}}
 					></div>
-					<div
-						className={`${slideUpData === null && 'h-0' || 'h-[80%] lg:h-4/5'} w-full bg-pj-accent absolute bottom-0 z-50 transition-all duration-800 overflow-x-hidden overflow-y-scroll scrollbar`}>
-						<div className={`relative w-full h-full bottom-0 px-2`}>
-							<div
-								className={`grid place-items-center h-16 border-b border-pj-secondary sticky top-0 bg-pj-accent`}>
-								<p className={`text-lg sm:text-xl md:text-3xl text-white`}>
-									{slideUpData !== null ? slideUpData.title : ''}
-								</p>
+					<div className={`${slideUpData === null && 'h-0' || 'h-[80%] lg:h-4/5'} w-full bg-pj-accent absolute bottom-0 z-50 transition-all duration-800 overflow-x-hidden overflow-y-scroll scrollbar`}>
+						{
+							<div className={`relative w-full h-full bottom-0 px-2 ${loading && 'invisible'}`}>
 								<div
-									className={`absolute w-6 fill-pj-primary top-0 right-0 mt-4 mr-4 z-50 cursor-pointer
-																						hover:scale-[1.05] hover:fill-pj-secondary transition-all duration-800`}
-									onClick={() => {
-										setSlideUpData(null)
-									}}
-								>
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										viewBox="0 0 512 512"
-									>
-										<path
-											d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416zm0 464A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c-9.4 9.4-9.4 24.6 0 33.9l47 47-47 47c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l47-47 47 47c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-47-47 47-47c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-47 47-47-47c-9.4-9.4-24.6-9.4-33.9 0z"/>
-									</svg>
-								</div>
-							</div>
-							<div
-								className={`flex flex-wrap justify-center items-center text-center p-5 lg:py-10`}
-							>
-								<div className="w-full lg:w-1/2 text-pj-white px-3 md:px-6">
-									<div
-										className="text-xl md:text-3xl  text-pj-secondary font-semibold py-3 flex items-center justify-center">
-										{slideUpData !== null ? slideUpData.subTitle : ''}
-									</div>
-									<p className="">
-										{slideUpData !== null ? slideUpData.description : ''}
+									className={`grid place-items-center h-16 border-b border-pj-secondary sticky top-0 bg-pj-accent`}>
+									<p className={`text-lg sm:text-xl md:text-3xl text-white`}>
+										{slideUpData !== null ? slideUpData.title : ''}
 									</p>
-									<h4 className="pr-2 mt-5 text-sm md:text-base text-center">Technologies We Use</h4>
-									<ul className="flex gap-2 mt-2 mb-5 px-2 justify-center items-center flex-wrap">
-										{
-											slideUpData !== null && slideUpData.techStack.map((stack, key) => {
-												return (
-													<li key={key}
-														className="px-3 py-1 rounded-full text-xs md:text-sm bg-pj-secondary text-pj-accent">{stack}</li>
-												)
-											})
-										}
-									</ul>
+									<div
+										className={`absolute w-6 fill-pj-primary top-0 right-0 mt-4 mr-4 z-50 cursor-pointer
+																						hover:scale-[1.05] hover:fill-pj-secondary transition-all duration-800`}
+										onClick={() => {
+											setSlideUpData(null)
+										}}
+									>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="0 0 512 512"
+										>
+											<path
+												d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416zm0 464A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c-9.4 9.4-9.4 24.6 0 33.9l47 47-47 47c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l47-47 47 47c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-47-47 47-47c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-47 47-47-47c-9.4-9.4-24.6-9.4-33.9 0z"/>
+										</svg>
+									</div>
 								</div>
 								<div
-									className={`w-full lg:py-15 lg:w-1/2 border-t-2 lg:border-t-0 lg:border-l-2 border-pj-secondary`}>
-									<Image
-										className={`h-2/4 md:w-auto md:h-3/4 md:px-6 py-6 mx-auto`}
-										src={slideUpData !== null ? slideUpData.image : logoPic} alt=""
-									/>
+									className={`flex flex-wrap justify-center items-center text-center p-5 lg:py-10`}
+								>
+									<div className="w-full lg:w-1/2 text-pj-white px-3 md:px-6">
+										<div
+											className="text-xl md:text-3xl  text-pj-secondary font-semibold py-3 flex items-center justify-center">
+											{slideUpData !== null ? slideUpData.subTitle : ''}
+										</div>
+										<p className="">
+											{slideUpData !== null ? slideUpData.description : ''}
+										</p>
+										<h4 className="pr-2 mt-5 text-sm md:text-base text-center">Technologies We Use</h4>
+										<ul className="flex gap-2 mt-2 mb-5 px-2 justify-center items-center flex-wrap">
+											{
+												slideUpData !== null && slideUpData.techStack.map((stack, key) => {
+													return (
+														<li key={key}
+															className="px-3 py-1 rounded-full text-xs md:text-sm bg-pj-secondary text-pj-accent">{stack}</li>
+													)
+												})
+											}
+										</ul>
+									</div>
+									<div
+										className={`w-full lg:py-15 lg:w-1/2 border-t-2 lg:border-t-0 lg:border-l-2 border-pj-secondary`}>
+										<img
+											className={`h-2/4 md:w-auto md:h-3/4 md:px-6 py-6 mx-auto`}
+											src={slideUpData?.image} alt=""
+										/>
+									</div>
 								</div>
 							</div>
-						</div>
+						}{
+							<div className={`absolute w-full h-full bottom-0 px-2 grid place-items-center z-50 ${!loading && 'invisible'}`}>
+								<div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-pj-secondary"></div>
+							</div>
+							
+						}
 					</div>
 				</div>
 			</div>
