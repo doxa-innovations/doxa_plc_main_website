@@ -1,5 +1,44 @@
 [
   {
+    "title": "KLA",
+    "image": "https://cdn.doxaplc.com/doxa-public/kla.svg",
+    "tag": "kla",
+    "clamp": false,
+    "filled": true,
+    "link": "https://klaconstructionequipment.com/",
+    "details": {
+      "subTitle": "Ecommerce Website",
+      "description": "An Ecommerce Website for KLA Construction Equipment LLP. Build to sync with ebay for the source of data.",
+      "techStack": [
+        "React",
+        "Tailwind",
+        "Laravel"
+      ],
+      "image": "https://cdn.doxaplc.com/doxa-public/kla_cover.png"
+    }
+  },
+  {
+    "title": "ZOA",
+    "image": "https://cdn.doxaplc.com/doxa-public/ZOA.svg",
+    "tag": "zoa",
+    "clamp": true,
+    "filled": false,
+    "link": "https://www.zoa-international.com/ethiopia",
+    "details": {
+      "subTitle": "Database System",
+      "description": "Our solution is designed specifically for the OPD context in Ethiopia and addresses the RFP’s critical needs: an offline-first Progressive Web App (PWA) for low-bandwidth environments; rule-based duplicate detection that flags cross OPD duplicates without exposing PII; bilingual Amharic/English interfaces and content; role-based access control (RBAC) with 2FA for OPD admins; encrypted storage and audit trails; and deployment on the ZOA-provided Linux VPS with containerized services, automated backups, and a clear handover plan for AAAPD’s long-term ownership.",
+      "techStack": [
+        "React",
+        "Progressive Web App (PWA)",
+        "Laravel",
+        "MySQL",
+        "Docker",
+        "REST APIs"
+      ],
+      "image": "https://cdn.doxaplc.com/doxa-public/zoa_web.avif"
+    }
+  },
+  {
     "title": "Classic Noodles",
     "image": "https://cdn.doxaplc.com/doxa-public/classic_logo.png",
     "tag": "classic",
@@ -14,24 +53,24 @@
         "Tailwind",
         "Laravel"
       ],
-      "image": "https://cdn.doxaplc.com/doxa-public/classic.png"
+      "image": "https://cdn.doxaplc.com/doxa-public/classic.avif"
     }
   },
   {
-    "title": "Zena Kristos",
-    "image": "https://cdn.doxaplc.com/doxa-public/zenakristos.png",
+    "title": "Doxa Ledger",
+    "image": "https://cdn.doxaplc.com/doxa-public/logo.png",
     "tag": "zenaKristos",
     "clamp": true,
     "filled": false,
-    "link": "https://zenakristos.org",
+    "link": "https://demoledger.doxaplc.com",
     "details": {
-      "subTitle": "A Podcast Website",
-      "description": "This website was built for Amharic readers  in 2022 GC and was updated in 2023. It has an article pages, Podcasts and more. It also includes a CMS(Content Management System) that helps to upload articles and perform other dynamic changes.",
+      "subTitle": "An Easy Accounting Ledger",
+      "description": "An accounting ledger built with Laravel and Tailwind. It is a simple and easy to use accounting software that helps you manage your business finances. It is built with a clean and modern design and is easy to use.",
       "techStack": [
         "Laravel",
         "Tailwind"
       ],
-      "image": "https://cdn.doxaplc.com/doxa-public/zenakristosPage.avif"
+      "image": "https://cdn.doxaplc.com/doxa-public/ledger.png"
     }
   },
   {
@@ -57,7 +96,7 @@
     "image": "https://cdn.doxaplc.com/doxa-public/yenetaMaster.png",
     "tag": "yenetaMaster",
     "clamp": true,
-    "filled": true,
+    "filled": false,
     "link": "https://yenetamaster.net",
     "details": {
       "subTitle": "A School Management Web App",
@@ -77,16 +116,18 @@
     "image": "https://cdn.doxaplc.com/doxa-public/lce.png",
     "tag": "lce",
     "clamp": true,
-    "filled": false,
+    "filled": true,
     "link": "https://lcechurch.org",
     "details": {
       "subTitle": "A Church Website",
-      "description": "A Confessional Lutheran Church ",
+      "description": "A Confessional Lutheran Church located in Ethiopia Bishoftu. The Website meant to show the basic beliefs and teachings of the church.",
       "techStack": [
-        "React",
-        "SCSS"
+        "Vue",
+        "Tailwind",
+        "Filament",
+        "Laravel"
       ],
-      "image": "https://cdn.doxaplc.com/doxa-public/lce.png"
+      "image": "https://cdn.doxaplc.com/doxa-public/lce_cover.avif"
     }
   },
   {
@@ -98,47 +139,14 @@
     "link": "https://MLTS.lcechurch.org",
     "details": {
       "subTitle": "A Seminary Website",
-      "description": "",
+      "description": "Maor Lutheran Theological Seminary equips pastors, teachers, and evangelists grounded in Holy Scripture and the Lutheran Confessions.",
       "techStack": [
         "React",
-        "SCSS"
+        "Tailwind",
+        "Filament",
+        "Laravel"
       ],
-      "image": "https://cdn.doxaplc.com/doxa-public/maor.png"
-    }
-  },
-  {
-    "title": "Dr Emebet Dental",
-    "image": "https://cdn.doxaplc.com/doxa-public/emebet.png",
-    "tag": "emebet",
-    "clamp": true,
-    "filled": false,
-    "link": "https://dremebetclinic.com/",
-    "details": {
-      "subTitle": "A Special Higher Dental Clinic Website",
-      "description": "Dr. Emebet Special Higher Dental Clinic is a unique dental clinic in Ethiopia with a team of 9 certified professional Doctors and multiple dental hygienists, assistants and dental technicians, who have a passion for the science and art of dentistry. Our team of highly competent dental specialists, hygienists and support staff are committed to giving you the best, most up-to-date and friendliest dental healthcare there is. We treat each client with utmost respect, courtesy, professionalism, honesty, and confidentiality.",
-      "techStack": [
-        "Laravel",
-        "Blade",
-        "Bootsrap"
-      ],
-      "image": "https://cdn.doxaplc.com/doxa-public/emebetPage.png"
-    }
-  },
-  {
-    "title": "Kofficho Coffee",
-    "image": "https://cdn.doxaplc.com/doxa-public/kofficho.png",
-    "tag": "kofficho",
-    "clamp": true,
-    "filled": false,
-    "link": "https://koffichoCoffee.com",
-    "details": {
-      "subTitle": "A Coffee Export Company Website",
-      "description": "An informatory page for a coffee exporter company",
-      "techStack": [
-        "Laravel",
-        "Tailwind"
-      ],
-      "image": "https://cdn.doxaplc.com/doxa-public/kofficho.png"
+      "image": "https://cdn.doxaplc.com/doxa-public/mlts_cover.avif"
     }
   },
   {
@@ -146,7 +154,7 @@
     "image": "https://cdn.doxaplc.com/doxa-public/logo.png",
     "tag": "",
     "clamp": false,
-    "filled": true,
+    "filled": false,
     "link": "",
     "details": {
       "subTitle": "",

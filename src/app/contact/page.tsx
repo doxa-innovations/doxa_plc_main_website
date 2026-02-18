@@ -35,7 +35,7 @@ const Contact = (): ReactElement => {
 		}
 		
 		
-		axios.post(`https://api.beedesign.studio/api/public/contact_us_form`, param)
+		axios.post(`/api/contact`, param)
 			.then(response => {
 				if (response.status === 200) {
 					if (response.data.status === "success") {
