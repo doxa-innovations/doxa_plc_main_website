@@ -218,11 +218,14 @@ const WorkProfile = ({i, filled = false, setShowing, data}: WorkProfileType): Re
 			<div
 				className="absolute z-30 w-full h-full left-0 right-0 mx-auto top-0 flex flex-col justify-center items-center gap-0.5"
 			>
-				<img
-					className={`w-2/6 z-20`} src={data.image} alt=""
+				{
+					data.tag !== '' && <img
+                        className={`w-5/12 z-20`} src={data.image} alt=""
+                    
+                    />
+				}
 				
-				/>
-				<p className={`text-xs sm:text-sm lg:text-base px-3 ${data.clamp && 'line-clamp-1'} ${filled ? 'text-pj-white' : 'text-pj-primary'} text-center`}>{data.title}</p>
+				<p className={`text-xs sm:text-sm lg:text-base px-3 ${data.clamp && 'line-clamp-1 '} ${filled ? 'text-pj-white' : 'text-pj-primary'} text-center`}>{data.title}</p>
 			</div>
 		</div>
 	)
