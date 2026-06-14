@@ -28,7 +28,9 @@ export function buildMetadata({
   const images = ogImage ? [{ url: ogImage }] : undefined;
 
   return {
-    title,
+    // Omit when not provided so the root layout's default title applies
+    // (an explicit `title: undefined` would suppress that fallback).
+    ...(title ? { title } : {}),
     description: desc,
     alternates: { canonical },
     openGraph: {
