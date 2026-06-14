@@ -23,6 +23,7 @@
     Helvetica, Arial, sans-serif;
 
   --animate-blob: blob 10s infinite ease-in-out;
+  --animate-marquee: marquee 32s linear infinite;
 }
 
 @keyframes blob {
@@ -35,6 +36,15 @@
   }
   66% {
     transform: translate(-20px, 20px) scale(0.95);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
   }
 }
 
