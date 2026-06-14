@@ -51,23 +51,21 @@ export default function ServicesPage() {
                     {service.name}
                   </h2>
                   <p className="mt-2 text-ink/70">{service.summary}</p>
-                  <dl className="mt-5 space-y-2 text-sm">
-                    <div className="flex items-center gap-2 text-ink/70">
+                  <div className="mt-5 space-y-2 text-sm">
+                    <p className="flex items-center gap-2 text-ink/70">
                       <Clock className="size-4 text-pj-primary" aria-hidden />
-                      <dt className="sr-only">Timeline</dt>
-                      <dd>{service.timeline}</dd>
-                    </div>
-                    <div className="flex items-center gap-2 font-semibold text-ink">
+                      <span className="sr-only">Timeline: </span>
+                      {service.timeline}
+                    </p>
+                    <p className="flex items-center gap-2 font-semibold text-ink">
                       <Tag className="size-4 text-pj-primary" aria-hidden />
-                      <dt className="sr-only">Starting price</dt>
-                      <dd>
-                        {priceLabel(
-                          service.startingFrom.amount,
-                          service.slug === "maintenance",
-                        )}
-                      </dd>
-                    </div>
-                  </dl>
+                      <span className="sr-only">Starting price: </span>
+                      {priceLabel(
+                        service.startingFrom.amount,
+                        service.slug === "maintenance",
+                      )}
+                    </p>
+                  </div>
                 </div>
 
                 <div className="lg:col-span-2">

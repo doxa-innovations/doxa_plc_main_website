@@ -19,16 +19,16 @@ export function PaymentTimeline() {
           </div>
         ))}
       </div>
-      <dl className="mt-6 grid gap-6 sm:grid-cols-3">
+      <div className="mt-6 grid gap-6 sm:grid-cols-3">
         {PAYMENT_MILESTONES.map((m) => (
-          <div key={m.label}>
+          <dl key={m.label}>
             <dt className="text-sm font-bold text-ink">
               {m.percent}% — {m.label}
             </dt>
             <dd className="mt-1 text-sm text-ink/70">{m.unlocks}</dd>
-          </div>
+          </dl>
         ))}
-      </dl>
+      </div>
     </div>
   );
 }

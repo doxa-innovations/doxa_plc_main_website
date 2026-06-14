@@ -26,6 +26,7 @@ export default function WorksPage() {
       />
 
       <Section variant="surface">
+        <h2 className="sr-only">All projects</h2>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {sortedProjects.map((project) => (
             <ProjectCard key={project.slug} project={project} />

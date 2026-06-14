@@ -55,16 +55,16 @@ export default function PricingPage() {
               <p className="mt-5 text-3xl font-extrabold text-ink">
                 {tier.priceFrom}
               </p>
-              <dl className="mt-4 space-y-1 text-sm text-ink/60">
-                <div className="flex justify-between">
+              <div className="mt-4 space-y-1 text-sm text-ink/60">
+                <dl className="flex justify-between">
                   <dt>Timeline</dt>
                   <dd className="font-medium text-ink/80">{tier.timeline}</dd>
-                </div>
-                <div className="flex justify-between">
+                </dl>
+                <dl className="flex justify-between">
                   <dt>Payment</dt>
                   <dd className="font-medium text-ink/80">{tier.payment}</dd>
-                </div>
-              </dl>
+                </dl>
+              </div>
               <ul className="mt-6 flex-1 space-y-2.5">
                 {tier.includes.map((item) => (
                   <li key={item} className="flex items-start gap-2 text-sm text-ink/80">

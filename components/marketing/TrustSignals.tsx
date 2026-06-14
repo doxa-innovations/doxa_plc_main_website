@@ -34,17 +34,17 @@ export function TrustSignals() {
         Every detail below can be checked independently. We provide
         government-issued ID on the first video call.
       </p>
-      <dl className="mt-6 grid gap-x-8 gap-y-5 sm:grid-cols-2">
+      <div className="mt-6 grid gap-x-8 gap-y-5 sm:grid-cols-2">
         {facts.map((f) => (
           <div key={f.label} className="flex gap-3">
             <f.icon className="mt-0.5 size-5 shrink-0 text-pj-primary" aria-hidden />
-            <div>
+            <dl>
               <dt className="text-sm font-semibold text-ink">{f.label}</dt>
               <dd className="text-sm text-ink/70">{f.value}</dd>
-            </div>
+            </dl>
           </div>
         ))}
-      </dl>
+      </div>
     </div>
   );
 }

@@ -25,17 +25,17 @@ export function LegalDetails() {
 
   return (
     <div className="rounded-2xl border border-border bg-surface p-8 sm:p-10">
-      <dl className="divide-y divide-border">
+      <div className="divide-y divide-border">
         {rows.map((row) => (
-          <div
+          <dl
             key={row.label}
             className="grid gap-1 py-4 first:pt-0 last:pb-0 sm:grid-cols-3 sm:gap-4"
           >
             <dt className="text-sm font-semibold text-ink">{row.label}</dt>
             <dd className="text-sm text-ink/70 sm:col-span-2">{row.value}</dd>
-          </div>
+          </dl>
         ))}
-      </dl>
+      </div>
       {SITE.driveProfileUrl && (
         <Button asChild variant="outline" className="mt-8">
           <a

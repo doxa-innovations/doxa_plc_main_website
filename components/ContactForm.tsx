@@ -150,8 +150,11 @@ export function ContactForm() {
                 <FormLabel>Project Type</FormLabel>
                 <Select onValueChange={field.onChange} value={field.value}>
                   <FormControl>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select a type" />
+                    <SelectTrigger
+                      className="w-full"
+                      aria-label="Select project type"
+                    >
+                      <SelectValue placeholder="Select project type" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -174,8 +177,11 @@ export function ContactForm() {
                 <FormLabel>Budget Range</FormLabel>
                 <Select onValueChange={field.onChange} value={field.value}>
                   <FormControl>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select a range" />
+                    <SelectTrigger
+                      className="w-full"
+                      aria-label="Select budget range"
+                    >
+                      <SelectValue placeholder="Select budget range" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
