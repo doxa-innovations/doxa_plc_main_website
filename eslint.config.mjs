@@ -1,21 +1,27 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
+import nextCoreWebVitals from "eslint-config-next/core-web-vitals";
+import nextTypescript from "eslint-config-next/typescript";
 
 const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
-    {
-        rules: {
-            "@next/next/no-img-element": "off"
-        }
-    }
+  // Never lint the archived legacy app, build output, tooling, or docs.
+  {
+    ignores: [
+      "_archive/**",
+      ".next/**",
+      "node_modules/**",
+      ".github/**",
+      "docs/**",
+      ".agents/**",
+      "next-env.d.ts",
+    ],
+  },
+  ...nextCoreWebVitals,
+  ...nextTypescript,
+  {
+    rules: {
+      // Remote CDN images are rendered with plain <img> by design (see CLAUDE.md).
+      "@next/next/no-img-element": "off",
+    },
+  },
 ];
 
 export default eslintConfig;
