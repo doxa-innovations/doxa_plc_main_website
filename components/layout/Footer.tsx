@@ -133,7 +133,7 @@ export function Footer() {
         aria-hidden
         className="pointer-events-none relative -mb-[4vw] select-none overflow-hidden"
       >
-        <p className="text-center font-display text-[26vw] font-semibold leading-[0.8] tracking-[-0.04em] text-white/[0.05] [mask-image:linear-gradient(to_bottom,black,transparent)]">
+        <p className="text-center font-display text-[26vw] font-semibold leading-[0.8] tracking-[-0.04em] text-white/[0.14] [mask-image:linear-gradient(to_bottom,black,transparent)]">
           DOXA
         </p>
       </div>

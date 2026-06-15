@@ -5,8 +5,9 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { motion, useReducedMotion, type Variants } from "motion/react";
 import { SITE } from "@/content/site";
-import { featuredProjects } from "@/content/projects";
+import { getProjectBySlug } from "@/content/projects";
 import { Container } from "@/components/layout/Container";
+import { cn } from "@/lib/utils";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -16,19 +17,39 @@ function BrowserShot({
   className,
   delay,
   reduce,
+  rotate = 0,
+  z = 10,
+  priority = false,
 }: {
   src: string;
   alt: string;
   className?: string;
   delay: number;
   reduce: boolean | null;
+  /** Resting rotation (degrees) for the fanned stack. */
+  rotate?: number;
+  /** Base stacking order. */
+  z?: number;
+  priority?: boolean;
 }) {
   return (
     <motion.div
-      initial={reduce ? false : { opacity: 0, y: 40, scale: 0.96 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
+      initial={reduce ? false : { opacity: 0, y: 40, scale: 0.96, rotate }}
+      animate={{ opacity: 1, y: 0, scale: 1, rotate }}
+      whileHover={
+        reduce
+          ? undefined
+          : {
+              rotate: 0,
+              scale: 1.14,
+              y: -18,
+              zIndex: 50,
+              transition: { duration: 0.35, ease: EASE },
+            }
+      }
       transition={{ duration: 0.9, delay, ease: EASE }}
-      className={className}
+      style={{ zIndex: z }}
+      className={cn("cursor-pointer", className)}
     >
       <div className="overflow-hidden rounded-xl border border-white/12 bg-deep shadow-[0_50px_120px_-40px_rgba(124,60,180,0.9)]">
         <div className="flex items-center gap-1.5 border-b border-white/10 bg-white/[0.03] px-3 py-2.5">
@@ -37,7 +58,14 @@ function BrowserShot({
           <span className="size-2.5 rounded-full bg-white/15" />
         </div>
         <div className="relative aspect-[16/10]">
-          <Image src={src} alt={alt} fill sizes="(max-width:1024px) 90vw, 700px" className="object-cover" priority />
+          <Image
+            src={src}
+            alt={alt}
+            fill
+            sizes="(max-width:1024px) 90vw, 700px"
+            className="object-cover"
+            priority={priority}
+          />
         </div>
       </div>
     </motion.div>
@@ -46,7 +74,10 @@ function BrowserShot({
 
 export function Hero() {
   const reduce = useReducedMotion();
-  const [a, b, c] = featuredProjects;
+  // Specific stack: KLA in front (center), LCE left, Doxa Ledger right.
+  const center = getProjectBySlug("kla-construction-equipment");
+  const left = getProjectBySlug("lce-church");
+  const right = getProjectBySlug("doxa-ledger");
 
   const container: Variants = {
     hidden: {},
@@ -123,33 +154,40 @@ export function Hero() {
           </motion.p>
         </motion.div>
 
-        {/* Real-work showcase, fanned cascade */}
+        {/* Real-work showcase: hover a card to bring it to the front */}
         <div className="relative mx-auto mt-16 w-full max-w-4xl">
-          {b && (
+          {left && (
             <BrowserShot
-              src={b.coverImage}
-              alt={`${b.client}, ${b.title}`}
+              src={left.coverImage}
+              alt={`${left.client}, ${left.title}`}
               delay={0.55}
               reduce={reduce}
-              className="absolute -left-8 top-12 hidden w-[46%] -rotate-6 lg:block"
+              rotate={-6}
+              z={10}
+              className="absolute -left-8 top-12 hidden w-[46%] lg:block"
             />
           )}
-          {c && (
+          {right && (
             <BrowserShot
-              src={c.coverImage}
-              alt={`${c.client}, ${c.title}`}
+              src={right.coverImage}
+              alt={`${right.client}, ${right.title}`}
               delay={0.62}
               reduce={reduce}
-              className="absolute -right-8 top-12 hidden w-[46%] rotate-6 lg:block"
+              rotate={6}
+              z={10}
+              className="absolute -right-8 top-12 hidden w-[46%] lg:block"
             />
           )}
-          {a && (
+          {center && (
             <BrowserShot
-              src={a.coverImage}
-              alt={`${a.client}, ${a.title}`}
+              src={center.coverImage}
+              alt={`${center.client}, ${center.title}`}
               delay={0.4}
               reduce={reduce}
-              className="relative z-10 mx-auto w-full lg:w-[62%]"
+              rotate={0}
+              z={20}
+              priority
+              className="relative mx-auto w-full lg:w-[62%]"
             />
           )}
         </div>
