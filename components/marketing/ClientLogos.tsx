@@ -28,12 +28,14 @@ export function ClientLogos() {
           <ul className="flex w-max animate-marquee items-center gap-16 group-hover:[animation-play-state:paused] motion-reduce:animate-none">
             {track.map((logo, i) => (
               <li key={`${logo.alt}-${i}`} className="shrink-0">
-                <img
-                  src={logo.src}
-                  alt={logo.alt}
-                  className="h-7 w-auto object-contain opacity-45 brightness-0 invert transition-opacity duration-300 hover:opacity-80"
-                  loading="lazy"
-                />
+                <div className="flex h-16 items-center justify-center rounded-2xl border border-white/10 bg-white/90 px-6 shadow-[0_10px_30px_-15px_rgba(0,0,0,0.6)]">
+                  <img
+                    src={logo.src}
+                    alt={logo.alt}
+                    className="h-8 w-auto max-w-[150px] object-contain"
+                    loading="lazy"
+                  />
+                </div>
               </li>
             ))}
           </ul>

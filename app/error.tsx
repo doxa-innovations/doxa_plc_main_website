@@ -21,7 +21,7 @@ export default function Error({
         Something went wrong
       </h1>
       <p className="max-w-md text-ink/70">
-        An unexpected error occurred. Please try again — if it keeps happening,
+        An unexpected error occurred. Please try again, if it keeps happening,
         get in touch and we&apos;ll sort it out.
       </p>
       <div className="flex flex-wrap items-center justify-center gap-3">

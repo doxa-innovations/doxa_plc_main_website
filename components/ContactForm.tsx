@@ -1,6 +1,7 @@
 "use client";
 
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import {
@@ -29,6 +30,7 @@ import {
 } from "@/components/ui/select";
 
 export function ContactForm() {
+  const router = useRouter();
   const form = useForm<ContactInput>({
     resolver: zodResolver(contactSchema),
     defaultValues: {
@@ -52,8 +54,8 @@ export function ContactForm() {
       });
       const data = (await res.json()) as { ok?: boolean; error?: string };
       if (res.ok && data.ok) {
-        toast.success("Thanks! We'll reply within 24 hours on business days.");
         form.reset();
+        router.push("/thank-you");
       } else {
         toast.error(data.error ?? "Something went wrong. Please try again.");
       }
@@ -65,7 +67,7 @@ export function ContactForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5" noValidate>
-        {/* Honeypot — hidden from users, must stay empty */}
+        {/* Honeypot, hidden from users, must stay empty */}
         <div className="sr-only" aria-hidden>
           <label htmlFor="_gotcha">Leave this field empty</label>
           <input

@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * Section header. The eyebrow is OPT-IN and should be used sparingly (at most
- * ~1 per 3 sections) — an eyebrow above every section is the #1 AI tell. Most
+ * ~1 per 3 sections), an eyebrow above every section is the #1 AI tell. Most
  * sections should use the headline alone. Display font for headings.
  */
 export function SectionHeading({

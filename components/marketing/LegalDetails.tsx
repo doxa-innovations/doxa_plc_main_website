@@ -1,8 +1,9 @@
 import { FolderOpen } from "lucide-react";
 import { SITE } from "@/content/site";
 import { Button } from "@/components/ui/button";
+import { QrVerify } from "@/components/QrVerify";
 
-/** Full legal-transparency block — reused on /about and /legal. */
+/** Full legal-transparency block, reused on /about and /legal. */
 export function LegalDetails() {
   const { registration: reg, address } = SITE;
 
@@ -10,13 +11,11 @@ export function LegalDetails() {
     { label: "Company Name", value: SITE.legalName },
     { label: "Legal Form", value: "Private Limited Company (PLC), Ethiopia" },
     { label: "Commercial Registration No.", value: reg.commercialRegNo },
+    { label: "Business License No.", value: reg.licenseNo },
     { label: "Taxpayer ID (TIN)", value: reg.tin },
     { label: "VAT Registration No.", value: reg.vat },
     { label: "Licensed Activities", value: reg.licensedActivities.join(", ") },
-    {
-      label: "Established",
-      value: `April 18, ${reg.foundingYear} — over ${new Date().getFullYear() - reg.foundingYear} years of formal operation`,
-    },
+    { label: "Established", value: "December 2024" },
     {
       label: "Registered Address",
       value: `${address.street}, ${address.city}, ${address.region}, ${address.country}`,
@@ -36,8 +35,11 @@ export function LegalDetails() {
           </dl>
         ))}
       </div>
+      <div className="mt-8">
+        <QrVerify />
+      </div>
       {SITE.driveProfileUrl && (
-        <Button asChild variant="outline" className="mt-8">
+        <Button asChild variant="outline" className="mt-6">
           <a
             href={SITE.driveProfileUrl}
             target="_blank"

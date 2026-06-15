@@ -12,6 +12,9 @@ const STATIC_ROUTES = [
   "/team",
   "/contact",
   "/legal",
+  "/faq",
+  "/privacy",
+  "/terms",
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

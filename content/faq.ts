@@ -2,7 +2,7 @@ import type { FaqItem } from "./types";
 
 /**
  * Frequently asked questions. This SAME array renders the /how-it-works
- * accordion and the FAQPage JSON-LD — so the visible answers always match the
+ * accordion and the FAQPage JSON-LD, so the visible answers always match the
  * structured data (a Google requirement for FAQ rich results).
  */
 export const FAQS: FaqItem[] = [
@@ -19,7 +19,7 @@ export const FAQS: FaqItem[] = [
   {
     question: "How do I pay you?",
     answer:
-      "We accept international wire transfer, Wise (formerly TransferWise), and PayPal. Invoices are issued in US Dollars or Euros, per your preference.",
+      "We accept PayPal and bank transfer to our US bank account. We don't use Wise. Invoices are issued in US Dollars or Euros, per your preference.",
   },
   {
     question: "What currency do you invoice in?",
@@ -34,6 +34,6 @@ export const FAQS: FaqItem[] = [
   {
     question: "What happens to my code at the end?",
     answer:
-      "You own it — 100%. All source code, design files, and assets transfer to you upon final payment. No exceptions.",
+      "You own it, 100%. All source code, design files, and assets transfer to you upon final payment. No exceptions.",
   },
 ];

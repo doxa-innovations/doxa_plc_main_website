@@ -1,5 +1,5 @@
 /**
- * Shared content types — the single source of truth consumed by both the
+ * Shared content types, the single source of truth consumed by both the
  * rendered UI and the JSON-LD structured-data builders. Keep UI copy and
  * schema assertions reading from the SAME objects so they never drift.
  */
@@ -16,9 +16,11 @@ export interface SocialLink {
 
 export interface Registration {
   commercialRegNo: string;
+  /** Trade license number, verifiable on the Ethiopian Ministry of Trade. */
+  licenseNo: string;
   tin: string;
   vat: string;
-  /** ISO date, e.g. "2017-04-18" */
+  /** ISO date (Gregorian), e.g. "2024-12-01" */
   foundingDate: string;
   foundingYear: number;
   licensedActivities: string[];
@@ -40,16 +42,22 @@ export interface SiteConfig {
   /** Absolute site origin, no trailing slash. */
   url: string;
   tagline: string;
-  /** GEO/SEO anchor sentence — factual, entity-dense. */
+  /** GEO/SEO anchor sentence, factual, entity-dense. */
   description: string;
   email: string;
   phone: string;
+  /** Secondary phone number. */
+  phone2: string;
   whatsapp: string;
+  /** Telegram username (without @). */
+  telegram: string;
   address: Address;
   registration: Registration;
   social: SocialLink[];
   /** Public Google Drive company-profile folder (trust signal). */
   driveProfileUrl: string;
+  /** Ethiopian Ministry of Trade business-license verification URL. */
+  etradeVerifyUrl: string;
   mainNav: NavLink[];
   footerNav: {
     services: NavLink[];
@@ -65,6 +73,8 @@ export interface Service {
   name: string;
   /** lucide-react icon name */
   icon: string;
+  /** Topical image (stock placeholder until brand assets land). */
+  image: string;
   summary: string;
   description: string;
   forWhom: string;
@@ -137,6 +147,8 @@ export interface ProcessStage {
   number: number;
   title: string;
   description: string;
+  /** Topical image (stock placeholder until brand assets land). */
+  image: string;
 }
 
 export interface Testimonial {

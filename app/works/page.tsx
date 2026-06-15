@@ -9,7 +9,7 @@ import { Reveal } from "@/components/Reveal";
 export const metadata = buildMetadata({
   title: "Our Work",
   description:
-    "Real, live software projects delivered for clients in the US, the Netherlands, and across East Africa — e-commerce platforms, custom systems, and institutional websites you can visit right now.",
+    "Real, live software projects delivered for clients in the US, the Netherlands, and across East Africa, e-commerce platforms, custom systems, and institutional websites you can visit right now.",
   path: "/works",
 });
 
@@ -19,7 +19,7 @@ export default function WorksPage() {
       <PageHeader
         eyebrow="Portfolio"
         title="Work you can verify, not just view"
-        lead="Every project is a production system with a live link. Open them — see the work for yourself."
+        lead="Every project is a production system with a live link. Open them, see the work for yourself."
         breadcrumbs={[
           { name: "Home", path: "/" },
           { name: "Works", path: "/works" },

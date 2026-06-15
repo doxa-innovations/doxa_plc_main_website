@@ -3,13 +3,13 @@ import { ArrowUpRight } from "lucide-react";
 import { Container } from "@/components/layout/Container";
 
 /**
- * High-contrast closing call-to-action — a dramatic deep-glow moment. The
+ * High-contrast closing call-to-action, a dramatic deep-glow moment. The
  * primary label stays consistent across the site ("Start a project") to keep
  * one label per CTA intent.
  */
 export function CtaBand({
   title = "Ready to build something great?",
-  body = "We don't pitch you — we listen. Book a free discovery call and let's figure out what you actually need. No upfront payment, no pressure.",
+  body = "We don't pitch you, we listen. Book a free discovery call and let's figure out what you actually need. No upfront payment, no pressure.",
   primaryLabel = "Start a project",
   primaryHref = "/contact",
 }: {

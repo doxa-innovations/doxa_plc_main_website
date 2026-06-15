@@ -1,7 +1,7 @@
 import { BadgeCheck, FileText, MapPin, Receipt, ShieldCheck } from "lucide-react";
 import { SITE } from "@/content/site";
 
-/** Verifiable legal/registration facts — a glass credential panel on dark. */
+/** Verifiable legal/registration facts, a glass credential panel on dark. */
 export function TrustSignals() {
   const { registration: reg, address } = SITE;
 
@@ -14,7 +14,7 @@ export function TrustSignals() {
     {
       icon: Receipt,
       label: "Taxpayer ID (TIN)",
-      value: `${reg.tin} — verifiable with the Ethiopian Revenue Authority`,
+      value: `${reg.tin}, verifiable with the Ethiopian Revenue Authority`,
     },
     { icon: FileText, label: "VAT Registration", value: reg.vat },
     {

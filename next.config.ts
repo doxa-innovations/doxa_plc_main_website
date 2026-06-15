@@ -28,6 +28,8 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "cdn.doxaplc.com", pathname: "/**" },
       // Single reused placeholder photo for slots awaiting real photography.
       { protocol: "https", hostname: "picsum.photos", pathname: "/**" },
+      // Topical stock imagery (services, how-it-works) until real assets land.
+      { protocol: "https", hostname: "images.unsplash.com", pathname: "/**" },
     ],
   },
 

@@ -10,6 +10,8 @@ export const SERVICES: Service[] = [
     slug: "website-development",
     name: "Website Development",
     icon: "Globe",
+    image:
+      "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1200&q=70",
     summary:
       "Fast, accessible business websites, portfolios, and landing pages built to convert and to rank.",
     description:
@@ -23,13 +25,15 @@ export const SERVICES: Service[] = [
       "Hosting & domain setup",
     ],
     techStack: ["Next.js", "React", "Tailwind CSS"],
-    timeline: "3–6 weeks",
+    timeline: "3 to 6 weeks",
     startingFrom: { amount: 1500, currency: "USD" },
   },
   {
     slug: "e-commerce",
     name: "E-Commerce Stores",
     icon: "ShoppingCart",
+    image:
+      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1200&q=70",
     summary:
       "Shopify builds or fully custom online stores with payments, inventory, and order management.",
     description:
@@ -43,13 +47,15 @@ export const SERVICES: Service[] = [
       "Admin training & handover",
     ],
     techStack: ["Laravel", "React", "Shopify", "Stripe"],
-    timeline: "4–8 weeks",
+    timeline: "4 to 8 weeks",
     startingFrom: { amount: 2500, currency: "USD" },
   },
   {
     slug: "custom-software",
     name: "Custom Software & Tools",
     icon: "Wrench",
+    image:
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=70",
     summary:
       "Internal dashboards, booking systems, CRMs, LMS platforms, and automation built around your workflow.",
     description:
@@ -70,6 +76,8 @@ export const SERVICES: Service[] = [
     slug: "branding",
     name: "Branding & Identity",
     icon: "Palette",
+    image:
+      "https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=1200&q=70",
     summary:
       "Logo design, color systems, typography, and brand guidelines that make you look established.",
     description:
@@ -83,15 +91,17 @@ export const SERVICES: Service[] = [
       "Social media kit",
     ],
     techStack: ["Figma", "Adobe Illustrator"],
-    timeline: "1–3 weeks",
+    timeline: "1 to 3 weeks",
     startingFrom: { amount: 500, currency: "USD" },
   },
   {
     slug: "mobile",
     name: "Mobile Applications",
     icon: "Smartphone",
+    image:
+      "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=1200&q=70",
     summary:
-      "Cross-platform iOS + Android apps with React Native — customer, driver, and companion apps.",
+      "Cross-platform iOS + Android apps with React Native, customer, driver, and companion apps.",
     description:
       "Cross-platform mobile apps built once for iOS and Android with React Native: customer-facing apps, driver/delivery apps, and companion apps with push notifications, maps, and real-time updates.",
     forWhom:
@@ -110,6 +120,8 @@ export const SERVICES: Service[] = [
     slug: "maintenance",
     name: "Maintenance & Support",
     icon: "LifeBuoy",
+    image:
+      "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=70",
     summary:
       "Ongoing hosting, security updates, uptime monitoring, and content updates on a monthly retainer.",
     description:

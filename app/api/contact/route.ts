@@ -56,7 +56,7 @@ export async function POST(req: Request) {
   const rows: [string, string][] = [
     ["Name", data.name],
     ["Email", data.email],
-    ["Company", data.company || "—"],
+    ["Company", data.company || ", "],
     ["Country", data.country],
     ["Project Type", data.projectType],
     ["Budget", data.budget],
@@ -80,7 +80,7 @@ export async function POST(req: Request) {
       from: `Doxa Website <web-contact@${FROM_DOMAIN}>`,
       to: CONTACT_TO,
       replyTo: data.email,
-      subject: `New inquiry — ${data.name} (${data.projectType})`,
+      subject: `New inquiry, ${data.name} (${data.projectType})`,
       html,
     });
   } catch (err) {

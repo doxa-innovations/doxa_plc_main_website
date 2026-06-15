@@ -14,6 +14,7 @@ function TeamCard({ member, showBio }: { member: TeamMember; showBio: boolean })
           alt={member.name}
           fill
           sizes="112px"
+          unoptimized
           className="object-cover grayscale transition-[filter] duration-500 group-hover:grayscale-0"
         />
       </div>

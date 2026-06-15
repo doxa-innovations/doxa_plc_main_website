@@ -86,8 +86,8 @@ export function Hero() {
             variants={item}
             className="mt-6 text-balance font-display text-[2.6rem] font-semibold leading-[1.02] tracking-[-0.035em] text-ink sm:text-6xl lg:text-[4.2rem]"
           >
-            Software, built right —{" "}
-            <span className="text-pj-secondary">delivered affordably.</span>
+            Great software,{" "}
+            <span className="text-pj-secondary">built affordably.</span>
           </motion.h1>
 
           <motion.p
@@ -123,12 +123,12 @@ export function Hero() {
           </motion.p>
         </motion.div>
 
-        {/* Real-work showcase — fanned cascade */}
+        {/* Real-work showcase, fanned cascade */}
         <div className="relative mx-auto mt-16 w-full max-w-4xl">
           {b && (
             <BrowserShot
               src={b.coverImage}
-              alt={`${b.client} — ${b.title}`}
+              alt={`${b.client}, ${b.title}`}
               delay={0.55}
               reduce={reduce}
               className="absolute -left-8 top-12 hidden w-[46%] -rotate-6 lg:block"
@@ -137,7 +137,7 @@ export function Hero() {
           {c && (
             <BrowserShot
               src={c.coverImage}
-              alt={`${c.client} — ${c.title}`}
+              alt={`${c.client}, ${c.title}`}
               delay={0.62}
               reduce={reduce}
               className="absolute -right-8 top-12 hidden w-[46%] rotate-6 lg:block"
@@ -146,7 +146,7 @@ export function Hero() {
           {a && (
             <BrowserShot
               src={a.coverImage}
-              alt={`${a.client} — ${a.title}`}
+              alt={`${a.client}, ${a.title}`}
               delay={0.4}
               reduce={reduce}
               className="relative z-10 mx-auto w-full lg:w-[62%]"

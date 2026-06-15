@@ -1,7 +1,7 @@
 import type { AddOn, PricingTier } from "./types";
 
 /**
- * Pricing tiers. These are starting points and guides — every project is
+ * Pricing tiers. These are starting points and guides, every project is
  * scoped individually. The middle tier (Growth) is visually highlighted.
  */
 export const PRICING_TIERS: PricingTier[] = [
@@ -10,21 +10,16 @@ export const PRICING_TIERS: PricingTier[] = [
     bestFor: "Small businesses, early-stage startups, and simple presence sites",
     includes: ["Website", "Hosting setup", "Domain setup"],
     priceFrom: "From $1,700",
-    timeline: "3–5 weeks",
+    timeline: "2 to 3 weeks",
     payment: "30 / 40 / 30 milestones",
     highlighted: false,
   },
   {
     name: "Growth",
     bestFor: "Growing businesses that need a full digital system",
-    includes: [
-      "Branding",
-      "Website",
-      "Mobile app (3 months)",
-      "CMS",
-    ],
+    includes: ["Branding", "Website", "Basic mobile app", "CMS"],
     priceFrom: "From $4,500",
-    timeline: "6–12 weeks",
+    timeline: "5 to 7 weeks",
     payment: "30 / 40 / 30 milestones",
     highlighted: true,
   },

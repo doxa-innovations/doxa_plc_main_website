@@ -23,7 +23,7 @@ export function PaymentTimeline() {
         {PAYMENT_MILESTONES.map((m) => (
           <dl key={m.label}>
             <dt className="text-sm font-bold text-ink">
-              {m.percent}% — {m.label}
+              {m.percent}%, {m.label}
             </dt>
             <dd className="mt-1 text-sm text-ink-muted">{m.unlocks}</dd>
           </dl>

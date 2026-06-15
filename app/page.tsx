@@ -21,6 +21,7 @@ import { ServiceCard } from "@/components/marketing/ServiceCard";
 import { ProjectCard } from "@/components/marketing/ProjectCard";
 import { TrustSignals } from "@/components/marketing/TrustSignals";
 import { CtaBand } from "@/components/marketing/CtaBand";
+import { ImageShowcase } from "@/components/marketing/ImageShowcase";
 import { Button } from "@/components/ui/button";
 
 export const metadata = buildMetadata({ path: "/" });
@@ -103,13 +104,13 @@ export default function HomePage() {
 
       <ClientLogos />
 
-      {/* Why Doxa — asymmetric bento */}
+      {/* Why Doxa, asymmetric bento */}
       <Section variant="surface">
         <Reveal>
           <SectionHeading
             eyebrow="Why Doxa"
             title="Engineered to earn your trust"
-            lead="Working with an overseas team carries real fears. We resolve each one — with evidence, not promises."
+            lead="Working with an overseas team carries real fears. We resolve each one, with evidence, not promises."
           />
         </Reveal>
         <Reveal delay={0.05}>
@@ -118,9 +119,9 @@ export default function HomePage() {
               className="lg:col-span-2"
               emphasized
               icon={Wallet}
-              stat="40–70% less"
+              stat="40 to 70% less"
               title="Affordable without compromise"
-              body="Operating from Ethiopia, one US dollar goes further — and that saving passes directly to you. Same quality, a fraction of the cost. This isn't cheap labor; it's optimized operations."
+              body="Operating from Ethiopia, one US dollar goes further, and that saving passes directly to you. Same quality, a fraction of the cost. This isn't cheap labor; it's optimized operations."
             />
             <BentoCell
               icon={ShieldCheck}
@@ -136,7 +137,7 @@ export default function HomePage() {
               className="lg:col-span-2"
               emphasized
               icon={Video}
-              title="Video call first — we show our faces"
+              title="Video call first, we show our faces"
               body="Before any money is discussed, we get on a video call. You see our faces, we see yours, and we'll share government-issued ID and registration documents on request. That's how trust starts."
             />
           </div>
@@ -148,7 +149,7 @@ export default function HomePage() {
         <Reveal>
           <SectionHeading
             title="Software and digital products, end to end"
-            lead="From a landing page to a multi-campus platform — we build it, ship it, and maintain it."
+            lead="From a landing page to a multi-campus platform, we build it, ship it, and maintain it."
           />
         </Reveal>
         <Reveal delay={0.05}>
@@ -168,7 +169,7 @@ export default function HomePage() {
         </div>
       </Section>
 
-      {/* Process — glowing numbered flow */}
+      {/* Process, glowing numbered flow */}
       <Section variant="surface">
         <Reveal>
           <SectionHeading
@@ -207,12 +208,27 @@ export default function HomePage() {
         </div>
       </Section>
 
+      {/* Gallery */}
+      <Section variant="deep">
+        <Reveal>
+          <SectionHeading
+            title="A look inside Doxa"
+            lead="Real people, a real office, real work. A glimpse of how and where we build."
+          />
+        </Reveal>
+        <Reveal>
+          <div className="mt-12">
+            <ImageShowcase />
+          </div>
+        </Reveal>
+      </Section>
+
       {/* Featured work */}
       <Section variant="muted">
         <Reveal>
           <SectionHeading
             eyebrow="Selected work"
-            title="Real, live projects — on three continents"
+            title="Real, live projects, on three continents"
             lead="Every project below is a production system you can open right now."
           />
         </Reveal>
@@ -233,17 +249,17 @@ export default function HomePage() {
         </div>
       </Section>
 
-      {/* Trust panel — editorial split */}
+      {/* Trust panel, editorial split */}
       <Section variant="surface">
         <div className="grid items-center gap-10 lg:grid-cols-2">
           <Reveal>
             <div>
               <h2 className="font-display text-3xl font-semibold tracking-[-0.03em] text-ink sm:text-4xl">
-                We show our faces — and our paperwork.
+                We show our faces, and our paperwork.
               </h2>
               <p className="mt-4 max-w-md text-lg text-ink-muted">
                 Doxa Innovations is a registered private limited company in
-                Ethiopia. Here&apos;s the proof — verify any of it independently.
+                Ethiopia. Here&apos;s the proof, verify any of it independently.
               </p>
               <Button asChild variant="outline" className="mt-6">
                 <Link href="/legal">

@@ -1,4 +1,4 @@
-import { Mail, MessageCircle, MapPin, Clock } from "lucide-react";
+import { Mail, MessageCircle, Send, MapPin, Clock } from "lucide-react";
 import { buildMetadata } from "@/lib/metadata";
 import { SITE } from "@/content/site";
 import { PageHeader } from "@/components/layout/PageHeader";
@@ -8,18 +8,19 @@ import { ContactForm } from "@/components/ContactForm";
 export const metadata = buildMetadata({
   title: "Contact Doxa Innovations",
   description:
-    "Book a free 30-minute discovery call. Email company@doxaplc.com, message us on WhatsApp at +251 961 412 909, or send the form — we respond within 24 hours on business days.",
+    "Book a free 30-minute discovery call. Email company@doxaplc.com, message us on WhatsApp or Telegram, or send the form. We respond within 24 hours on business days.",
   path: "/contact",
 });
 
 export default function ContactPage() {
   const whatsappUrl = `https://wa.me/${SITE.whatsapp.replace(/\D/g, "")}`;
+  const telegramUrl = `https://t.me/${SITE.telegram}`;
 
   return (
     <>
       <PageHeader
         eyebrow="Contact"
-        title="Let's talk — the first call is free"
+        title="Let's talk, the first call is free"
         lead="Tell us what you're trying to build. No obligation, no upfront payment, no sales pressure."
         breadcrumbs={[
           { name: "Home", path: "/" },
@@ -60,6 +61,20 @@ export default function ContactPage() {
                 </div>
               </li>
               <li className="flex gap-3">
+                <Send className="mt-0.5 size-5 shrink-0 text-pj-secondary" aria-hidden />
+                <div>
+                  <p className="text-sm font-semibold text-ink">Telegram</p>
+                  <a
+                    href={telegramUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-ink/70 hover:text-pj-secondary"
+                  >
+                    @{SITE.telegram}
+                  </a>
+                </div>
+              </li>
+              <li className="flex gap-3">
                 <MapPin className="mt-0.5 size-5 shrink-0 text-pj-secondary" aria-hidden />
                 <div>
                   <p className="text-sm font-semibold text-ink">Office</p>
@@ -77,8 +92,8 @@ export default function ContactPage() {
                 <span className="font-semibold text-ink">
                   We respond within 24 hours
                 </span>{" "}
-                on business days. For urgent matters, WhatsApp is the fastest
-                channel.
+                on business days. For urgent matters, WhatsApp and Telegram are
+                the fastest channels.
               </p>
             </div>
           </div>

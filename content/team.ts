@@ -4,7 +4,7 @@ const CDN = "https://cdn.doxaplc.com/doxa-public";
 
 /**
  * The founding team. Real names and photos are the single most powerful trust
- * signal for international clients — these drive /team, the About team grid,
+ * signal for international clients, these drive /team, the About team grid,
  * and Person JSON-LD. (social URLs TODO: confirm before launch.)
  */
 export const TEAM: TeamMember[] = [
@@ -33,6 +33,17 @@ export const TEAM: TeamMember[] = [
     expertise: ["UI/UX Design", "Front-End Development", "Brand Strategy"],
     bio: "UI/UX Designer and Front-End Developer who leads our visual identity and design systems. With a background in design systems, media production, and brand strategy, Cherinet makes sure every product looks as good as it works.",
     photo: `${CDN}/Cheri.avif`,
+    social: [],
+  },
+  // TODO: replace name, role, expertise, bio, and photo with the real 4th
+  // member's details (the client will provide these).
+  {
+    slug: "new-team-member",
+    name: "New Team Member",
+    role: "Software Engineer",
+    expertise: ["Engineering"],
+    bio: "Details coming soon. This card is a placeholder for our newest team member.",
+    photo: "https://picsum.photos/seed/doxa-member-4/600/600",
     social: [],
   },
 ];

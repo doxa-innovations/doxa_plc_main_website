@@ -2,7 +2,7 @@ import type { SiteConfig } from "./types";
 
 /**
  * Canonical company + site configuration. All legal/registration numbers are
- * real and independently verifiable — they are a hard trust signal and are
+ * real and independently verifiable, they are a hard trust signal and are
  * mirrored into Organization/LocalBusiness JSON-LD.
  */
 export const SITE: SiteConfig = {
@@ -14,10 +14,14 @@ export const SITE: SiteConfig = {
   ),
   tagline: "Software Excellence, Business Success.",
   description:
-    "Doxa Innovations is a legally registered Ethiopian software company building websites, e-commerce stores, and custom software tools for small and medium businesses in the US, EU, Asia, and beyond — at 40–70% below typical Western agency rates.",
+    "Doxa Innovations is a legally registered Ethiopian software company building websites, e-commerce stores, and custom software tools for small and medium businesses in the US, EU, Asia, and beyond, at 40-70% below typical Western agency rates.",
   email: "company@doxaplc.com",
   phone: "+251 961 412 909",
+  // TODO: replace with the real second phone number.
+  phone2: "+251 900 000 000",
   whatsapp: "+251961412909",
+  // TODO: confirm the real Telegram username.
+  telegram: "doxainnovations",
   address: {
     street: "Infront of Polytechnic College, 2nd Floor, Mama's Building",
     city: "Bishoftu",
@@ -28,10 +32,12 @@ export const SITE: SiteConfig = {
   },
   registration: {
     commercialRegNo: "ORO/BT/office/2/0007630/2017",
+    licenseNo: "ORO/BT/office/04/BT0001/24709135/2017",
     tin: "0093503857",
     vat: "33111390004",
-    foundingDate: "2017-04-18",
-    foundingYear: 2017,
+    // Gregorian equivalent of the Ethiopian-calendar registration year.
+    foundingDate: "2024-12-01",
+    foundingYear: 2024,
     licensedActivities: [
       "Creative Media",
       "Design",
@@ -42,6 +48,8 @@ export const SITE: SiteConfig = {
   // TODO: confirm public profile/social URLs before launch.
   social: [],
   driveProfileUrl: "",
+  etradeVerifyUrl:
+    "https://etrade.gov.et/business-license-checker?tin=0093503857&licenseNo=ORO%2FBT%2Foffice%2F04%2FBT0001%2F24709135%2F2017",
   mainNav: [
     { label: "Services", href: "/services" },
     { label: "Works", href: "/works" },
@@ -67,7 +75,9 @@ export const SITE: SiteConfig = {
     ],
     legal: [
       { label: "Legal & Trust", href: "/legal" },
-      { label: "Pricing", href: "/pricing" },
+      { label: "FAQ", href: "/faq" },
+      { label: "Privacy", href: "/privacy" },
+      { label: "Terms", href: "/terms" },
     ],
   },
 };

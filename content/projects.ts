@@ -2,13 +2,13 @@ import type { Project } from "./types";
 
 const CDN = "https://cdn.doxaplc.com/doxa-public";
 
-// NOTE: Scholten Pattern Works has no screenshot on the CDN yet — logo/cover
+// NOTE: Scholten Pattern Works has no screenshot on the CDN yet, logo/cover
 // fall back to the company mark as a labeled placeholder. Replace with real
 // screenshots before launch (see pre-launch checklist).
 const PLACEHOLDER_IMAGE = `${CDN}/logo.png`;
 
 /**
- * Portfolio projects — restructured from the legacy FileDatabase plus the two
+ * Portfolio projects, restructured from the legacy FileDatabase plus the two
  * additions called for in the plan doc (Scholten Pattern Works, MySeed). The
  * placeholder entry was dropped. Each item drives the /works grid, its
  * /works/[slug] case study, the home Featured Work block, and CreativeWork
@@ -172,9 +172,9 @@ export const PROJECTS: Project[] = [
     summary:
       "A multi-campus student information system connecting teachers, parents, and schools.",
     problem:
-      "Schools needed one system to manage students, teachers, and staff — tracking attendance, grades, and discipline while letting parents follow their children's progress.",
+      "Schools needed one system to manage students, teachers, and staff, tracking attendance, grades, and discipline while letting parents follow their children's progress.",
     whatWeBuilt:
-      "A student information system built for parallel workloads, letting administrators track attendance, grades, and discipline, teachers manage their students, and parents see progress — across multiple campuses.",
+      "A student information system built for parallel workloads, letting administrators track attendance, grades, and discipline, teachers manage their students, and parents see progress, across multiple campuses.",
     techStack: ["React", "Laravel", "Inertia.js", "PostgreSQL", "Redis"],
     liveUrl: "https://yenetamaster.net",
     logo: `${CDN}/yenetaMaster.png`,

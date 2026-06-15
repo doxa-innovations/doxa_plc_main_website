@@ -4,7 +4,7 @@ import { ArrowUpRight } from "lucide-react";
 import type { Project } from "@/content/types";
 import { CountryFlag } from "@/components/CountryFlag";
 
-/** Portfolio card — dark glass tile with a real screenshot and hover lift. */
+/** Portfolio card, dark glass tile with a real screenshot and hover lift. */
 export function ProjectCard({ project }: { project: Project }) {
   return (
     <Link
@@ -14,7 +14,7 @@ export function ProjectCard({ project }: { project: Project }) {
       <div className="relative aspect-[16/10] overflow-hidden">
         <Image
           src={project.coverImage}
-          alt={`${project.client} — ${project.title}`}
+          alt={`${project.client}, ${project.title}`}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="object-cover transition-transform duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-[1.04]"

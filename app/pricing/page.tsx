@@ -9,11 +9,12 @@ import { SectionHeading } from "@/components/SectionHeading";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { CtaBand } from "@/components/marketing/CtaBand";
+import { Reveal } from "@/components/Reveal";
 
 export const metadata = buildMetadata({
   title: "Pricing",
   description:
-    "Transparent starting prices and tiers — Starter, Growth, and Custom — plus add-ons for maintenance, SEO, social, and priority support. Every project is scoped individually, with no quote before a free discovery call.",
+    "Transparent starting prices and tiers, Starter, Growth, and Custom, plus add-ons for maintenance, SEO, social, and priority support. Every project is scoped individually, with no quote before a free discovery call.",
   path: "/pricing",
 });
 
@@ -23,7 +24,7 @@ export default function PricingPage() {
       <PageHeader
         eyebrow="Pricing"
         title="Clear starting points, no surprises"
-        lead="These are guides, not quotes. Every project is scoped individually — we find the right scope for your budget, not the biggest invoice."
+        lead="These are guides, not quotes. Every project is scoped individually, we find the right scope for your budget, not the biggest invoice."
         breadcrumbs={[
           { name: "Home", path: "/" },
           { name: "Pricing", path: "/pricing" },
@@ -32,6 +33,7 @@ export default function PricingPage() {
 
       {/* Tiers */}
       <Section variant="surface">
+        <Reveal>
         <div className="grid items-start gap-6 lg:grid-cols-3">
           {PRICING_TIERS.map((tier) => (
             <div
@@ -87,6 +89,7 @@ export default function PricingPage() {
             </div>
           ))}
         </div>
+        </Reveal>
       </Section>
 
       {/* Add-ons */}
@@ -115,7 +118,7 @@ export default function PricingPage() {
           <p className="text-sm text-ink/80">
             All prices are starting points and guides. Every project is scoped
             individually, and no quote is given without a discovery conversation.
-            Our goal is to find the right scope for your budget — not to upsell
+            Our goal is to find the right scope for your budget, not to upsell
             you.
           </p>
         </div>
@@ -123,7 +126,7 @@ export default function PricingPage() {
 
       <CtaBand
         title="Not sure which tier fits?"
-        body="Tell us about your project on a free call and we'll recommend the right scope — honestly."
+        body="Tell us about your project on a free call and we'll recommend the right scope, honestly."
       />
     </>
   );

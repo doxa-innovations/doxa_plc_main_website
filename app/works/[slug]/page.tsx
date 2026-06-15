@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: { params: Params }) {
   const project = getProjectBySlug(slug);
   if (!project) return buildMetadata({ title: "Project Not Found" });
   return buildMetadata({
-    title: `${project.client} — ${project.title}`,
+    title: `${project.client}, ${project.title}`,
     description: project.summary,
     path: `/works/${project.slug}`,
     ogImage: project.coverImage,
@@ -93,7 +93,7 @@ export default async function ProjectPage({ params }: { params: Params }) {
         <div className="relative aspect-[16/9] overflow-hidden rounded-2xl border border-border bg-surface-muted">
           <Image
             src={project.coverImage}
-            alt={`${project.client} — ${project.title}`}
+            alt={`${project.client}, ${project.title}`}
             fill
             priority
             sizes="(max-width: 1200px) 100vw, 1100px"

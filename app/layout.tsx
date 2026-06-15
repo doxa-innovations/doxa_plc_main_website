@@ -46,7 +46,7 @@ const clash = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
-    default: `${SITE.legalName} — Affordable Software Outsourcing`,
+    default: `${SITE.legalName}, Affordable Software Outsourcing`,
     template: `%s · ${SITE.name}`,
   },
   description: SITE.description,
@@ -71,7 +71,7 @@ export const metadata: Metadata = {
     siteName: SITE.legalName,
     locale: "en_US",
     url: SITE.url,
-    title: `${SITE.legalName} — Affordable Software Outsourcing`,
+    title: `${SITE.legalName}, Affordable Software Outsourcing`,
     description: SITE.description,
   },
   twitter: {

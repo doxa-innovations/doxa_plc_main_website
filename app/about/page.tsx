@@ -1,10 +1,11 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Sparkles, Eye, HeartHandshake } from "lucide-react";
 import { buildMetadata } from "@/lib/metadata";
-import { SITE } from "@/content/site";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Section } from "@/components/layout/Section";
 import { SectionHeading } from "@/components/SectionHeading";
+import { Reveal } from "@/components/Reveal";
 import { TeamGrid } from "@/components/marketing/TeamGrid";
 import { LegalDetails } from "@/components/marketing/LegalDetails";
 import { CtaBand } from "@/components/marketing/CtaBand";
@@ -13,7 +14,7 @@ import { Button } from "@/components/ui/button";
 export const metadata = buildMetadata({
   title: "About Doxa Innovations",
   description:
-    "Founded in 2017 in Bishoftu, Ethiopia, Doxa Innovations grew from a design studio into a full-stack software company serving clients across multiple continents. Meet the team and verify our legal standing.",
+    "Doxa Innovations is a registered Ethiopian software company building websites, e-commerce, and custom software for businesses worldwide. Meet the team and verify our legal standing.",
   path: "/about",
 });
 
@@ -21,7 +22,7 @@ const VALUES = [
   {
     icon: Sparkles,
     title: "Creativity",
-    body: "We design and build with craft, not templates — products that look as considered as they are reliable.",
+    body: "We design and build with craft, not templates, products that look as considered as they are reliable.",
   },
   {
     icon: Eye,
@@ -50,29 +51,41 @@ export default function AboutPage() {
 
       {/* Company story */}
       <Section variant="surface">
-        <div className="mx-auto max-w-3xl">
-          <SectionHeading
-            align="left"
-            eyebrow="Our Story"
-            title="From a Bishoftu design studio to a global software partner"
-            className="mx-0"
-          />
-          <div className="mt-6 space-y-4 text-lg text-ink/70">
-            <p>
-              Doxa Innovations was founded in {SITE.registration.foundingYear} in
-              Bishoftu, Ethiopia. We began as a design and branding studio and
-              evolved into a full-stack software development company with clients
-              across multiple continents — from the United States and the
-              Netherlands to institutions across East Africa.
-            </p>
-            <p>
-              Today we build websites, e-commerce stores, mobile apps, and custom
-              software tools for small and medium businesses worldwide. What
-              hasn&apos;t changed is how we work: creativity, transparency, and
-              faithfulness in every engagement.
-            </p>
+        <Reveal>
+          <div className="grid items-center gap-10 lg:grid-cols-2">
+            <div>
+              <SectionHeading
+                align="left"
+                title="From Ethiopia to a global software partner"
+                className="mx-0"
+              />
+              <div className="mt-6 space-y-4 text-lg text-ink-muted">
+                <p>
+                  Doxa Innovations is a registered Ethiopian software company. We
+                  build websites, e-commerce stores, mobile apps, and custom
+                  tools for businesses worldwide, with clients from the US and
+                  the Netherlands to institutions across East Africa.
+                </p>
+                <p>
+                  How we work hasn&apos;t changed: creativity, transparency, and
+                  faithfulness in every engagement.
+                </p>
+              </div>
+            </div>
+            {/* TODO: replace with a real photo of the Bishoftu studio. */}
+            <div className="relative aspect-[4/3] overflow-hidden rounded-[1.5rem] border border-white/10 bg-surface-muted">
+              <Image
+                src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=70"
+                alt="Inside the Doxa studio (placeholder)"
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                unoptimized
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-deep/60 to-transparent" />
+            </div>
           </div>
-        </div>
+        </Reveal>
       </Section>
 
       {/* Bishoftu advantage */}
@@ -80,13 +93,12 @@ export default function AboutPage() {
         <div className="mx-auto max-w-3xl">
           <SectionHeading
             align="left"
-            eyebrow="The Bishoftu Advantage"
-            title="Lower cost. Same quality. No apology."
+            title="Lower cost. Same quality."
             className="mx-0"
           />
           <div className="mt-6 space-y-4 text-lg text-ink/70">
             <p>
-              Operating from Bishoftu isn&apos;t a discount — it&apos;s optimized
+              Operating from Bishoftu isn&apos;t a discount, it&apos;s optimized
               operations. One US dollar funds significantly more professional work
               here than it does in Boston or Berlin, and that benefit is passed
               directly to you.
@@ -94,7 +106,7 @@ export default function AboutPage() {
             <p>
               Our engineers and designers are trained, experienced professionals
               working in a fully equipped office. You get the same standards a
-              Western agency would deliver, at 40–70% less.
+              Western agency would deliver, at 40 to 70% less.
             </p>
           </div>
         </div>
@@ -102,10 +114,7 @@ export default function AboutPage() {
 
       {/* Mission & values */}
       <Section variant="surface">
-        <SectionHeading
-          eyebrow="What We Stand For"
-          title="Three values, in everything we ship"
-        />
+        <SectionHeading title="Three values, in everything we ship" />
         <div className="mt-12 grid gap-6 sm:grid-cols-3">
           {VALUES.map((v) => (
             <div
@@ -125,7 +134,6 @@ export default function AboutPage() {
       {/* Team */}
       <Section variant="muted">
         <SectionHeading
-          eyebrow="The Team"
           title="Real people, real faces"
           lead="The single most powerful trust signal we can offer: the people who'll actually build your product."
         />
@@ -144,9 +152,8 @@ export default function AboutPage() {
         <div className="mx-auto max-w-3xl">
           <SectionHeading
             align="left"
-            eyebrow="Legal Transparency"
             title="Our registration, in the open"
-            lead="A registered private limited company in Ethiopia — verifiable, on the record."
+            lead="A registered private limited company in Ethiopia. Verifiable, on the record."
             className="mx-0"
           />
           <div className="mt-8">

@@ -13,13 +13,14 @@ function Wordmark({ onClick }: { onClick?: () => void }) {
     <Link
       href="/"
       onClick={onClick}
-      className="group flex items-center gap-2 font-display text-lg font-semibold tracking-tight text-ink"
+      className="flex items-center gap-2.5 font-display text-base font-semibold tracking-tight text-ink sm:text-lg"
     >
-      <span className="relative inline-flex size-2.5">
-        <span className="absolute inline-flex size-full rounded-full bg-pj-secondary opacity-70 blur-[3px]" />
-        <span className="relative inline-flex size-2.5 rounded-full bg-pj-secondary" />
-      </span>
-      Doxa
+      <img
+        src="/logo.svg"
+        alt="Doxa Innovations logo"
+        className="size-7 shrink-0 drop-shadow-[0_0_10px_rgba(178,119,211,0.5)]"
+      />
+      Doxa Innovations
     </Link>
   );
 }

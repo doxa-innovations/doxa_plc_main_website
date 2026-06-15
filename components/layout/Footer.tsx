@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Mail, MessageCircle, MapPin, ArrowUpRight } from "lucide-react";
+import { Mail, MessageCircle, MapPin, Phone, ArrowUpRight } from "lucide-react";
 import { SITE } from "@/content/site";
 import { Container } from "./Container";
 
@@ -63,8 +63,8 @@ export function Footer() {
         {/* Columns */}
         <div className="grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-4">
           <div>
-            <div className="flex items-center gap-2 font-display text-lg font-semibold">
-              <span className="size-2.5 rounded-full bg-pj-secondary" />
+            <div className="flex items-center gap-2.5 font-display text-lg font-semibold">
+              <img src="/logo.svg" alt="" aria-hidden className="size-7" />
               Doxa Innovations
             </div>
             <p className="mt-4 max-w-xs text-sm text-ink-muted">{SITE.tagline}</p>
@@ -92,6 +92,15 @@ export function Footer() {
                   {SITE.phone}
                 </a>
               </li>
+              <li>
+                <a
+                  href={`tel:${SITE.phone2.replace(/\s/g, "")}`}
+                  className="inline-flex items-center gap-2 hover:text-ink"
+                >
+                  <Phone className="size-4 text-pj-secondary" strokeWidth={1.5} />
+                  {SITE.phone2}
+                </a>
+              </li>
               <li className="inline-flex items-start gap-2">
                 <MapPin
                   className="mt-0.5 size-4 shrink-0 text-pj-secondary"
@@ -114,7 +123,7 @@ export function Footer() {
             {reg.tin} · VAT {reg.vat} · Established {reg.foundingYear}
           </p>
           <p>
-            © {reg.foundingYear}–present {SITE.legalName}. All rights reserved.
+            © {reg.foundingYear} {SITE.legalName}. All rights reserved.
           </p>
         </div>
       </Container>
@@ -125,7 +134,7 @@ export function Footer() {
         className="pointer-events-none relative -mb-[4vw] select-none overflow-hidden"
       >
         <p className="text-center font-display text-[26vw] font-semibold leading-[0.8] tracking-[-0.04em] text-white/[0.05] [mask-image:linear-gradient(to_bottom,black,transparent)]">
-          Doxa
+          DOXA
         </p>
       </div>
     </footer>
