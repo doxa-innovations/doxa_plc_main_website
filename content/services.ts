@@ -10,8 +10,7 @@ export const SERVICES: Service[] = [
     slug: "website-development",
     name: "Website Development",
     icon: "Globe",
-    image:
-      "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1200&q=70",
+    image: "/work/classic.png",
     summary:
       "Fast, accessible business websites, portfolios, and landing pages built to convert and to rank.",
     description:
@@ -32,8 +31,7 @@ export const SERVICES: Service[] = [
     slug: "e-commerce",
     name: "E-Commerce Stores",
     icon: "ShoppingCart",
-    image:
-      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1200&q=70",
+    image: "/work/ecommerce.png",
     summary:
       "Shopify builds or fully custom online stores with payments, inventory, and order management.",
     description:
@@ -54,8 +52,7 @@ export const SERVICES: Service[] = [
     slug: "custom-software",
     name: "Custom Software & Tools",
     icon: "Wrench",
-    image:
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=70",
+    image: "/work/ledger.png",
     summary:
       "Internal dashboards, booking systems, CRMs, LMS platforms, and automation built around your workflow.",
     description:
