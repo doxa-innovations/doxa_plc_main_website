@@ -28,7 +28,7 @@
 
   --font-sans: var(--font-georama), system-ui, -apple-system, "Segoe UI", Roboto,
     Helvetica, Arial, sans-serif;
-  --font-display: var(--font-clash), var(--font-georama), system-ui, sans-serif;
+  --font-display: var(--font-georama), system-ui, sans-serif;
 
   --animate-blob: blob 14s infinite ease-in-out;
   --animate-marquee: marquee 38s linear infinite;
