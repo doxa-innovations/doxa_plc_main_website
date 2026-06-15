@@ -1,11 +1,12 @@
 import { cn } from "@/lib/utils";
 import { Container } from "./Container";
 
-type SectionVariant = "surface" | "muted" | "accent";
+type SectionVariant = "surface" | "muted" | "deep" | "accent";
 
 const variantClasses: Record<SectionVariant, string> = {
   surface: "bg-surface text-ink",
   muted: "bg-surface-muted text-ink",
+  deep: "bg-deep text-ink",
   accent: "bg-pj-accent text-pj-white",
 };
 

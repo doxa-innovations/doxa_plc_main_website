@@ -1,7 +1,7 @@
 import { BadgeCheck, FileText, MapPin, Receipt, ShieldCheck } from "lucide-react";
 import { SITE } from "@/content/site";
 
-/** Verifiable legal/registration facts — a hard trust signal, not a claim. */
+/** Verifiable legal/registration facts — a glass credential panel on dark. */
 export function TrustSignals() {
   const { registration: reg, address } = SITE;
 
@@ -25,22 +25,30 @@ export function TrustSignals() {
   ];
 
   return (
-    <div className="rounded-2xl border border-border bg-surface-muted p-8 sm:p-10">
-      <div className="flex items-center gap-2 text-pj-primary">
-        <BadgeCheck className="size-5" aria-hidden />
-        <h3 className="text-lg font-bold">Verifiable Legal Standing</h3>
+    <div className="relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.03] p-8 shadow-[0_40px_90px_-50px_rgba(124,60,180,0.7)] sm:p-10">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -right-20 -top-20 size-64 rounded-full bg-pj-primary/20 blur-[90px]"
+      />
+      <div className="relative flex items-center gap-2 text-pj-secondary">
+        <BadgeCheck className="size-5" strokeWidth={1.5} aria-hidden />
+        <h3 className="font-display text-lg font-semibold">
+          Verifiable legal standing
+        </h3>
       </div>
-      <p className="mt-2 max-w-2xl text-sm text-ink/70">
+      <p className="relative mt-2 max-w-2xl text-sm text-ink-muted">
         Every detail below can be checked independently. We provide
         government-issued ID on the first video call.
       </p>
-      <div className="mt-6 grid gap-x-8 gap-y-5 sm:grid-cols-2">
+      <div className="relative mt-8 grid gap-x-8 gap-y-6 sm:grid-cols-2">
         {facts.map((f) => (
           <div key={f.label} className="flex gap-3">
-            <f.icon className="mt-0.5 size-5 shrink-0 text-pj-primary" aria-hidden />
+            <span className="mt-0.5 inline-flex size-9 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-pj-primary/15 text-pj-secondary">
+              <f.icon className="size-4.5" strokeWidth={1.5} aria-hidden />
+            </span>
             <dl>
               <dt className="text-sm font-semibold text-ink">{f.label}</dt>
-              <dd className="text-sm text-ink/70">{f.value}</dd>
+              <dd className="text-sm text-ink-muted">{f.value}</dd>
             </dl>
           </div>
         ))}

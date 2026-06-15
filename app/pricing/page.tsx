@@ -37,10 +37,10 @@ export default function PricingPage() {
             <div
               key={tier.name}
               className={cn(
-                "flex h-full flex-col rounded-2xl border bg-surface p-7",
+                "flex h-full flex-col rounded-[1.6rem] border bg-white/[0.02] p-7 transition-[transform,border-color] duration-300 hover:-translate-y-0.5",
                 tier.highlighted
-                  ? "border-pj-primary shadow-lg ring-1 ring-pj-primary"
-                  : "border-border",
+                  ? "border-pj-secondary/50 bg-pj-primary/[0.07] shadow-[0_40px_100px_-50px_rgba(178,119,211,0.95)] ring-1 ring-pj-secondary/40"
+                  : "border-white/10 hover:border-white/20",
               )}
             >
               <div className="flex items-center justify-between">
@@ -68,7 +68,7 @@ export default function PricingPage() {
               <ul className="mt-6 flex-1 space-y-2.5">
                 {tier.includes.map((item) => (
                   <li key={item} className="flex items-start gap-2 text-sm text-ink/80">
-                    <Check className="mt-0.5 size-4 shrink-0 text-pj-primary" aria-hidden />
+                    <Check className="mt-0.5 size-4 shrink-0 text-pj-secondary" aria-hidden />
                     {item}
                   </li>
                 ))}
@@ -99,10 +99,10 @@ export default function PricingPage() {
           {ADD_ONS.map((addon) => (
             <div
               key={addon.name}
-              className="rounded-xl border border-border bg-surface p-6"
+              className="rounded-[1.25rem] border border-white/10 bg-white/[0.02] p-6"
             >
               <h3 className="text-base font-bold text-ink">{addon.name}</h3>
-              <p className="mt-1 text-sm font-semibold text-pj-primary">
+              <p className="mt-1 text-sm font-semibold text-pj-secondary">
                 {addon.priceFrom}
               </p>
               <p className="mt-2 text-sm text-ink/70">{addon.detail}</p>
@@ -110,8 +110,8 @@ export default function PricingPage() {
           ))}
         </div>
 
-        <div className="mx-auto mt-10 flex max-w-3xl gap-3 rounded-xl border border-pj-primary/20 bg-pj-primary/[0.06] p-5">
-          <Info className="mt-0.5 size-5 shrink-0 text-pj-primary" aria-hidden />
+        <div className="mx-auto mt-10 flex max-w-3xl gap-3 rounded-[1.25rem] border border-white/10 bg-white/[0.03] p-5">
+          <Info className="mt-0.5 size-5 shrink-0 text-pj-secondary" aria-hidden />
           <p className="text-sm text-ink/80">
             All prices are starting points and guides. Every project is scoped
             individually, and no quote is given without a discovery conversation.

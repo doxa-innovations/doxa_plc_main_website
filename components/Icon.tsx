@@ -26,5 +26,5 @@ export function ServiceIcon({
   className?: string;
 }) {
   const Cmp = ICONS[name] ?? Globe;
-  return <Cmp className={className} aria-hidden />;
+  return <Cmp className={className} strokeWidth={1.5} aria-hidden />;
 }

@@ -34,33 +34,33 @@ export default function ContactPage() {
             <h2 className="text-xl font-bold text-ink">Reach us directly</h2>
             <ul className="mt-6 space-y-5">
               <li className="flex gap-3">
-                <Mail className="mt-0.5 size-5 shrink-0 text-pj-primary" aria-hidden />
+                <Mail className="mt-0.5 size-5 shrink-0 text-pj-secondary" aria-hidden />
                 <div>
                   <p className="text-sm font-semibold text-ink">Email</p>
                   <a
                     href={`mailto:${SITE.email}`}
-                    className="text-sm text-ink/70 hover:text-pj-primary"
+                    className="text-sm text-ink/70 hover:text-pj-secondary"
                   >
                     {SITE.email}
                   </a>
                 </div>
               </li>
               <li className="flex gap-3">
-                <MessageCircle className="mt-0.5 size-5 shrink-0 text-pj-primary" aria-hidden />
+                <MessageCircle className="mt-0.5 size-5 shrink-0 text-pj-secondary" aria-hidden />
                 <div>
                   <p className="text-sm font-semibold text-ink">Phone / WhatsApp</p>
                   <a
                     href={whatsappUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm text-ink/70 hover:text-pj-primary"
+                    className="text-sm text-ink/70 hover:text-pj-secondary"
                   >
                     {SITE.phone}
                   </a>
                 </div>
               </li>
               <li className="flex gap-3">
-                <MapPin className="mt-0.5 size-5 shrink-0 text-pj-primary" aria-hidden />
+                <MapPin className="mt-0.5 size-5 shrink-0 text-pj-secondary" aria-hidden />
                 <div>
                   <p className="text-sm font-semibold text-ink">Office</p>
                   <p className="text-sm text-ink/70">
@@ -71,8 +71,8 @@ export default function ContactPage() {
               </li>
             </ul>
 
-            <div className="mt-8 flex gap-3 rounded-xl border border-pj-primary/20 bg-pj-primary/[0.06] p-5">
-              <Clock className="mt-0.5 size-5 shrink-0 text-pj-primary" aria-hidden />
+            <div className="mt-8 flex gap-3 rounded-[1.25rem] border border-white/10 bg-white/[0.03] p-5">
+              <Clock className="mt-0.5 size-5 shrink-0 text-pj-secondary" aria-hidden />
               <p className="text-sm text-ink/80">
                 <span className="font-semibold text-ink">
                   We respond within 24 hours
@@ -85,7 +85,7 @@ export default function ContactPage() {
 
           {/* Form */}
           <div className="lg:col-span-3">
-            <div className="rounded-2xl border border-border bg-surface p-6 shadow-sm sm:p-8">
+            <div className="rounded-[1.6rem] border border-white/10 bg-white/[0.02] p-6 shadow-[0_40px_90px_-50px_rgba(124,60,180,0.6)] sm:p-8">
               <ContactForm />
             </div>
           </div>

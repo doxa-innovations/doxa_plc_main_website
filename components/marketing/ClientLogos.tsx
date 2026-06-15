@@ -1,36 +1,39 @@
 import { Container } from "@/components/layout/Container";
 
-const CLIENTS = [
-  "ZOA International",
-  "KLA Construction Equipment",
-  "Maor Lutheran Seminary",
-  "MySeed",
-  "Classic Noodle",
-  "Zoe Delivery",
-  "Scholten Pattern Works",
-  "Yeneta Master",
+const CDN = "https://cdn.doxaplc.com/doxa-public";
+
+// Real client/project marks, normalized to uniform white silhouettes for a
+// cohesive dark logo wall (the standard premium "trusted by" treatment).
+const LOGOS = [
+  { src: `${CDN}/kla.svg`, alt: "KLA Construction Equipment" },
+  { src: `${CDN}/ZOA.svg`, alt: "ZOA International" },
+  { src: `${CDN}/myseed.png`, alt: "MySeed" },
+  { src: `${CDN}/classic_logo.png`, alt: "Classic Noodle" },
+  { src: `${CDN}/Zoe.png`, alt: "Zoe Delivery" },
+  { src: `${CDN}/yenetaMaster.png`, alt: "Yeneta Master" },
+  { src: `${CDN}/lce.png`, alt: "Lutheran Church of Ethiopia" },
+  { src: `${CDN}/maor.png`, alt: "Maor Lutheran Seminary" },
 ];
 
-/**
- * Scrolling strip of client names. Uses a duplicated track so the marquee
- * loops seamlessly; pauses on hover and respects reduced-motion.
- */
+/** Auto-scrolling wall of real client logos; pauses on hover, motion-safe. */
 export function ClientLogos() {
-  const track = [...CLIENTS, ...CLIENTS];
+  const track = [...LOGOS, ...LOGOS];
   return (
-    <section className="border-y border-border bg-surface py-10">
+    <section className="border-y border-white/[0.06] bg-deep py-12">
       <Container>
-        <p className="text-center text-sm font-medium text-ink/60">
-          Trusted by clients from the US, Netherlands, and East Africa
+        <p className="text-center text-sm text-ink-muted">
+          Trusted by clients across the US, the Netherlands, and East Africa
         </p>
-        <div className="group relative mt-6 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)]">
-          <ul className="flex w-max animate-marquee items-center gap-12 group-hover:[animation-play-state:paused] motion-reduce:animate-none">
-            {track.map((name, i) => (
-              <li
-                key={`${name}-${i}`}
-                className="whitespace-nowrap text-lg font-semibold tracking-tight text-ink/40"
-              >
-                {name}
+        <div className="group relative mt-8 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+          <ul className="flex w-max animate-marquee items-center gap-16 group-hover:[animation-play-state:paused] motion-reduce:animate-none">
+            {track.map((logo, i) => (
+              <li key={`${logo.alt}-${i}`} className="shrink-0">
+                <img
+                  src={logo.src}
+                  alt={logo.alt}
+                  className="h-7 w-auto object-contain opacity-45 brightness-0 invert transition-opacity duration-300 hover:opacity-80"
+                  loading="lazy"
+                />
               </li>
             ))}
           </ul>

@@ -68,20 +68,22 @@ export default async function ProjectPage({ params }: { params: Params }) {
           <h1 className="mt-3 max-w-3xl text-4xl font-extrabold tracking-tight text-ink sm:text-5xl">
             {project.client}
           </h1>
-          <p className="mt-2 text-lg font-medium text-pj-primary">
+          <p className="mt-2 text-lg font-medium text-pj-secondary">
             {project.title}
           </p>
           {project.liveUrl && (
-            <Button asChild className="mt-6">
-              <a
-                href={project.liveUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Visit live site
-                <ArrowUpRight className="size-4" />
-              </a>
-            </Button>
+            <div className="mt-6">
+              <Button asChild>
+                <a
+                  href={project.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Visit live site
+                  <ArrowUpRight className="size-4" strokeWidth={2} />
+                </a>
+              </Button>
+            </div>
           )}
         </Container>
       </section>
@@ -147,7 +149,7 @@ export default async function ProjectPage({ params }: { params: Params }) {
         <div className="mx-auto mt-12 max-w-4xl">
           <Link
             href="/works"
-            className="inline-flex items-center gap-1.5 text-sm font-semibold text-pj-primary hover:underline"
+            className="inline-flex items-center gap-1.5 text-sm font-semibold text-pj-secondary hover:underline"
           >
             <ArrowLeft className="size-4" />
             Back to all projects

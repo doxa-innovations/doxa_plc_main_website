@@ -4,6 +4,7 @@ import { PageHeader } from "@/components/layout/PageHeader";
 import { Section } from "@/components/layout/Section";
 import { ProjectCard } from "@/components/marketing/ProjectCard";
 import { CtaBand } from "@/components/marketing/CtaBand";
+import { Reveal } from "@/components/Reveal";
 
 export const metadata = buildMetadata({
   title: "Our Work",
@@ -27,11 +28,13 @@ export default function WorksPage() {
 
       <Section variant="surface">
         <h2 className="sr-only">All projects</h2>
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {sortedProjects.map((project) => (
-            <ProjectCard key={project.slug} project={project} />
-          ))}
-        </div>
+        <Reveal>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {sortedProjects.map((project) => (
+              <ProjectCard key={project.slug} project={project} />
+            ))}
+          </div>
+        </Reveal>
       </Section>
 
       <CtaBand

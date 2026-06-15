@@ -2,8 +2,9 @@ import { Container } from "./Container";
 import { Breadcrumbs, type Crumb } from "@/components/seo/Breadcrumbs";
 
 /**
- * Standard inner-page header: clears the fixed navbar, shows breadcrumbs
- * (which also emit BreadcrumbList JSON-LD), and renders the page title.
+ * Inner-page header on the dark canvas: clears the floating navbar, shows
+ * breadcrumbs (which also emit BreadcrumbList JSON-LD), a violet glow, and the
+ * page title in the display face.
  */
 export function PageHeader({
   eyebrow,
@@ -17,22 +18,30 @@ export function PageHeader({
   breadcrumbs?: Crumb[];
 }) {
   return (
-    <section className="border-b border-border bg-surface-muted pb-12 pt-28 sm:pb-16 sm:pt-32">
-      <Container>
+    <section className="relative overflow-hidden border-b border-white/[0.07] bg-surface pb-14 pt-32 sm:pb-20 sm:pt-36">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -top-32 left-1/2 size-[44rem] -translate-x-1/2 rounded-full bg-pj-primary/15 blur-[120px]"
+      />
+      <Container className="relative">
         {breadcrumbs && (
-          <div className="mb-5">
+          <div className="mb-6">
             <Breadcrumbs items={breadcrumbs} />
           </div>
         )}
         {eyebrow && (
-          <p className="text-sm font-semibold uppercase tracking-wide text-pj-primary">
+          <p className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs font-medium uppercase tracking-[0.18em] text-pj-secondary">
             {eyebrow}
           </p>
         )}
-        <h1 className="mt-2 max-w-3xl text-4xl font-extrabold tracking-tight text-ink sm:text-5xl">
+        <h1 className="max-w-3xl text-balance font-display text-4xl font-semibold tracking-[-0.03em] text-ink sm:text-5xl lg:text-6xl">
           {title}
         </h1>
-        {lead && <p className="mt-4 max-w-2xl text-lg text-ink/70">{lead}</p>}
+        {lead && (
+          <p className="mt-5 max-w-2xl text-pretty text-lg text-ink-muted">
+            {lead}
+          </p>
+        )}
       </Container>
     </section>
   );

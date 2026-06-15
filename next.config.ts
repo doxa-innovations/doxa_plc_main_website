@@ -26,6 +26,8 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "cdn.doxaplc.com", pathname: "/**" },
+      // Single reused placeholder photo for slots awaiting real photography.
+      { protocol: "https", hostname: "picsum.photos", pathname: "/**" },
     ],
   },
 

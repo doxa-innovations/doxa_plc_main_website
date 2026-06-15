@@ -40,11 +40,11 @@ export default function ServicesPage() {
             <article
               key={service.slug}
               id={service.slug}
-              className="scroll-mt-24 rounded-2xl border border-border bg-surface p-6 sm:p-8"
+              className="scroll-mt-24 rounded-[1.6rem] border border-white/10 bg-white/[0.02] p-6 shadow-[0_40px_90px_-50px_rgba(124,60,180,0.5)] sm:p-8"
             >
               <div className="grid gap-8 lg:grid-cols-3">
                 <div>
-                  <span className="inline-flex size-12 items-center justify-center rounded-xl bg-pj-primary/10 text-pj-primary">
+                  <span className="inline-flex size-12 items-center justify-center rounded-xl border border-white/10 bg-pj-primary/15 text-pj-secondary shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
                     <ServiceIcon name={service.icon} className="size-6" />
                   </span>
                   <h2 className="mt-4 text-2xl font-bold text-ink">
@@ -53,12 +53,12 @@ export default function ServicesPage() {
                   <p className="mt-2 text-ink/70">{service.summary}</p>
                   <div className="mt-5 space-y-2 text-sm">
                     <p className="flex items-center gap-2 text-ink/70">
-                      <Clock className="size-4 text-pj-primary" aria-hidden />
+                      <Clock className="size-4 text-pj-secondary" aria-hidden />
                       <span className="sr-only">Timeline: </span>
                       {service.timeline}
                     </p>
                     <p className="flex items-center gap-2 font-semibold text-ink">
-                      <Tag className="size-4 text-pj-primary" aria-hidden />
+                      <Tag className="size-4 text-pj-secondary" aria-hidden />
                       <span className="sr-only">Starting price: </span>
                       {priceLabel(
                         service.startingFrom.amount,
@@ -81,7 +81,7 @@ export default function ServicesPage() {
                   <ul className="mt-3 grid gap-2 sm:grid-cols-2">
                     {service.deliverables.map((d) => (
                       <li key={d} className="flex items-start gap-2 text-sm text-ink/70">
-                        <Check className="mt-0.5 size-4 shrink-0 text-pj-primary" aria-hidden />
+                        <Check className="mt-0.5 size-4 shrink-0 text-pj-secondary" aria-hidden />
                         {d}
                       </li>
                     ))}
@@ -104,8 +104,8 @@ export default function ServicesPage() {
       {/* What we don't do */}
       <Section variant="muted">
         <Container className="max-w-3xl">
-          <div className="flex gap-4 rounded-2xl border border-border bg-surface p-8">
-            <Ban className="mt-1 size-6 shrink-0 text-pj-primary" aria-hidden />
+          <div className="flex gap-4 rounded-[1.6rem] border border-white/10 bg-white/[0.02] p-8">
+            <Ban className="mt-1 size-6 shrink-0 text-pj-secondary" aria-hidden />
             <div>
               <h2 className="text-lg font-bold text-ink">What we don&apos;t do</h2>
               <p className="mt-2 text-ink/70">

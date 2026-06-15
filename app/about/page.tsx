@@ -110,9 +110,9 @@ export default function AboutPage() {
           {VALUES.map((v) => (
             <div
               key={v.title}
-              className="rounded-xl border border-border bg-surface p-6"
+              className="rounded-[1.4rem] border border-white/10 bg-white/[0.02] p-6"
             >
-              <span className="inline-flex size-11 items-center justify-center rounded-lg bg-pj-primary/10 text-pj-primary">
+              <span className="inline-flex size-11 items-center justify-center rounded-xl border border-white/10 bg-pj-primary/15 text-pj-secondary shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
                 <v.icon className="size-5" aria-hidden />
               </span>
               <h3 className="mt-4 text-base font-bold text-ink">{v.title}</h3>

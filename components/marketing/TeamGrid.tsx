@@ -7,28 +7,32 @@ import { graph, personSchema } from "@/lib/jsonld";
 
 function TeamCard({ member, showBio }: { member: TeamMember; showBio: boolean }) {
   return (
-    <div className="flex flex-col items-center rounded-xl border border-border bg-surface p-6 text-center">
-      <div className="relative size-28 overflow-hidden rounded-full bg-surface-muted ring-2 ring-pj-primary/15">
+    <div className="group flex flex-col items-center rounded-[1.4rem] border border-white/10 bg-white/[0.02] p-6 text-center transition-[transform,border-color,background-color] duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 hover:border-white/20 hover:bg-white/[0.04]">
+      <div className="relative size-28 overflow-hidden rounded-full bg-surface-muted ring-2 ring-pj-secondary/30">
         <Image
           src={member.photo}
           alt={member.name}
           fill
           sizes="112px"
-          className="object-cover"
+          className="object-cover grayscale transition-[filter] duration-500 group-hover:grayscale-0"
         />
       </div>
-      <h3 className="mt-4 text-lg font-bold text-ink">{member.name}</h3>
-      <p className="text-sm font-medium text-pj-primary">{member.role}</p>
+      <h3 className="mt-4 font-display text-lg font-semibold text-ink">
+        {member.name}
+      </h3>
+      <p className="text-sm font-medium text-pj-secondary">{member.role}</p>
       <div className="mt-3 flex flex-wrap justify-center gap-1.5">
         {member.expertise.map((tag) => (
-          <Badge key={tag} variant="secondary" className="font-normal">
+          <Badge
+            key={tag}
+            variant="secondary"
+            className="border border-white/10 bg-white/[0.05] font-normal text-ink-muted"
+          >
             {tag}
           </Badge>
         ))}
       </div>
-      {showBio && (
-        <p className="mt-4 text-sm text-ink/70">{member.bio}</p>
-      )}
+      {showBio && <p className="mt-4 text-sm text-ink-muted">{member.bio}</p>}
     </div>
   );
 }

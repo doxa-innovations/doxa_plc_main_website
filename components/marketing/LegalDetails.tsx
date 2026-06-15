@@ -24,7 +24,7 @@ export function LegalDetails() {
   ];
 
   return (
-    <div className="rounded-2xl border border-border bg-surface p-8 sm:p-10">
+    <div className="rounded-[1.5rem] border border-white/10 bg-white/[0.02] p-8 shadow-[0_40px_90px_-50px_rgba(124,60,180,0.6)] sm:p-10">
       <div className="divide-y divide-border">
         {rows.map((row) => (
           <dl

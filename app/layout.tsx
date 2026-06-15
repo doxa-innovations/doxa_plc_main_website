@@ -29,6 +29,20 @@ const georama = localFont({
   ],
 });
 
+// Distinctive display face for headlines (paired with Georama for body).
+const clash = localFont({
+  variable: "--font-clash",
+  display: "swap",
+  preload: true,
+  fallback: ["Georama", "system-ui", "sans-serif"],
+  src: [
+    { path: "./fonts/ClashDisplay-Regular.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/ClashDisplay-Medium.woff2", weight: "500", style: "normal" },
+    { path: "./fonts/ClashDisplay-Semibold.woff2", weight: "600", style: "normal" },
+    { path: "./fonts/ClashDisplay-Bold.woff2", weight: "700", style: "normal" },
+  ],
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
@@ -71,7 +85,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={georama.variable}>
+    <html lang="en" className={`dark ${georama.variable} ${clash.variable}`}>
       <head>
         <link rel="preconnect" href="https://cdn.doxaplc.com" crossOrigin="" />
       </head>

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 export default function NotFound() {
   return (
     <Container className="flex min-h-[70vh] flex-col items-center justify-center gap-5 py-32 text-center">
-      <p className="text-sm font-semibold uppercase tracking-wide text-pj-primary">
+      <p className="text-sm font-semibold uppercase tracking-wide text-pj-secondary">
         404
       </p>
       <h1 className="max-w-xl text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
