@@ -1,8 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowUpRight } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, FileText } from "lucide-react";
 import { buildMetadata } from "@/lib/metadata";
+import { SITE } from "@/content/site";
 import { allProjectSlugs, getProjectBySlug } from "@/content/projects";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
@@ -71,8 +72,8 @@ export default async function ProjectPage({ params }: { params: Params }) {
           <p className="mt-2 text-lg font-medium text-pj-secondary">
             {project.title}
           </p>
-          {project.liveUrl && (
-            <div className="mt-6">
+          <div className="mt-6 flex flex-wrap gap-3">
+            {project.liveUrl && (
               <Button asChild>
                 <a
                   href={project.liveUrl}
@@ -83,8 +84,18 @@ export default async function ProjectPage({ params }: { params: Params }) {
                   <ArrowUpRight className="size-4" strokeWidth={2} />
                 </a>
               </Button>
-            </div>
-          )}
+            )}
+            <Button asChild variant="outline">
+              <a
+                href={project.recommendationUrl ?? SITE.recommendationsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FileText className="size-4" strokeWidth={1.75} />
+                View recommendation letter
+              </a>
+            </Button>
+          </div>
         </Container>
       </section>
 

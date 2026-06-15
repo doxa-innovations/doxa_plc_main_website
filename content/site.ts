@@ -50,6 +50,8 @@ export const SITE: SiteConfig = {
   driveProfileUrl: "",
   etradeVerifyUrl:
     "https://etrade.gov.et/business-license-checker?tin=0093503857&licenseNo=ORO%2FBT%2Foffice%2F04%2FBT0001%2F24709135%2F2017",
+  recommendationsUrl:
+    "https://drive.google.com/drive/folders/1WALKyIAHouHf-zCgn-XEBwLFO6Ff_t0c?usp=sharing",
   mainNav: [
     { label: "Services", href: "/services" },
     { label: "Works", href: "/works" },

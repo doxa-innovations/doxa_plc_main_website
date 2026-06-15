@@ -58,6 +58,8 @@ export interface SiteConfig {
   driveProfileUrl: string;
   /** Ethiopian Ministry of Trade business-license verification URL. */
   etradeVerifyUrl: string;
+  /** Public Google Drive folder holding client recommendation letters. */
+  recommendationsUrl: string;
   mainNav: NavLink[];
   footerNav: {
     services: NavLink[];
@@ -104,6 +106,8 @@ export interface Project {
   featured: boolean;
   status: ProjectStatus;
   order: number;
+  /** Direct link to this project's recommendation letter, if it has its own. */
+  recommendationUrl?: string;
 }
 
 export interface TeamMember {

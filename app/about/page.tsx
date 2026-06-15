@@ -90,26 +90,43 @@ export default function AboutPage() {
 
       {/* Bishoftu advantage */}
       <Section variant="muted">
-        <div className="mx-auto max-w-3xl">
-          <SectionHeading
-            align="left"
-            title="Lower cost. Same quality."
-            className="mx-0"
-          />
-          <div className="mt-6 space-y-4 text-lg text-ink/70">
-            <p>
-              Operating from Bishoftu isn&apos;t a discount, it&apos;s optimized
-              operations. One US dollar funds significantly more professional work
-              here than it does in Boston or Berlin, and that benefit is passed
-              directly to you.
-            </p>
-            <p>
-              Our engineers and designers are trained, experienced professionals
-              working in a fully equipped office. You get the same standards a
-              Western agency would deliver, at 40 to 70% less.
-            </p>
+        <Reveal>
+          <div className="grid items-center gap-10 lg:grid-cols-2">
+            {/* TODO: replace with a real photo of the Bishoftu team/office. */}
+            <div className="relative order-last aspect-[4/3] overflow-hidden rounded-[1.5rem] border border-white/10 bg-surface-muted lg:order-first">
+              <Image
+                src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1200&q=70"
+                alt="Doxa engineers and designers at work (placeholder)"
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                unoptimized
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-deep/60 to-transparent" />
+            </div>
+            <div>
+              <SectionHeading
+                align="left"
+                title="Lower cost. Same quality."
+                className="mx-0"
+              />
+              <div className="mt-6 space-y-4 text-lg text-ink-muted">
+                <p>
+                  Operating from Bishoftu isn&apos;t a discount, it&apos;s
+                  optimized operations. One US dollar funds significantly more
+                  professional work here than it does in Boston or Berlin, and
+                  that benefit is passed directly to you.
+                </p>
+                <p>
+                  Our engineers and designers are trained, experienced
+                  professionals working in a fully equipped office. You get the
+                  same standards a Western agency would deliver, at 40 to 70%
+                  less.
+                </p>
+              </div>
+            </div>
           </div>
-        </div>
+        </Reveal>
       </Section>
 
       {/* Mission & values */}

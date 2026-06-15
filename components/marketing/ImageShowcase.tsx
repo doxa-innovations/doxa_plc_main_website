@@ -35,12 +35,12 @@ function PhotoTile({ src, alt }: { src: string; alt: string }) {
 
 export function ImageShowcase() {
   return (
-    <div className="space-y-5">
+    <div className="space-y-3">
       <VideoEmbed
         orientation="landscape"
         title="A walkthrough of our Bishoftu office"
       />
-      <div className="grid gap-5 sm:grid-cols-2">
+      <div className="grid gap-3 sm:grid-cols-2">
         {PHOTOS.map((p) => (
           <PhotoTile key={p.src} src={p.src} alt={p.alt} />
         ))}
