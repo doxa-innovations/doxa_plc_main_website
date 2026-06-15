@@ -17,8 +17,7 @@ export const SITE: SiteConfig = {
     "Doxa Innovations is a legally registered Ethiopian software company building websites, e-commerce stores, and custom software tools for small and medium businesses in the US, EU, Asia, and beyond, at 40-70% below typical Western agency rates.",
   email: "company@doxaplc.com",
   phone: "+251 961 412 909",
-  // TODO: replace with the real second phone number.
-  phone2: "+251 900 000 000",
+  phone2: "+251 989 932 714",
   whatsapp: "+251961412909",
   // TODO: confirm the real Telegram username.
   telegram: "doxainnovations",
