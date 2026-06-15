@@ -18,7 +18,6 @@ function BrowserShot({
   delay,
   reduce,
   rotate = 0,
-  z = 10,
   priority = false,
 }: {
   src: string;
@@ -28,46 +27,43 @@ function BrowserShot({
   reduce: boolean | null;
   /** Resting rotation (degrees) for the fanned stack. */
   rotate?: number;
-  /** Base stacking order. */
-  z?: number;
   priority?: boolean;
 }) {
   return (
+    // Outer layer = entrance only (slow, staggered). Kept separate so the
+    // hover return below is never governed by the entrance delay/duration.
     <motion.div
-      initial={reduce ? false : { opacity: 0, y: 40, scale: 0.96, rotate }}
-      animate={{ opacity: 1, y: 0, scale: 1, rotate }}
-      whileHover={
-        reduce
-          ? undefined
-          : {
-              rotate: 0,
-              scale: 1.14,
-              y: -18,
-              zIndex: 50,
-              transition: { duration: 0.35, ease: EASE },
-            }
-      }
-      transition={{ duration: 0.9, delay, ease: EASE }}
-      style={{ zIndex: z }}
-      className={cn("cursor-pointer", className)}
+      initial={reduce ? false : { opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, delay, ease: EASE }}
+      className={cn("hover:z-50", className)}
     >
-      <div className="overflow-hidden rounded-xl border border-white/12 bg-deep shadow-[0_50px_120px_-40px_rgba(124,60,180,0.9)]">
-        <div className="flex items-center gap-1.5 border-b border-white/10 bg-white/[0.03] px-3 py-2.5">
-          <span className="size-2.5 rounded-full bg-white/15" />
-          <span className="size-2.5 rounded-full bg-white/15" />
-          <span className="size-2.5 rounded-full bg-white/15" />
+      {/* Inner layer = hover pop, snappy in AND out (no delay). */}
+      <motion.div
+        initial={false}
+        animate={{ rotate, scale: 1, y: 0 }}
+        whileHover={reduce ? undefined : { rotate: 0, scale: 1.14, y: -18 }}
+        transition={{ duration: 0.3, ease: EASE }}
+        className="cursor-pointer"
+      >
+        <div className="overflow-hidden rounded-xl border border-white/12 bg-deep shadow-[0_50px_120px_-40px_rgba(124,60,180,0.9)]">
+          <div className="flex items-center gap-1.5 border-b border-white/10 bg-white/[0.03] px-3 py-2.5">
+            <span className="size-2.5 rounded-full bg-white/15" />
+            <span className="size-2.5 rounded-full bg-white/15" />
+            <span className="size-2.5 rounded-full bg-white/15" />
+          </div>
+          <div className="relative aspect-[16/10]">
+            <Image
+              src={src}
+              alt={alt}
+              fill
+              sizes="(max-width:1024px) 90vw, 700px"
+              className="object-cover"
+              priority={priority}
+            />
+          </div>
         </div>
-        <div className="relative aspect-[16/10]">
-          <Image
-            src={src}
-            alt={alt}
-            fill
-            sizes="(max-width:1024px) 90vw, 700px"
-            className="object-cover"
-            priority={priority}
-          />
-        </div>
-      </div>
+      </motion.div>
     </motion.div>
   );
 }
@@ -163,8 +159,7 @@ export function Hero() {
               delay={0.55}
               reduce={reduce}
               rotate={-6}
-              z={10}
-              className="absolute -left-8 top-12 hidden w-[46%] lg:block"
+              className="absolute -left-8 top-12 z-10 hidden w-[46%] lg:block"
             />
           )}
           {right && (
@@ -174,8 +169,7 @@ export function Hero() {
               delay={0.62}
               reduce={reduce}
               rotate={6}
-              z={10}
-              className="absolute -right-8 top-12 hidden w-[46%] lg:block"
+              className="absolute -right-8 top-12 z-10 hidden w-[46%] lg:block"
             />
           )}
           {center && (
@@ -185,9 +179,8 @@ export function Hero() {
               delay={0.4}
               reduce={reduce}
               rotate={0}
-              z={20}
               priority
-              className="relative mx-auto w-full lg:w-[62%]"
+              className="relative z-20 mx-auto w-full lg:w-[62%]"
             />
           )}
         </div>
