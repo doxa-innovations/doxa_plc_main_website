@@ -179,13 +179,15 @@ export default function HomePage() {
         </Reveal>
         <Reveal delay={0.05}>
           <div className="relative mt-14">
+            {/* Connector runs only from the first node to the last (node centers
+                sit at ~12.5% and ~87.5% across the four equal columns). */}
             <span
               aria-hidden
-              className="absolute left-0 right-0 top-5 hidden h-px bg-gradient-to-r from-transparent via-pj-primary/40 to-transparent md:block"
+              className="absolute left-[12.5%] right-[12.5%] top-5 hidden h-px bg-gradient-to-r from-pj-secondary/50 via-pj-primary/40 to-pj-secondary/50 md:block"
             />
             <ol className="grid gap-10 md:grid-cols-4 md:gap-6">
               {STEPS.map((s) => (
-                <li key={s.n} className="relative">
+                <li key={s.n} className="relative text-center">
                   <span className="relative z-10 inline-flex size-10 items-center justify-center rounded-full border border-white/10 bg-surface font-display text-base font-semibold text-pj-secondary shadow-[0_0_30px_-6px_rgba(178,119,211,0.8)]">
                     {s.n}
                   </span>
