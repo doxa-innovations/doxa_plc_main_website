@@ -7,7 +7,7 @@ import { QrVerify } from "@/components/QrVerify";
 export function LegalDetails() {
   const { registration: reg, address } = SITE;
 
-  const rows: { label: string; value: string }[] = [
+  const rows: { label: string; value: string; href?: string }[] = [
     { label: "Company Name", value: SITE.legalName },
     { label: "Legal Form", value: "Private Limited Company (PLC), Ethiopia" },
     { label: "Commercial Registration No.", value: reg.commercialRegNo },
@@ -19,6 +19,7 @@ export function LegalDetails() {
     {
       label: "Registered Address",
       value: `${address.street}, ${address.city}, ${address.region}, ${address.country}`,
+      href: SITE.mapUrl,
     },
   ];
 
@@ -31,7 +32,20 @@ export function LegalDetails() {
             className="grid gap-1 py-4 first:pt-0 last:pb-0 sm:grid-cols-3 sm:gap-4"
           >
             <dt className="text-sm font-semibold text-ink">{row.label}</dt>
-            <dd className="text-sm text-ink/70 sm:col-span-2">{row.value}</dd>
+            <dd className="text-sm text-ink/70 sm:col-span-2">
+              {row.href ? (
+                <a
+                  href={row.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-pj-secondary"
+                >
+                  {row.value}
+                </a>
+              ) : (
+                row.value
+              )}
+            </dd>
           </dl>
         ))}
       </div>

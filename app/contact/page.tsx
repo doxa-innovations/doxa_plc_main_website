@@ -78,10 +78,15 @@ export default function ContactPage() {
                 <MapPin className="mt-0.5 size-5 shrink-0 text-pj-secondary" aria-hidden />
                 <div>
                   <p className="text-sm font-semibold text-ink">Office</p>
-                  <p className="text-sm text-ink/70">
+                  <a
+                    href={SITE.mapUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-ink/70 hover:text-pj-secondary"
+                  >
                     {SITE.address.street}, {SITE.address.city},{" "}
                     {SITE.address.region}, {SITE.address.country}
-                  </p>
+                  </a>
                 </div>
               </li>
             </ul>

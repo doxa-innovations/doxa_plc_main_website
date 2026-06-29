@@ -1,11 +1,23 @@
-import { BadgeCheck, FileText, MapPin, Receipt, ShieldCheck } from "lucide-react";
+import {
+  BadgeCheck,
+  FileText,
+  MapPin,
+  Receipt,
+  ShieldCheck,
+  type LucideIcon,
+} from "lucide-react";
 import { SITE } from "@/content/site";
 
 /** Verifiable legal/registration facts, a glass credential panel on dark. */
 export function TrustSignals() {
   const { registration: reg, address } = SITE;
 
-  const facts = [
+  const facts: {
+    icon: LucideIcon;
+    label: string;
+    value: string;
+    href?: string;
+  }[] = [
     {
       icon: ShieldCheck,
       label: "Company Registration",
@@ -21,6 +33,7 @@ export function TrustSignals() {
       icon: MapPin,
       label: "Physical Office",
       value: `${address.street}, ${address.city}, ${address.region}`,
+      href: SITE.mapUrl,
     },
   ];
 
@@ -48,7 +61,20 @@ export function TrustSignals() {
             </span>
             <dl>
               <dt className="text-sm font-semibold text-ink">{f.label}</dt>
-              <dd className="text-sm text-ink-muted">{f.value}</dd>
+              <dd className="text-sm text-ink-muted">
+                {f.href ? (
+                  <a
+                    href={f.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-ink"
+                  >
+                    {f.value}
+                  </a>
+                ) : (
+                  f.value
+                )}
+              </dd>
             </dl>
           </div>
         ))}

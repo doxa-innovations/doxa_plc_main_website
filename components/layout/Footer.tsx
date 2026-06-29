@@ -101,12 +101,20 @@ export function Footer() {
                   {SITE.phone2}
                 </a>
               </li>
-              <li className="inline-flex items-start gap-2">
-                <MapPin
-                  className="mt-0.5 size-4 shrink-0 text-pj-secondary"
-                  strokeWidth={1.5}
-                />
-                {SITE.address.city}, {SITE.address.region}, {SITE.address.country}
+              <li>
+                <a
+                  href={SITE.mapUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-start gap-2 hover:text-ink"
+                >
+                  <MapPin
+                    className="mt-0.5 size-4 shrink-0 text-pj-secondary"
+                    strokeWidth={1.5}
+                  />
+                  {SITE.address.city}, {SITE.address.region},{" "}
+                  {SITE.address.country}
+                </a>
               </li>
             </ul>
           </div>

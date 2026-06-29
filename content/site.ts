@@ -51,6 +51,9 @@ export const SITE: SiteConfig = {
     "https://etrade.gov.et/business-license-checker?tin=0093503857&licenseNo=ORO%2FBT%2Foffice%2F04%2FBT0001%2F24709135%2F2017",
   recommendationsUrl:
     "https://drive.google.com/drive/folders/1WALKyIAHouHf-zCgn-XEBwLFO6Ff_t0c?usp=sharing",
+  mapUrl: "https://maps.app.goo.gl/rrwe2i8Y6Q7BHKacA",
+  mapEmbedUrl:
+    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d409.2007424607873!2d38.964116035473445!3d8.750459859189782!2m3!1f46.12500000000005!2f13.585591140307123!3f0!3m2!1i1024!2i768!4f35!3m3!1m2!1s0x164b73f8e215f665%3A0xa504912407f9384f!2sDoxa%20Innovations%20Software%20Development%20PLC!5e1!3m2!1sen!2set!4v1782733194866!5m2!1sen!2set",
   mainNav: [
     { label: "Services", href: "/services" },
     { label: "Works", href: "/works" },

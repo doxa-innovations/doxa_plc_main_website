@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Sparkles, Eye, HeartHandshake } from "lucide-react";
+import { Sparkles, Eye, HeartHandshake, MapPin, ArrowUpRight } from "lucide-react";
+import { SITE } from "@/content/site";
 import { buildMetadata } from "@/lib/metadata";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Section } from "@/components/layout/Section";
@@ -177,6 +178,54 @@ export default function AboutPage() {
             <LegalDetails />
           </div>
         </div>
+      </Section>
+
+      {/* Visit us */}
+      <Section variant="muted">
+        <Reveal>
+          <div className="grid items-center gap-10 lg:grid-cols-2">
+            <div>
+              <SectionHeading
+                align="left"
+                title="Visit us in Bishoftu"
+                lead="We're a real team in a real office. Come by, or open the map to find us."
+                className="mx-0"
+              />
+              <p className="mt-5 flex items-start gap-2 text-ink-muted">
+                <MapPin
+                  className="mt-0.5 size-5 shrink-0 text-pj-secondary"
+                  strokeWidth={1.5}
+                  aria-hidden
+                />
+                {SITE.address.street}, {SITE.address.city},{" "}
+                {SITE.address.region}, {SITE.address.country}
+              </p>
+              <div className="mt-6">
+                <Button asChild>
+                  <a
+                    href={SITE.mapUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Open in Google Maps
+                    <ArrowUpRight className="size-4" strokeWidth={2} />
+                  </a>
+                </Button>
+              </div>
+            </div>
+            <div className="relative aspect-[4/3] overflow-hidden rounded-[1.5rem] border border-white/10 shadow-[0_40px_90px_-50px_rgba(124,60,180,0.7)] ring-1 ring-pj-primary/20">
+              <iframe
+                src={SITE.mapEmbedUrl}
+                title="Doxa Innovations office location on Google Maps"
+                className="absolute inset-0 h-full w-full"
+                style={{ border: 0 }}
+                loading="lazy"
+                allowFullScreen
+                referrerPolicy="strict-origin-when-cross-origin"
+              />
+            </div>
+          </div>
+        </Reveal>
       </Section>
 
       <CtaBand />

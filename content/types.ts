@@ -60,6 +60,10 @@ export interface SiteConfig {
   etradeVerifyUrl: string;
   /** Public Google Drive folder holding client recommendation letters. */
   recommendationsUrl: string;
+  /** Short Google Maps link to the office (opens the map). */
+  mapUrl: string;
+  /** Google Maps embed URL for the office (iframe src). */
+  mapEmbedUrl: string;
   mainNav: NavLink[];
   footerNav: {
     services: NavLink[];
