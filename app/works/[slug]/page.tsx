@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowUpRight, FileText } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, FileText, Quote } from "lucide-react";
 import { buildMetadata } from "@/lib/metadata";
 import { SITE } from "@/content/site";
 import { allProjectSlugs, getProjectBySlug } from "@/content/projects";
@@ -113,58 +113,140 @@ export default async function ProjectPage({ params }: { params: Params }) {
         </div>
       </Container>
 
-      {/* Case study */}
+      {/* Case study profile */}
       <Section variant="surface" className="pt-0">
-        <div className="mx-auto grid max-w-4xl gap-10 lg:grid-cols-3">
-          <div className="space-y-8 lg:col-span-2">
-            <div>
-              <h2 className="text-xl font-bold text-ink">The challenge</h2>
-              <p className="mt-3 text-ink/70">{project.problem}</p>
-            </div>
-            <div>
-              <h2 className="text-xl font-bold text-ink">What we built</h2>
-              <p className="mt-3 text-ink/70">{project.whatWeBuilt}</p>
-            </div>
-          </div>
-          <aside className="space-y-6">
-            <div>
-              <h3 className="text-sm font-semibold uppercase tracking-wide text-ink/50">
-                Tech Stack
-              </h3>
-              <div className="mt-3 flex flex-wrap gap-1.5">
-                {project.techStack.map((t) => (
-                  <Badge key={t} variant="secondary" className="font-normal">
-                    {t}
-                  </Badge>
-                ))}
+        <div className="mx-auto max-w-4xl">
+          <p className="max-w-3xl text-pretty text-lg text-ink-muted">
+            {project.summary}
+          </p>
+
+          <div className="mt-12 grid gap-12 lg:grid-cols-3">
+            <div className="space-y-12 lg:col-span-2">
+              {/* The need */}
+              <div>
+                <h2 className="font-display text-2xl font-semibold text-ink">
+                  The need
+                </h2>
+                <p className="mt-3 text-ink-muted">{project.problem}</p>
+              </div>
+
+              {/* How we approached it */}
+              <div>
+                <h2 className="font-display text-2xl font-semibold text-ink">
+                  How we approached it
+                </h2>
+                <ol className="mt-6 space-y-0">
+                  {project.approach.map((step, i) => (
+                    <li key={i} className="relative flex gap-5 pb-8 last:pb-0">
+                      {i < project.approach.length - 1 && (
+                        <span
+                          aria-hidden
+                          className="absolute left-[1.0625rem] top-10 h-[calc(100%-1.75rem)] w-px bg-white/10"
+                        />
+                      )}
+                      <span className="relative z-10 inline-flex size-9 shrink-0 items-center justify-center rounded-full border border-white/10 bg-surface font-display text-sm font-semibold text-pj-secondary shadow-[0_0_24px_-6px_rgba(178,119,211,0.8)]">
+                        {i + 1}
+                      </span>
+                      <div className="pt-1">
+                        <h3 className="font-semibold text-ink">{step.title}</h3>
+                        <p className="mt-1 text-sm text-ink-muted">
+                          {step.description}
+                        </p>
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+
+              {/* The solution */}
+              <div>
+                <h2 className="font-display text-2xl font-semibold text-ink">
+                  The solution
+                </h2>
+                <p className="mt-3 text-ink-muted">{project.whatWeBuilt}</p>
               </div>
             </div>
-            <div>
-              <h3 className="text-sm font-semibold uppercase tracking-wide text-ink/50">
-                Industry
-              </h3>
-              <p className="mt-2 text-sm text-ink/70">{project.industry}</p>
-            </div>
-            <div>
-              <h3 className="text-sm font-semibold uppercase tracking-wide text-ink/50">
-                Country
-              </h3>
-              <p className="mt-2 inline-flex items-center gap-1.5 text-sm text-ink/70">
-                <CountryFlag code={project.countryCode} />
-                {project.country}
-              </p>
-            </div>
-          </aside>
-        </div>
 
-        <div className="mx-auto mt-12 max-w-4xl">
-          <Link
-            href="/works"
-            className="inline-flex items-center gap-1.5 text-sm font-semibold text-pj-secondary hover:underline"
-          >
-            <ArrowLeft className="size-4" />
-            Back to all projects
-          </Link>
+            <aside className="space-y-6">
+              <div>
+                <h3 className="text-sm font-semibold uppercase tracking-wide text-ink/50">
+                  Tech Stack
+                </h3>
+                <div className="mt-3 flex flex-wrap gap-1.5">
+                  {project.techStack.map((t) => (
+                    <Badge key={t} variant="secondary" className="font-normal">
+                      {t}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <h3 className="text-sm font-semibold uppercase tracking-wide text-ink/50">
+                  Industry
+                </h3>
+                <p className="mt-2 text-sm text-ink-muted">{project.industry}</p>
+              </div>
+              <div>
+                <h3 className="text-sm font-semibold uppercase tracking-wide text-ink/50">
+                  Country
+                </h3>
+                <p className="mt-2 inline-flex items-center gap-1.5 text-sm text-ink-muted">
+                  <CountryFlag code={project.countryCode} />
+                  {project.country}
+                </p>
+              </div>
+              {project.liveUrl && (
+                <div>
+                  <h3 className="text-sm font-semibold uppercase tracking-wide text-ink/50">
+                    Live
+                  </h3>
+                  <a
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-2 inline-flex items-center gap-1 break-all text-sm text-pj-secondary hover:underline"
+                  >
+                    {project.liveUrl.replace(/^https?:\/\//, "")}
+                    <ArrowUpRight className="size-3.5 shrink-0" strokeWidth={1.75} />
+                  </a>
+                </div>
+              )}
+            </aside>
+          </div>
+
+          {/* Testimonial (shown once the client's quote is added) */}
+          {project.testimonial && (
+            <figure className="relative mt-14 overflow-hidden rounded-[1.6rem] border border-white/10 bg-white/[0.03] p-8 shadow-[0_40px_90px_-50px_rgba(124,60,180,0.7)] sm:p-10">
+              <div
+                aria-hidden
+                className="pointer-events-none absolute -right-10 -top-10 size-48 rounded-full bg-pj-primary/20 blur-[80px]"
+              />
+              <Quote
+                className="relative size-8 text-pj-secondary"
+                strokeWidth={1.5}
+                aria-hidden
+              />
+              <blockquote className="relative mt-4 text-balance font-display text-xl font-medium text-ink sm:text-2xl">
+                {project.testimonial.quote}
+              </blockquote>
+              <figcaption className="relative mt-5 text-sm text-ink-muted">
+                <span className="font-semibold text-ink">
+                  {project.testimonial.name}
+                </span>
+                , {project.testimonial.role}
+              </figcaption>
+            </figure>
+          )}
+
+          <div className="mt-14">
+            <Link
+              href="/works"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-pj-secondary hover:underline"
+            >
+              <ArrowLeft className="size-4" />
+              Back to all projects
+            </Link>
+          </div>
         </div>
       </Section>
 

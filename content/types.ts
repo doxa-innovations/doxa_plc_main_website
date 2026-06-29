@@ -88,6 +88,19 @@ export interface Service {
 
 export type ProjectStatus = "live" | "in-development";
 
+/** One step in how we approached understanding and solving a project. */
+export interface ApproachStep {
+  title: string;
+  description: string;
+}
+
+/** A client quote shown on a project's case-study page. */
+export interface ProjectTestimonial {
+  quote: string;
+  name: string;
+  role: string;
+}
+
 export interface Project {
   slug: string;
   title: string;
@@ -97,8 +110,14 @@ export interface Project {
   countryCode: string;
   industry: string;
   summary: string;
+  /** The business need / challenge. */
   problem: string;
+  /** The steps we took to understand and scope the work. */
+  approach: ApproachStep[];
+  /** The solution we delivered. */
   whatWeBuilt: string;
+  /** Client quote (added as clients provide them). */
+  testimonial?: ProjectTestimonial;
   techStack: string[];
   liveUrl: string | null;
   logo: string;

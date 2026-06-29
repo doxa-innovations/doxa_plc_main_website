@@ -114,6 +114,20 @@ export function creativeWorkSchema(project: Project) {
     creator: { "@id": ORG_ID },
     keywords: project.techStack.join(", "),
     ...(project.liveUrl ? { sameAs: project.liveUrl } : {}),
+    ...(project.testimonial
+      ? {
+          review: {
+            "@type": "Review",
+            reviewBody: project.testimonial.quote,
+            author: {
+              "@type": "Person",
+              name: project.testimonial.name,
+              jobTitle: project.testimonial.role,
+            },
+            itemReviewed: { "@id": ORG_ID },
+          },
+        }
+      : {}),
   };
 }
 
