@@ -2,9 +2,7 @@ import type { Project } from "./types";
 
 const CDN = "https://cdn.doxaplc.com/doxa-public";
 
-// NOTE: Scholten Pattern Works has no screenshot on the CDN yet, logo/cover
-// fall back to the company mark as a labeled placeholder. Replace with real
-// screenshots before launch (see pre-launch checklist).
+// Shared placeholder for assets we still lack (currently Scholten's logo).
 const PLACEHOLDER_IMAGE = `${CDN}/logo.png`;
 
 /**
@@ -125,7 +123,7 @@ export const PROJECTS: Project[] = [
     techStack: ["Laravel", "Livewire", "Tailwind CSS"],
     liveUrl: "https://spw.doxaplc.com",
     logo: PLACEHOLDER_IMAGE,
-    coverImage: PLACEHOLDER_IMAGE,
+    coverImage: "/work/scholten.jpeg",
     featured: false,
     status: "live",
     order: 3,
