@@ -22,12 +22,15 @@ export function SectionHeading({
     <div
       className={cn(
         "max-w-2xl",
-        align === "center" ? "mx-auto text-center" : "text-left",
+        // Left-aligned headings still centre on mobile, then go left from sm up.
+        align === "center"
+          ? "mx-auto text-center"
+          : "mx-auto text-center sm:mx-0 sm:text-left",
         className,
       )}
     >
       {eyebrow && (
-        <p className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs font-medium uppercase tracking-[0.18em] text-pj-secondary">
+        <p className="mb-3 inline-flex items-center gap-2 rounded-full border border-line bg-panel px-3 py-1 text-xs font-medium uppercase tracking-[0.18em] text-brand">
           {eyebrow}
         </p>
       )}

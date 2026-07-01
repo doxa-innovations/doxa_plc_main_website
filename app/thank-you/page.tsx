@@ -1,9 +1,16 @@
 import Link from "next/link";
-import { Clock, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { buildMetadata } from "@/lib/metadata";
+import { FAQ_VIDEOS } from "@/content/faqVideos";
+import {
+  WALKTHROUGH_VIDEO,
+  WALKTHROUGH_POSTER,
+  WALKTHROUGH_CAPTIONS,
+} from "@/content/media";
 import { Container } from "@/components/layout/Container";
-import { Section } from "@/components/layout/Section";
-import { VideoEmbed } from "@/components/VideoEmbed";
+import { SectionHeading } from "@/components/SectionHeading";
+import { OfficeVideo } from "@/components/marketing/OfficeVideo";
+import { FaqVideos } from "@/components/marketing/FaqVideos";
 import { Button } from "@/components/ui/button";
 
 export const metadata = buildMetadata({
@@ -16,13 +23,14 @@ export const metadata = buildMetadata({
 export default function ThankYouPage() {
   return (
     <>
-      <section className="relative overflow-hidden bg-surface pb-12 pt-36">
+      {/* Intro — clean, no background decoration */}
+      <section className="relative overflow-hidden bg-surface pb-10 pt-36">
         <div
           aria-hidden
           className="pointer-events-none absolute -top-32 left-1/2 size-[44rem] -translate-x-1/2 rounded-full bg-pj-primary/20 blur-[130px]"
         />
         <Container className="relative max-w-3xl text-center">
-          <p className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-1.5 text-xs font-medium text-pj-secondary">
+          <p className="inline-flex items-center gap-2 rounded-full border border-line bg-panel px-3.5 py-1.5 text-xs font-medium text-brand">
             <span className="size-1.5 rounded-full bg-pj-secondary" />
             Message received
           </p>
@@ -36,36 +44,59 @@ export default function ThankYouPage() {
         </Container>
       </section>
 
-      <Container className="pb-8">
-        <div className="mx-auto max-w-3xl">
-          <VideoEmbed orientation="landscape" title="A quick hello from the team" />
+      {/* Walkthrough video — press the expand control for a large (full-screen) view */}
+      <Container className="pb-10">
+        <div className="mx-auto max-w-4xl">
+          <OfficeVideo
+            src={WALKTHROUGH_VIDEO}
+            poster={WALKTHROUGH_POSTER}
+            captions={WALKTHROUGH_CAPTIONS}
+            title="A walkthrough of Doxa Innovations"
+          />
         </div>
       </Container>
 
-      <Section variant="surface" className="pt-6">
-        <div className="mx-auto max-w-3xl">
-          <div className="flex gap-3 rounded-[1.25rem] border border-white/10 bg-white/[0.03] p-5">
-            <Clock className="mt-0.5 size-5 shrink-0 text-pj-secondary" aria-hidden />
-            <div className="text-sm text-ink/80">
-              <span className="font-semibold text-ink">What happens next:</span>{" "}
-              we&apos;ll reply by email to set up a free discovery call. No
-              upfront payment, no pressure. For anything urgent, WhatsApp or
-              Telegram is the fastest way to reach us.
-            </div>
-          </div>
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <Button asChild variant="outline">
-              <Link href="/works">
-                See our work
-                <ArrowRight className="size-4" strokeWidth={1.75} />
-              </Link>
-            </Button>
-            <Button asChild variant="outline">
-              <Link href="/">Back to home</Link>
-            </Button>
-          </div>
+      {/* Appreciation note */}
+      <Container className="pb-14">
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="font-display text-2xl font-semibold tracking-[-0.02em] text-ink sm:text-3xl">
+            Thank you, sincerely.
+          </h2>
+          <p className="mx-auto mt-4 max-w-xl text-pretty text-lg text-ink-muted">
+            We appreciate you trusting us with your project, and we&apos;d love
+            the chance to keep building together. Whatever you need next, we&apos;re
+            ready when you are.
+          </p>
         </div>
-      </Section>
+      </Container>
+
+      {/* FAQ videos — same component as the FAQ page */}
+      <section className="bg-surface pb-16 sm:pb-20">
+        <Container>
+          <SectionHeading
+            title="Frequently asked questions"
+            lead="A few quick answers, on video, while you wait to hear from us."
+          />
+          <div className="mt-12">
+            <FaqVideos items={FAQ_VIDEOS} />
+          </div>
+        </Container>
+      </section>
+
+      {/* Onward */}
+      <Container className="pb-24">
+        <div className="flex flex-wrap justify-center gap-3">
+          <Button asChild>
+            <Link href="/works">
+              See our work
+              <ArrowRight className="size-4" strokeWidth={1.75} />
+            </Link>
+          </Button>
+          <Button asChild variant="outline">
+            <Link href="/">Go back home</Link>
+          </Button>
+        </div>
+      </Container>
     </>
   );
 }

@@ -2,29 +2,23 @@
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
+@custom-variant light (&:is(.light *));
 
 /* ------------------------------------------------------------------ */
-/*  Midnight Violet — purple-drenched dark theme.                      */
-/*  Brand purple (pj-*) is FIXED (CLAUDE.md) and used as glow/accent   */
-/*  on a deep violet canvas. Neutral surface/ink tokens are dark.      */
+/*  Midnight Violet is the default canvas (html carries .dark, so the   */
+/*  .dark token block below applies everywhere). Brand purple (pj-*,    */
+/*  FIXED per CLAUDE.md) is glow/accent on the violet ramp. To break    */
+/*  the monochrome, a band can opt INTO white by adding the ".light"    */
+/*  class (Section variant="muted") — there the tokens flip to a white  */
+/*  surface with dark ink, used as periodic accents, not the default.   */
 /* ------------------------------------------------------------------ */
 @theme {
-  /* Fixed brand purple — glow & accents */
+  /* Fixed brand purple — never changes */
   --color-pj-primary: #7851a9;
   --color-pj-secondary: #b277d3;
   --color-pj-accent: #19003a;
   --color-pj-dark: #1e1e1e;
   --color-pj-white: #ececec;
-
-  /* Dark canvas ramp */
-  --color-surface: #14002e; /* page canvas */
-  --color-surface-muted: #1e0a45; /* elevated band */
-  --color-surface-nested: #2a1458; /* nested / hover */
-  --color-deep: #0d0020; /* deepest band */
-  --color-ink: #f3effb; /* body text */
-  --color-ink-muted: #b8a8d8; /* secondary text (≥4.5:1 on canvas) */
-  --color-line: rgba(255, 255, 255, 0.1);
-  --color-glow: #c69bff; /* glow highlight only — never text */
 
   --font-sans: var(--font-georama), system-ui, -apple-system, "Segoe UI", Roboto,
     Helvetica, Arial, sans-serif;
@@ -68,7 +62,9 @@
 }
 
 /* ------------------------------------------------------------------ */
-/*  shadcn/ui semantic tokens — dark, branded primary = purple        */
+/*  Tokens. Raw values live in :root (light) / .dark (violet); the      */
+/*  @theme inline block below maps them to Tailwind color utilities so  */
+/*  bg-surface / text-ink / border-line / text-brand flip by context.   */
 /* ------------------------------------------------------------------ */
 :root {
   --radius: 0.875rem;
@@ -77,6 +73,140 @@
   --ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+
+  /* Midnight Violet is the default canvas everywhere (html also carries .dark
+     so shadcn dark: variants resolve). */
+  --surface: #14002e;
+  --surface-muted: #1e0a45;
+  --surface-nested: #2a1458;
+  --deep: #0d0020;
+  --ink: #f3effb;
+  --ink-muted: #b8a8d8;
+  --line: rgba(255, 255, 255, 0.1);
+  --line-strong: rgba(255, 255, 255, 0.18);
+  --panel: rgba(255, 255, 255, 0.03);
+  --panel-strong: rgba(255, 255, 255, 0.07);
+  --glow: #c69bff;
+  --brand: #b277d3;
+  /* blueprint decoration — faint grid / guide lines and crisper registration marks */
+  --grid: rgba(255, 255, 255, 0.07);
+  --grid-strong: rgba(199, 155, 255, 0.2);
+  --mark: rgba(199, 155, 255, 0.6);
+
+  --background: #14002e;
+  --foreground: #f3effb;
+  --card: #1e0a45;
+  --card-foreground: #f3effb;
+  --popover: #1e0a45;
+  --popover-foreground: #f3effb;
+
+  --primary: #8a5fc0; /* brightened brand for fills on dark */
+  --primary-foreground: #ffffff;
+  --secondary: #2a1458;
+  --secondary-foreground: #f3effb;
+  --muted: #241050;
+  --muted-foreground: #b8a8d8;
+  --accent: #2f1860;
+  --accent-foreground: #f3effb;
+  --destructive: oklch(0.62 0.21 18);
+
+  --border: rgba(255, 255, 255, 0.1);
+  --input: rgba(255, 255, 255, 0.16);
+  --ring: #b277d3;
+
+  --chart-1: #b277d3;
+  --chart-2: #8a5fc0;
+  --chart-3: #c69bff;
+  --chart-4: #6a3fa0;
+  --chart-5: #e0c3ff;
+
+  --sidebar: #1e0a45;
+  --sidebar-foreground: #f3effb;
+  --sidebar-primary: #8a5fc0;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #2f1860;
+  --sidebar-accent-foreground: #f3effb;
+  --sidebar-border: rgba(255, 255, 255, 0.1);
+  --sidebar-ring: #b277d3;
+}
+
+/* White accent scope — opt a band in by adding the .light class (Section
+   variant "muted"/"light"). Standalone rule, never grouped with :root, so the
+   CSS minifier can't collapse and drop it. */
+.light {
+  --surface: #ffffff;
+  --surface-muted: #f6f3fc;
+  --surface-nested: #efe8fb;
+  --deep: #14002e; /* dark-glass-over-imagery token stays dark even here */
+  --ink: #211238;
+  --ink-muted: #574a70;
+  --line: rgba(25, 0, 58, 0.12);
+  --line-strong: rgba(25, 0, 58, 0.18);
+  --panel: #f4effc; /* faint violet card fill — reads against white */
+  --panel-strong: #ebe1f8;
+  --glow: #b277d3;
+  --brand: #7851a9;
+  /* blueprint decoration on white */
+  --grid: rgba(25, 0, 58, 0.07);
+  --grid-strong: rgba(120, 81, 169, 0.22);
+  --mark: rgba(120, 81, 169, 0.6);
+
+  --background: #ffffff;
+  --foreground: #211238;
+  --card: #ffffff;
+  --card-foreground: #211238;
+  --popover: #ffffff;
+  --popover-foreground: #211238;
+
+  --primary: #7851a9;
+  --primary-foreground: #ffffff;
+  --secondary: #f1ebfb;
+  --secondary-foreground: #2a1458;
+  --muted: #f6f3fc;
+  --muted-foreground: #574a70;
+  --accent: #efe8fb;
+  --accent-foreground: #2a1458;
+  --destructive: oklch(0.58 0.22 18);
+
+  --border: rgba(25, 0, 58, 0.1);
+  --input: rgba(25, 0, 58, 0.18);
+  --ring: #7851a9;
+
+  --chart-1: #7851a9;
+  --chart-2: #b277d3;
+  --chart-3: #8a5fc0;
+  --chart-4: #6a3fa0;
+  --chart-5: #19003a;
+
+  --sidebar: #ffffff;
+  --sidebar-foreground: #211238;
+  --sidebar-primary: #7851a9;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #efe8fb;
+  --sidebar-accent-foreground: #2a1458;
+  --sidebar-border: rgba(25, 0, 58, 0.1);
+  --sidebar-ring: #7851a9;
+}
+
+/* Re-assert violet — for html.dark and for any element that opts back into
+   dark inside a .light band (e.g. dark-glass chips over imagery). */
+.dark {
+  --surface: #14002e;
+  --surface-muted: #1e0a45;
+  --surface-nested: #2a1458;
+  --deep: #0d0020;
+  --ink: #f3effb;
+  --ink-muted: #b8a8d8;
+  --line: rgba(255, 255, 255, 0.1);
+  --line-strong: rgba(255, 255, 255, 0.18);
+  --panel: rgba(255, 255, 255, 0.03);
+  --panel-strong: rgba(255, 255, 255, 0.07);
+  --glow: #c69bff;
+  --brand: #b277d3;
+  /* blueprint decoration — faint grid / guide lines and crisper registration marks */
+  --grid: rgba(255, 255, 255, 0.07);
+  --grid-strong: rgba(199, 155, 255, 0.2);
+  --mark: rgba(199, 155, 255, 0.6);
 
   --background: #14002e;
   --foreground: #f3effb;
@@ -116,6 +246,24 @@
 }
 
 @theme inline {
+  /* context-aware canvas / ink / hairline / accent */
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-surface-nested: var(--surface-nested);
+  --color-deep: var(--deep);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-panel: var(--panel);
+  --color-panel-strong: var(--panel-strong);
+  --color-glow: var(--glow);
+  --color-brand: var(--brand);
+  --color-grid: var(--grid);
+  --color-grid-strong: var(--grid-strong);
+  --color-mark: var(--mark);
+
+  /* shadcn/ui */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -167,12 +315,11 @@
     @apply bg-background text-foreground;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
-    /* Light text on dark needs more breathing room (impeccable brand register). */
     line-height: 1.6;
   }
   ::selection {
-    background: color-mix(in oklab, var(--color-pj-secondary) 40%, transparent);
-    color: #fff;
+    background: color-mix(in oklab, var(--color-pj-secondary) 35%, transparent);
+    color: inherit;
   }
 }
 
@@ -183,7 +330,7 @@ body::after {
   inset: 0;
   z-index: 100;
   pointer-events: none;
-  opacity: 0.035;
+  opacity: 0.03;
   mix-blend-mode: soft-light;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
@@ -230,5 +377,17 @@ body::after {
     opacity: 1;
     transform: none;
     filter: none;
+  }
+}
+
+/* Floating mini video-player entrance */
+@keyframes mini-pop {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: none;
   }
 }

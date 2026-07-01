@@ -9,6 +9,12 @@ import {
   FileCheck2,
 } from "lucide-react";
 import { buildMetadata } from "@/lib/metadata";
+import { isEthiopianVisitor } from "@/lib/geo";
+import {
+  WALKTHROUGH_VIDEO,
+  WALKTHROUGH_POSTER,
+  WALKTHROUGH_CAPTIONS,
+} from "@/content/media";
 import { SERVICES } from "@/content/services";
 import { featuredProjects } from "@/content/projects";
 import { Container } from "@/components/layout/Container";
@@ -21,7 +27,7 @@ import { ServiceCard } from "@/components/marketing/ServiceCard";
 import { ProjectCard } from "@/components/marketing/ProjectCard";
 import { TrustSignals } from "@/components/marketing/TrustSignals";
 import { CtaBand } from "@/components/marketing/CtaBand";
-import { ImageShowcase } from "@/components/marketing/ImageShowcase";
+import { OfficeVideo } from "@/components/marketing/OfficeVideo";
 import { Button } from "@/components/ui/button";
 
 export const metadata = buildMetadata({ path: "/" });
@@ -56,7 +62,7 @@ function BentoCell({
 }) {
   return (
     <div
-      className={`relative flex flex-col overflow-hidden rounded-[1.4rem] border border-white/10 bg-white/[0.02] p-7 ${className ?? ""}`}
+      className={`relative flex flex-col overflow-hidden rounded-[1.4rem] border border-line bg-panel p-7 ${className ?? ""}`}
     >
       {emphasized && (
         <div
@@ -64,7 +70,7 @@ function BentoCell({
           className="pointer-events-none absolute -right-16 -top-16 size-48 rounded-full bg-pj-primary/20 blur-[80px]"
         />
       )}
-      <span className="relative inline-flex size-11 items-center justify-center rounded-xl border border-white/10 bg-pj-primary/15 text-pj-secondary shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
+      <span className="relative inline-flex size-11 items-center justify-center rounded-xl border border-line bg-pj-primary/15 text-brand shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
         <Icon className="size-5" strokeWidth={1.5} aria-hidden />
       </span>
       {stat && (
@@ -80,32 +86,40 @@ function BentoCell({
   );
 }
 
-export default function HomePage() {
+export default async function HomePage() {
+  const isEthiopia = await isEthiopianVisitor();
   return (
     <>
       <Hero />
 
       {/* Micro-trust strip */}
-      <section className="border-y border-white/[0.06] bg-deep">
-        <Container className="grid gap-px sm:grid-cols-3">
-          {MICRO_TRUST.map((t) => (
-            <div key={t.label} className="flex items-center gap-3 py-6">
-              <span className="inline-flex size-9 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-pj-primary/15 text-pj-secondary">
-                <t.icon className="size-4.5" strokeWidth={1.5} aria-hidden />
-              </span>
-              <div>
-                <p className="text-sm font-semibold text-ink">{t.label}</p>
-                <p className="text-xs text-ink-muted">{t.sub}</p>
+      <section className="border-y border-line bg-deep">
+        <Container>
+          {/* Mobile: a single, barely-there line so it never competes for attention */}
+          <p className="py-2.5 text-center text-[0.6rem] leading-relaxed text-ink-muted/60 sm:hidden">
+            {MICRO_TRUST.map((t) => t.label).join("  ·  ")}
+          </p>
+          {/* sm and up: the full credential strip */}
+          <div className="hidden gap-px sm:grid sm:grid-cols-3">
+            {MICRO_TRUST.map((t) => (
+              <div key={t.label} className="flex items-center gap-3 py-6">
+                <span className="inline-flex size-9 shrink-0 items-center justify-center rounded-lg border border-line bg-pj-primary/15 text-brand">
+                  <t.icon className="size-4.5" strokeWidth={1.5} aria-hidden />
+                </span>
+                <div>
+                  <p className="text-sm font-semibold text-ink">{t.label}</p>
+                  <p className="text-xs text-ink-muted">{t.sub}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </Container>
       </section>
 
       <ClientLogos />
 
       {/* Why Doxa, asymmetric bento */}
-      <Section variant="surface">
+      <Section variant="surface" frame grid>
         <Reveal>
           <SectionHeading
             eyebrow="Why Doxa"
@@ -145,7 +159,7 @@ export default function HomePage() {
       </Section>
 
       {/* Services */}
-      <Section variant="muted">
+      <Section variant="muted" frame>
         <Reveal>
           <SectionHeading
             title="Software and digital products, end to end"
@@ -188,7 +202,7 @@ export default function HomePage() {
             <ol className="grid gap-10 md:grid-cols-4 md:gap-6">
               {STEPS.map((s) => (
                 <li key={s.n} className="relative text-center">
-                  <span className="relative z-10 inline-flex size-10 items-center justify-center rounded-full border border-white/10 bg-surface font-display text-base font-semibold text-pj-secondary shadow-[0_0_30px_-6px_rgba(178,119,211,0.8)]">
+                  <span className="relative z-10 inline-flex size-10 items-center justify-center rounded-full border border-line bg-surface font-display text-base font-semibold text-brand shadow-[0_0_30px_-6px_rgba(178,119,211,0.8)]">
                     {s.n}
                   </span>
                   <h3 className="mt-5 font-display text-base font-semibold text-ink">
@@ -218,15 +232,20 @@ export default function HomePage() {
             lead="Real people, a real office, real work. A glimpse of how and where we build."
           />
         </Reveal>
-        <Reveal>
-          <div className="mt-12">
-            <ImageShowcase />
-          </div>
-        </Reveal>
+        {/* Not wrapped in <Reveal>: the floating mini-player uses position:fixed,
+            which a transformed scroll-reveal ancestor would break. */}
+        <div className="mt-12">
+          <OfficeVideo
+            src={WALKTHROUGH_VIDEO}
+            poster={WALKTHROUGH_POSTER}
+            captions={WALKTHROUGH_CAPTIONS}
+            title="A walkthrough of the Doxa Innovations office in Bishoftu"
+          />
+        </div>
       </Section>
 
       {/* Featured work */}
-      <Section variant="muted">
+      <Section variant="muted" frame>
         <Reveal>
           <SectionHeading
             eyebrow="Selected work"
@@ -251,31 +270,34 @@ export default function HomePage() {
         </div>
       </Section>
 
-      {/* Trust panel, editorial split */}
-      <Section variant="surface">
-        <div className="grid items-center gap-10 lg:grid-cols-2">
-          <Reveal>
-            <div>
-              <h2 className="font-display text-3xl font-semibold tracking-[-0.03em] text-ink sm:text-4xl">
-                We show our faces, and our paperwork.
-              </h2>
-              <p className="mt-4 max-w-md text-lg text-ink-muted">
-                Doxa Innovations is a registered private limited company in
-                Ethiopia. Here&apos;s the proof, verify any of it independently.
-              </p>
-              <Button asChild variant="outline" className="mt-6">
-                <Link href="/legal">
-                  Read our legal & trust page
-                  <ArrowRight className="size-4" strokeWidth={1.75} />
-                </Link>
-              </Button>
-            </div>
-          </Reveal>
-          <Reveal delay={0.05}>
-            <TrustSignals />
-          </Reveal>
-        </div>
-      </Section>
+      {/* Trust panel, editorial split — verifiable registration proof aimed at
+          international clients; hidden from Ethiopian visitors. */}
+      {!isEthiopia && (
+        <Section variant="surface">
+          <div className="grid items-center gap-10 lg:grid-cols-2">
+            <Reveal>
+              <div className="text-center sm:text-left">
+                <h2 className="font-display text-3xl font-semibold tracking-[-0.03em] text-ink sm:text-4xl">
+                  We show our faces, and our paperwork.
+                </h2>
+                <p className="mx-auto mt-4 max-w-md text-lg text-ink-muted sm:mx-0">
+                  Doxa Innovations is a registered private limited company in
+                  Ethiopia. Here&apos;s the proof, verify any of it independently.
+                </p>
+                <Button asChild variant="outline" className="mt-6">
+                  <Link href="/legal">
+                    Read our legal & trust page
+                    <ArrowRight className="size-4" strokeWidth={1.75} />
+                  </Link>
+                </Button>
+              </div>
+            </Reveal>
+            <Reveal delay={0.05}>
+              <TrustSignals />
+            </Reveal>
+          </div>
+        </Section>
+      )}
 
       <CtaBand />
     </>

@@ -9,7 +9,7 @@ export function ProjectCard({ project }: { project: Project }) {
   return (
     <Link
       href={`/works/${project.slug}`}
-      className="group relative flex flex-col overflow-hidden rounded-[1.4rem] border border-white/10 bg-white/[0.02] transition-[transform,border-color,box-shadow] duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-1 hover:border-white/20 hover:shadow-[0_40px_90px_-50px_rgba(124,60,180,0.9)] focus-visible:outline-2 focus-visible:outline-pj-secondary"
+      className="group relative flex flex-col overflow-hidden rounded-[1.4rem] border border-line bg-panel transition-[transform,border-color,box-shadow] duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-1 hover:border-line-strong hover:shadow-[0_40px_90px_-50px_rgba(124,60,180,0.9)] focus-visible:outline-2 focus-visible:outline-pj-secondary light:shadow-[0_8px_30px_-16px_rgba(25,0,58,0.2)]"
     >
       <div className="relative aspect-[16/10] overflow-hidden">
         <Image
@@ -21,7 +21,7 @@ export function ProjectCard({ project }: { project: Project }) {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-deep/80 via-transparent to-transparent" />
         {project.status === "in-development" && (
-          <span className="absolute left-3 top-3 rounded-full border border-white/15 bg-deep/70 px-2.5 py-1 text-xs font-medium text-ink backdrop-blur-sm">
+          <span className="dark absolute left-3 top-3 rounded-full border border-line-strong bg-deep/70 px-2.5 py-1 text-xs font-medium text-ink backdrop-blur-sm">
             In Development
           </span>
         )}
@@ -38,14 +38,14 @@ export function ProjectCard({ project }: { project: Project }) {
         <h3 className="mt-2 font-display text-lg font-semibold text-ink">
           {project.client}
         </h3>
-        <p className="text-sm font-medium text-pj-secondary">{project.title}</p>
+        <p className="text-sm font-medium text-brand">{project.title}</p>
         <p className="mt-2 line-clamp-2 flex-1 text-sm text-ink-muted">
           {project.summary}
         </p>
         <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-ink">
           View project
           <ArrowUpRight
-            className="size-4 text-pj-secondary transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+            className="size-4 text-brand transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
             strokeWidth={1.75}
           />
         </span>

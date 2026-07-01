@@ -11,6 +11,7 @@ import { TeamGrid } from "@/components/marketing/TeamGrid";
 import { LegalDetails } from "@/components/marketing/LegalDetails";
 import { CtaBand } from "@/components/marketing/CtaBand";
 import { Button } from "@/components/ui/button";
+import { isEthiopianVisitor } from "@/lib/geo";
 
 export const metadata = buildMetadata({
   title: "About Doxa Innovations",
@@ -37,7 +38,8 @@ const VALUES = [
   },
 ];
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const isEthiopia = await isEthiopianVisitor();
   return (
     <>
       <PageHeader
@@ -58,9 +60,9 @@ export default function AboutPage() {
               <SectionHeading
                 align="left"
                 title="From Ethiopia to a global software partner"
-                className="mx-0"
+                className="mx-auto sm:mx-0"
               />
-              <div className="mt-6 space-y-4 text-lg text-ink-muted">
+              <div className="mt-6 space-y-4 text-center text-lg text-ink-muted sm:text-left">
                 <p>
                   Doxa Innovations is a registered Ethiopian software company. We
                   build websites, e-commerce stores, mobile apps, and custom
@@ -74,7 +76,7 @@ export default function AboutPage() {
               </div>
             </div>
             {/* TODO: replace with a real photo of the Bishoftu studio. */}
-            <div className="relative aspect-[4/3] overflow-hidden rounded-[1.5rem] border border-white/10 bg-surface-muted">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-[1.5rem] border border-line bg-surface-muted">
               <Image
                 src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=70"
                 alt="Inside the Doxa studio (placeholder)"
@@ -90,11 +92,11 @@ export default function AboutPage() {
       </Section>
 
       {/* Bishoftu advantage */}
-      <Section variant="muted">
+      <Section variant="muted" frame>
         <Reveal>
           <div className="grid items-center gap-10 lg:grid-cols-2">
             {/* TODO: replace with a real photo of the Bishoftu team/office. */}
-            <div className="relative order-last aspect-[4/3] overflow-hidden rounded-[1.5rem] border border-white/10 bg-surface-muted lg:order-first">
+            <div className="relative order-last aspect-[4/3] overflow-hidden rounded-[1.5rem] border border-line bg-surface-muted lg:order-first">
               <Image
                 src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1200&q=70"
                 alt="Doxa engineers and designers at work (placeholder)"
@@ -109,9 +111,9 @@ export default function AboutPage() {
               <SectionHeading
                 align="left"
                 title="Lower cost. Same quality."
-                className="mx-0"
+                className="mx-auto sm:mx-0"
               />
-              <div className="mt-6 space-y-4 text-lg text-ink-muted">
+              <div className="mt-6 space-y-4 text-center text-lg text-ink-muted sm:text-left">
                 <p>
                   Operating from Bishoftu isn&apos;t a discount, it&apos;s
                   optimized operations. One US dollar funds significantly more
@@ -131,15 +133,15 @@ export default function AboutPage() {
       </Section>
 
       {/* Mission & values */}
-      <Section variant="surface">
+      <Section variant="surface" frame grid>
         <SectionHeading title="Three values, in everything we ship" />
         <div className="mt-12 grid gap-6 sm:grid-cols-3">
           {VALUES.map((v) => (
             <div
               key={v.title}
-              className="rounded-[1.4rem] border border-white/10 bg-white/[0.02] p-6"
+              className="rounded-[1.4rem] border border-line bg-panel p-6"
             >
-              <span className="inline-flex size-11 items-center justify-center rounded-xl border border-white/10 bg-pj-primary/15 text-pj-secondary shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
+              <span className="inline-flex size-11 items-center justify-center rounded-xl border border-line bg-pj-primary/15 text-brand shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
                 <v.icon className="size-5" aria-hidden />
               </span>
               <h3 className="mt-4 text-base font-bold text-ink">{v.title}</h3>
@@ -150,7 +152,7 @@ export default function AboutPage() {
       </Section>
 
       {/* Team */}
-      <Section variant="muted">
+      <Section variant="muted" frame>
         <SectionHeading
           title="Real people, real faces"
           lead="The single most powerful trust signal we can offer: the people who'll actually build your product."
@@ -172,16 +174,16 @@ export default function AboutPage() {
             align="left"
             title="Our registration, in the open"
             lead="A registered private limited company in Ethiopia. Verifiable, on the record."
-            className="mx-0"
+            className="mx-auto sm:mx-0"
           />
           <div className="mt-8">
-            <LegalDetails />
+            <LegalDetails showVerification={!isEthiopia} />
           </div>
         </div>
       </Section>
 
       {/* Visit us */}
-      <Section variant="muted">
+      <Section variant="muted" frame>
         <Reveal>
           <div className="grid items-center gap-10 lg:grid-cols-2">
             <div>
@@ -189,18 +191,18 @@ export default function AboutPage() {
                 align="left"
                 title="Visit us in Bishoftu"
                 lead="We're a real team in a real office. Come by, or open the map to find us."
-                className="mx-0"
+                className="mx-auto sm:mx-0"
               />
-              <p className="mt-5 flex items-start gap-2 text-ink-muted">
+              <p className="mt-5 flex items-start justify-center gap-2 text-center text-ink-muted sm:justify-start sm:text-left">
                 <MapPin
-                  className="mt-0.5 size-5 shrink-0 text-pj-secondary"
+                  className="mt-0.5 size-5 shrink-0 text-brand"
                   strokeWidth={1.5}
                   aria-hidden
                 />
                 {SITE.address.street}, {SITE.address.city},{" "}
                 {SITE.address.region}, {SITE.address.country}
               </p>
-              <div className="mt-6">
+              <div className="mt-6 text-center sm:text-left">
                 <Button asChild>
                   <a
                     href={SITE.mapUrl}
@@ -213,7 +215,7 @@ export default function AboutPage() {
                 </Button>
               </div>
             </div>
-            <div className="relative aspect-[4/3] overflow-hidden rounded-[1.5rem] border border-white/10 shadow-[0_40px_90px_-50px_rgba(124,60,180,0.7)] ring-1 ring-pj-primary/20">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-[1.5rem] border border-line shadow-[0_40px_90px_-50px_rgba(124,60,180,0.7)] ring-1 ring-pj-primary/20">
               <iframe
                 src={SITE.mapEmbedUrl}
                 title="Doxa Innovations office location on Google Maps"

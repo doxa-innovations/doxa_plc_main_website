@@ -17,7 +17,7 @@ export function Bezel({
   return (
     <div
       className={cn(
-        "rounded-[1.6rem] border border-white/10 bg-white/[0.03] p-1.5 shadow-[0_40px_90px_-50px_rgba(124,60,180,0.7)]",
+        "rounded-[1.6rem] border border-line bg-panel p-1.5 shadow-[0_40px_90px_-50px_rgba(124,60,180,0.7)]",
         className,
       )}
     >

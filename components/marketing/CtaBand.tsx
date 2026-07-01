@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { Container } from "@/components/layout/Container";
+import { GridField, FrameMarks } from "@/components/visual/Decor";
 
 /**
  * High-contrast closing call-to-action, a dramatic deep-glow moment. The
@@ -19,7 +20,7 @@ export function CtaBand({
   primaryHref?: string;
 }) {
   return (
-    <section className="relative overflow-hidden bg-deep py-24 sm:py-32">
+    <section className="relative isolate overflow-hidden bg-deep py-24 sm:py-32">
       <div
         aria-hidden
         className="pointer-events-none absolute left-1/2 top-1/2 size-[44rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-pj-primary/25 blur-[130px]"
@@ -28,6 +29,8 @@ export function CtaBand({
         aria-hidden
         className="pointer-events-none absolute inset-0 opacity-[0.4] [background:radial-gradient(60%_60%_at_50%_50%,rgba(178,119,211,0.12),transparent)]"
       />
+      <GridField />
+      <FrameMarks variant="plus" />
       <Container className="relative text-center">
         <h2 className="mx-auto max-w-2xl text-balance font-display text-3xl font-semibold tracking-[-0.03em] text-ink sm:text-5xl">
           {title}

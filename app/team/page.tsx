@@ -25,7 +25,7 @@ export default function TeamPage() {
         ]}
       />
 
-      <Section variant="surface">
+      <Section variant="muted" frame grid>
         <h2 className="sr-only">Team members</h2>
         <Reveal>
           <TeamGrid showBios />

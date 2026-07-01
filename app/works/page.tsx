@@ -26,7 +26,7 @@ export default function WorksPage() {
         ]}
       />
 
-      <Section variant="surface">
+      <Section variant="muted" frame grid>
         <h2 className="sr-only">All projects</h2>
         <Reveal>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

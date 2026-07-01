@@ -32,7 +32,7 @@ export default function HowItWorksPage() {
       />
 
       {/* Process stepper: alternating image/text rows with a wavy spine */}
-      <Section variant="surface">
+      <Section variant="surface" frame grid>
         <SectionHeading title="Six stages, start to finish" />
         <div className="relative mt-16">
           {/* Squiggly connector (decorative, desktop) */}
@@ -67,7 +67,7 @@ export default function HowItWorksPage() {
                     <div className="grid items-center gap-8 md:grid-cols-2 md:gap-14">
                       <div
                         className={cn(
-                          "relative aspect-[16/10] overflow-hidden rounded-[1.4rem] border border-white/10 bg-surface-muted",
+                          "relative aspect-[16/10] overflow-hidden rounded-[1.4rem] border border-line bg-surface-muted",
                           flip && "md:order-2",
                         )}
                       >
@@ -81,8 +81,8 @@ export default function HowItWorksPage() {
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-deep/70 to-transparent" />
                       </div>
-                      <div className={cn(flip && "md:order-1")}>
-                        <span className="inline-flex size-11 items-center justify-center rounded-full border border-white/10 bg-pj-primary font-display text-lg font-semibold text-pj-white shadow-[0_0_30px_-6px_rgba(178,119,211,0.9)]">
+                      <div className={cn("text-center md:text-left", flip && "md:order-1")}>
+                        <span className="inline-flex size-11 items-center justify-center rounded-full border border-line bg-pj-primary font-display text-lg font-semibold text-pj-white shadow-[0_0_30px_-6px_rgba(178,119,211,0.9)]">
                           {stage.number}
                         </span>
                         <h3 className="mt-4 font-display text-xl font-semibold text-ink">
@@ -100,7 +100,7 @@ export default function HowItWorksPage() {
       </Section>
 
       {/* Payment timeline */}
-      <Section variant="muted">
+      <Section variant="muted" frame>
         <SectionHeading
           title="The 30 / 40 / 30 milestone model"
           lead="No full upfront payment, ever. You pay in stages, and each payment unlocks the next."

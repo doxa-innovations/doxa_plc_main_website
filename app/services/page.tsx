@@ -2,6 +2,8 @@ import Image from "next/image";
 import { Check, Ban, Clock, Tag } from "lucide-react";
 import { buildMetadata } from "@/lib/metadata";
 import { SERVICES } from "@/content/services";
+import type { Service } from "@/content/types";
+import { isEthiopianVisitor } from "@/lib/geo";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Section } from "@/components/layout/Section";
 import { Container } from "@/components/layout/Container";
@@ -19,11 +21,18 @@ export const metadata = buildMetadata({
   path: "/services",
 });
 
-function priceLabel(amount: number, isMonthly: boolean) {
-  return `From $${amount.toLocaleString()}${isMonthly ? "/mo" : ""}`;
+function priceText(service: Service, isEthiopia: boolean): string {
+  if (isEthiopia) {
+    return service.etStartingFrom === "custom"
+      ? "Pricing: Custom"
+      : `From ETB ${service.etStartingFrom.toLocaleString()}`;
+  }
+  const isMonthly = service.slug === "maintenance";
+  return `From $${service.startingFrom.amount.toLocaleString()}${isMonthly ? "/mo" : ""}`;
 }
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const isEthiopia = await isEthiopianVisitor();
   return (
     <>
       <PageHeader
@@ -36,13 +45,13 @@ export default function ServicesPage() {
         ]}
       />
 
-      <Section variant="surface">
+      <Section variant="surface" frame grid>
         <div className="space-y-8">
           {SERVICES.map((service) => (
             <Reveal key={service.slug}>
             <article
               id={service.slug}
-              className="scroll-mt-24 overflow-hidden rounded-[1.6rem] border border-white/10 bg-white/[0.02] shadow-[0_40px_90px_-50px_rgba(124,60,180,0.5)]"
+              className="scroll-mt-24 overflow-hidden rounded-[1.6rem] border border-line bg-panel shadow-[0_40px_90px_-50px_rgba(124,60,180,0.5)]"
             >
               <div className="relative aspect-[21/9] w-full overflow-hidden">
                 <Image
@@ -57,7 +66,7 @@ export default function ServicesPage() {
               </div>
               <div className="grid gap-8 p-6 sm:p-8 lg:grid-cols-3">
                 <div>
-                  <span className="inline-flex size-12 items-center justify-center rounded-xl border border-white/10 bg-pj-primary/15 text-pj-secondary shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
+                  <span className="inline-flex size-12 items-center justify-center rounded-xl border border-line bg-pj-primary/15 text-brand shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
                     <ServiceIcon name={service.icon} className="size-6" />
                   </span>
                   <h2 className="mt-4 text-2xl font-bold text-ink">
@@ -66,17 +75,14 @@ export default function ServicesPage() {
                   <p className="mt-2 text-ink/70">{service.summary}</p>
                   <div className="mt-5 space-y-2 text-sm">
                     <p className="flex items-center gap-2 text-ink/70">
-                      <Clock className="size-4 text-pj-secondary" aria-hidden />
+                      <Clock className="size-4 text-brand" aria-hidden />
                       <span className="sr-only">Timeline: </span>
                       {service.timeline}
                     </p>
                     <p className="flex items-center gap-2 font-semibold text-ink">
-                      <Tag className="size-4 text-pj-secondary" aria-hidden />
+                      <Tag className="size-4 text-brand" aria-hidden />
                       <span className="sr-only">Starting price: </span>
-                      {priceLabel(
-                        service.startingFrom.amount,
-                        service.slug === "maintenance",
-                      )}
+                      {priceText(service, isEthiopia)}
                     </p>
                   </div>
                 </div>
@@ -94,7 +100,7 @@ export default function ServicesPage() {
                   <ul className="mt-3 grid gap-2 sm:grid-cols-2">
                     {service.deliverables.map((d) => (
                       <li key={d} className="flex items-start gap-2 text-sm text-ink/70">
-                        <Check className="mt-0.5 size-4 shrink-0 text-pj-secondary" aria-hidden />
+                        <Check className="mt-0.5 size-4 shrink-0 text-brand" aria-hidden />
                         {d}
                       </li>
                     ))}
@@ -116,10 +122,10 @@ export default function ServicesPage() {
       </Section>
 
       {/* What we don't do */}
-      <Section variant="muted">
+      <Section variant="muted" frame>
         <Container className="max-w-3xl">
-          <div className="flex gap-4 rounded-[1.6rem] border border-white/10 bg-white/[0.02] p-8">
-            <Ban className="mt-1 size-6 shrink-0 text-pj-secondary" aria-hidden />
+          <div className="flex gap-4 rounded-[1.6rem] border border-line bg-panel p-8">
+            <Ban className="mt-1 size-6 shrink-0 text-brand" aria-hidden />
             <div>
               <h2 className="text-lg font-bold text-ink">What we don&apos;t do</h2>
               <p className="mt-2 text-ink/70">

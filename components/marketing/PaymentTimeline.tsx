@@ -3,7 +3,7 @@ import { PAYMENT_MILESTONES } from "@/content/process";
 /** Visual 30 / 40 / 30 milestone payment bar so clients see it clearly. */
 export function PaymentTimeline() {
   return (
-    <div className="rounded-[1.5rem] border border-white/10 bg-white/[0.02] p-6 shadow-[0_40px_90px_-50px_rgba(124,60,180,0.6)] sm:p-8">
+    <div className="rounded-[1.5rem] border border-line bg-panel p-6 shadow-[0_40px_90px_-50px_rgba(124,60,180,0.6)] sm:p-8">
       <div className="flex overflow-hidden rounded-xl" aria-hidden>
         {PAYMENT_MILESTONES.map((m, i) => (
           <div

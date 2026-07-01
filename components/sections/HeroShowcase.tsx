@@ -8,33 +8,56 @@ import type { Project } from "@/content/types";
 const EASE = [0.16, 1, 0.3, 1] as const;
 const ROTATE_MS = 3800;
 
-/** Resting transform for a card given its position relative to the active one. */
-function variantFor(off: number, isHoveredCenter: boolean) {
-  if (off === 0)
+/**
+ * Resting transform for a card given its position relative to the active one.
+ * Card size is fixed (center 1000px, sides 800px), so depth here comes purely
+ * from horizontal offset, rotation, vertical drop and opacity. x offsets are a
+ * percentage of the card's own width so they track the responsive vw cap.
+ */
+function variantFor(off: number) {
+  const a = Math.abs(off);
+  if (off === 0) return { x: "0%", y: 0, rotate: 0, opacity: 1 };
+  if (a === 1)
     return {
-      x: "0%",
-      y: isHoveredCenter ? -16 : 0,
-      rotate: 0,
-      scale: isHoveredCenter ? 1.07 : 1,
+      x: off < 0 ? "-48%" : "48%",
+      y: 22,
+      rotate: off < 0 ? -6 : 6,
       opacity: 1,
     };
-  if (off === -1)
-    return { x: "-64%", y: 20, rotate: -7, scale: 0.82, opacity: 1 };
-  if (off === 1) return { x: "64%", y: 20, rotate: 7, scale: 0.82, opacity: 1 };
-  // Further cards stay hidden behind, ready to rotate in.
+  if (a === 2)
+    return {
+      x: off < 0 ? "-90%" : "90%",
+      y: 42,
+      rotate: off < 0 ? -11 : 11,
+      opacity: 0.55,
+    };
+  // Beyond the visible window: hidden, ready to rotate in.
   return {
-    x: off < 0 ? "-82%" : "82%",
-    y: 28,
-    rotate: off < 0 ? -10 : 10,
-    scale: 0.7,
+    x: off < 0 ? "-122%" : "122%",
+    y: 50,
+    rotate: off < 0 ? -14 : 14,
     opacity: 0,
   };
 }
 
+/**
+ * Mobile resting transform by stack depth (0 = front). Cards are centered
+ * (no horizontal fan) and stack downward; the back-most card is hidden just
+ * below, ready to rise up into the front spot. The motion is purely vertical.
+ */
+function mobileVariant(d: number) {
+  if (d === 0) return { x: "0%", y: 0, rotate: 0, scale: 1, opacity: 1 };
+  if (d === 1) return { x: "0%", y: 16, rotate: 0, scale: 0.95, opacity: 1 };
+  if (d === 2) return { x: "0%", y: 30, rotate: 0, scale: 0.9, opacity: 0.8 };
+  if (d === 3) return { x: "0%", y: 42, rotate: 0, scale: 0.86, opacity: 0.4 };
+  // Back of the stack: parked just below, hidden, ready to sweep up to front.
+  return { x: "0%", y: 56, rotate: 0, scale: 0.82, opacity: 0 };
+}
+
 function CardFrame({ project, priority }: { project: Project; priority: boolean }) {
   return (
-    <div className="overflow-hidden rounded-xl border border-white/12 bg-deep shadow-[0_50px_120px_-40px_rgba(124,60,180,0.9)]">
-      <div className="flex items-center gap-1.5 border-b border-white/10 bg-white/[0.03] px-3 py-2.5">
+    <div className="overflow-hidden rounded-xl border border-line bg-deep shadow-[0_50px_120px_-40px_rgba(124,60,180,0.9)]">
+      <div className="flex items-center gap-1.5 border-b border-line bg-panel px-3 py-2.5">
         <span className="size-2.5 rounded-full bg-white/15" />
         <span className="size-2.5 rounded-full bg-white/15" />
         <span className="size-2.5 rounded-full bg-white/15" />
@@ -55,9 +78,8 @@ function CardFrame({ project, priority }: { project: Project; priority: boolean 
 
 /**
  * Auto-rotating "deck of cards" showcase. The cards continuously cycle which
- * project sits in the center (front). Hovering any visible card slides it to
- * the center and pops it; leaving the area resumes the rotation. Works for any
- * number of projects (only three are visible at a time).
+ * project sits in the center (front). Works for any number of projects (up to
+ * five are visible at a time, center plus two a side).
  */
 export function HeroShowcase({
   projects,
@@ -69,13 +91,29 @@ export function HeroShowcase({
   const reduce = useReducedMotion();
   const n = projects.length;
   const [active, setActive] = useState(initialIndex);
-  const [hovered, setHovered] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Mobile uses a centered vertical card-stack instead of the horizontal fan.
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 639px)");
+    const update = () => setIsMobile(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  // Desktop cycles forward (fan slides sideways); mobile cycles backward so the
+  // card at the back of the stack is the one that rises up to the front.
+  const dir = isMobile ? -1 : 1;
 
   useEffect(() => {
-    if (reduce || hovered !== null || n < 2) return;
-    const id = setInterval(() => setActive((a) => (a + 1) % n), ROTATE_MS);
+    if (reduce || n < 2) return;
+    const id = setInterval(
+      () => setActive((a) => (a + dir + n) % n),
+      ROTATE_MS,
+    );
     return () => clearInterval(id);
-  }, [reduce, hovered, n]);
+  }, [reduce, n, dir]);
 
   // Signed offset of card i from the active one, wrapped to the nearest side.
   function rel(i: number) {
@@ -87,8 +125,8 @@ export function HeroShowcase({
   // Reduced motion: a single static centered card, no rotation.
   if (reduce) {
     return (
-      <div className="relative mx-auto mt-16 flex h-[22rem] w-full max-w-4xl items-center justify-center sm:h-[26rem] lg:h-[28rem]">
-        <div className="w-[78%] sm:w-[60%] lg:w-[54%]">
+      <div className="relative mx-auto mt-10 flex h-[18rem] w-full items-center justify-center sm:mt-16 sm:h-[20rem] md:h-[22rem] lg:h-[24rem]">
+        <div className="w-[86vw] max-w-[22rem] sm:w-[500px] sm:max-w-[90vw]">
           <CardFrame project={projects[active]} priority />
         </div>
       </div>
@@ -96,29 +134,44 @@ export function HeroShowcase({
   }
 
   return (
-    <div
-      className="relative mx-auto mt-16 h-[22rem] w-full max-w-4xl sm:h-[26rem] lg:h-[28rem]"
-      onMouseLeave={() => setHovered(null)}
-    >
+    <div className="relative mx-auto mt-10 h-[18rem] w-full sm:mt-16 sm:h-[20rem] md:h-[22rem] lg:h-[24rem]">
       {projects.map((project, i) => {
+        // Mobile: centered vertical stack, depth 0 = front.
+        if (isMobile) {
+          const d = (i - active + n) % n;
+          const v = mobileVariant(d);
+          return (
+            <div
+              key={project.slug}
+              className="absolute inset-0 flex items-center justify-center"
+              style={{ zIndex: n - d }}
+            >
+              <motion.div
+                className="w-[86vw] max-w-[22rem] will-change-transform"
+                animate={v}
+                transition={{ duration: 0.55, ease: EASE }}
+              >
+                <CardFrame project={project} priority={d === 0} />
+              </motion.div>
+            </div>
+          );
+        }
+
+        // Desktop: horizontal fan.
         const off = rel(i);
-        const visible = Math.abs(off) <= 1;
-        const v = variantFor(off, hovered === i && off === 0);
+        const v = variantFor(off);
         return (
           <div
             key={project.slug}
             className="absolute inset-0 flex items-center justify-center"
-            style={{ zIndex: off === 0 ? 30 : 10 - Math.abs(off) }}
+            style={{ zIndex: off === 0 ? 30 : 30 - Math.abs(off) * 4 }}
           >
             <motion.div
-              className="w-[78%] cursor-pointer will-change-transform sm:w-[60%] lg:w-[54%]"
-              style={{ pointerEvents: visible ? "auto" : "none" }}
+              className={`will-change-transform ${
+                off === 0 ? "w-[500px] max-w-[90vw]" : "w-[400px] max-w-[72vw]"
+              }`}
               animate={v}
               transition={{ duration: 0.6, ease: EASE }}
-              onMouseEnter={() => {
-                setActive(i);
-                setHovered(i);
-              }}
             >
               <CardFrame project={project} priority={off === 0} />
             </motion.div>

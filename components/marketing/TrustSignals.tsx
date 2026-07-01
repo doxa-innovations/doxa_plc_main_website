@@ -38,12 +38,12 @@ export function TrustSignals() {
   ];
 
   return (
-    <div className="relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.03] p-8 shadow-[0_40px_90px_-50px_rgba(124,60,180,0.7)] sm:p-10">
+    <div className="relative overflow-hidden rounded-[1.75rem] border border-line bg-panel p-8 shadow-[0_40px_90px_-50px_rgba(124,60,180,0.7)] sm:p-10">
       <div
         aria-hidden
         className="pointer-events-none absolute -right-20 -top-20 size-64 rounded-full bg-pj-primary/20 blur-[90px]"
       />
-      <div className="relative flex items-center gap-2 text-pj-secondary">
+      <div className="relative flex items-center gap-2 text-brand">
         <BadgeCheck className="size-5" strokeWidth={1.5} aria-hidden />
         <h3 className="font-display text-lg font-semibold">
           Verifiable legal standing
@@ -56,7 +56,7 @@ export function TrustSignals() {
       <div className="relative mt-8 grid gap-x-8 gap-y-6 sm:grid-cols-2">
         {facts.map((f) => (
           <div key={f.label} className="flex gap-3">
-            <span className="mt-0.5 inline-flex size-9 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-pj-primary/15 text-pj-secondary">
+            <span className="mt-0.5 inline-flex size-9 shrink-0 items-center justify-center rounded-lg border border-line bg-pj-primary/15 text-brand">
               <f.icon className="size-4.5" strokeWidth={1.5} aria-hidden />
             </span>
             <dl>

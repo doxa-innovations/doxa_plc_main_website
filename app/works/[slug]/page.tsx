@@ -7,6 +7,7 @@ import { SITE } from "@/content/site";
 import { allProjectSlugs, getProjectBySlug } from "@/content/projects";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
+import { GridField, FrameMarks } from "@/components/visual/Decor";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { CountryFlag } from "@/components/CountryFlag";
 import { Badge } from "@/components/ui/badge";
@@ -41,16 +42,20 @@ export default async function ProjectPage({ params }: { params: Params }) {
   return (
     <>
       {/* Header */}
-      <section className="border-b border-border bg-surface-muted pb-10 pt-28 sm:pt-32">
-        <Container>
-          <Breadcrumbs
-            items={[
-              { name: "Home", path: "/" },
-              { name: "Works", path: "/works" },
-              { name: project.client, path: `/works/${project.slug}` },
-            ]}
-          />
-          <div className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-ink/60">
+      <section className="relative isolate overflow-hidden border-b border-line bg-surface pb-10 pt-28 sm:pt-32">
+        <GridField />
+        <FrameMarks variant="plus" />
+        <Container className="relative text-center sm:text-left">
+          <div className="flex justify-center sm:justify-start">
+            <Breadcrumbs
+              items={[
+                { name: "Home", path: "/" },
+                { name: "Works", path: "/works" },
+                { name: project.client, path: `/works/${project.slug}` },
+              ]}
+            />
+          </div>
+          <div className="mt-5 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-sm text-ink/60 sm:justify-start">
             <span className="inline-flex items-center gap-1.5">
               <CountryFlag code={project.countryCode} className="text-base" />
               {project.country}
@@ -66,13 +71,13 @@ export default async function ProjectPage({ params }: { params: Params }) {
               </>
             )}
           </div>
-          <h1 className="mt-3 max-w-3xl text-4xl font-extrabold tracking-tight text-ink sm:text-5xl">
+          <h1 className="mx-auto mt-3 max-w-3xl text-4xl font-extrabold tracking-tight text-ink sm:mx-0 sm:text-5xl">
             {project.client}
           </h1>
-          <p className="mt-2 text-lg font-medium text-pj-secondary">
+          <p className="mt-2 text-lg font-medium text-brand">
             {project.title}
           </p>
-          <div className="mt-6 flex flex-wrap gap-3">
+          <div className="mt-6 flex flex-wrap justify-center gap-3 sm:justify-start">
             {project.liveUrl && (
               <Button asChild>
                 <a
@@ -114,7 +119,7 @@ export default async function ProjectPage({ params }: { params: Params }) {
       </Container>
 
       {/* Case study profile */}
-      <Section variant="surface" className="pt-0">
+      <Section variant="muted" frame className="pt-0">
         <div className="mx-auto max-w-4xl">
           <p className="max-w-3xl text-pretty text-lg text-ink-muted">
             {project.summary}
@@ -141,10 +146,10 @@ export default async function ProjectPage({ params }: { params: Params }) {
                       {i < project.approach.length - 1 && (
                         <span
                           aria-hidden
-                          className="absolute left-[1.0625rem] top-10 h-[calc(100%-1.75rem)] w-px bg-white/10"
+                          className="absolute left-[1.0625rem] top-10 h-[calc(100%-1.75rem)] w-px bg-line-strong"
                         />
                       )}
-                      <span className="relative z-10 inline-flex size-9 shrink-0 items-center justify-center rounded-full border border-white/10 bg-surface font-display text-sm font-semibold text-pj-secondary shadow-[0_0_24px_-6px_rgba(178,119,211,0.8)]">
+                      <span className="relative z-10 inline-flex size-9 shrink-0 items-center justify-center rounded-full border border-line bg-surface font-display text-sm font-semibold text-brand shadow-[0_0_24px_-6px_rgba(178,119,211,0.8)]">
                         {i + 1}
                       </span>
                       <div className="pt-1">
@@ -204,7 +209,7 @@ export default async function ProjectPage({ params }: { params: Params }) {
                     href={project.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-2 inline-flex items-center gap-1 break-all text-sm text-pj-secondary hover:underline"
+                    className="mt-2 inline-flex items-center gap-1 break-all text-sm text-brand hover:underline"
                   >
                     {project.liveUrl.replace(/^https?:\/\//, "")}
                     <ArrowUpRight className="size-3.5 shrink-0" strokeWidth={1.75} />
@@ -216,13 +221,13 @@ export default async function ProjectPage({ params }: { params: Params }) {
 
           {/* Testimonial (shown once the client's quote is added) */}
           {project.testimonial && (
-            <figure className="relative mt-14 overflow-hidden rounded-[1.6rem] border border-white/10 bg-white/[0.03] p-8 shadow-[0_40px_90px_-50px_rgba(124,60,180,0.7)] sm:p-10">
+            <figure className="relative mt-14 overflow-hidden rounded-[1.6rem] border border-line bg-panel p-8 shadow-[0_40px_90px_-50px_rgba(124,60,180,0.7)] sm:p-10">
               <div
                 aria-hidden
                 className="pointer-events-none absolute -right-10 -top-10 size-48 rounded-full bg-pj-primary/20 blur-[80px]"
               />
               <Quote
-                className="relative size-8 text-pj-secondary"
+                className="relative size-8 text-brand"
                 strokeWidth={1.5}
                 aria-hidden
               />
@@ -241,7 +246,7 @@ export default async function ProjectPage({ params }: { params: Params }) {
           <div className="mt-14">
             <Link
               href="/works"
-              className="inline-flex items-center gap-1.5 text-sm font-semibold text-pj-secondary hover:underline"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline"
             >
               <ArrowLeft className="size-4" />
               Back to all projects

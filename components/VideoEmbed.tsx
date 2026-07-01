@@ -25,7 +25,7 @@ export function VideoEmbed({
   return (
     <div
       className={cn(
-        "relative overflow-hidden rounded-[1.4rem] border border-white/10 bg-surface-muted",
+        "relative overflow-hidden rounded-[1.4rem] border border-line bg-surface-muted",
         aspect,
         className,
       )}
@@ -47,7 +47,7 @@ export function VideoEmbed({
           />
           <div className="absolute inset-0 grid place-items-center p-6">
             <div className="flex flex-col items-center gap-3 text-center">
-              <span className="grid size-14 place-items-center rounded-full border border-white/15 bg-white/[0.06] text-pj-secondary backdrop-blur-sm">
+              <span className="grid size-14 place-items-center rounded-full border border-line-strong bg-panel-strong text-brand backdrop-blur-sm">
                 <Play className="size-6" strokeWidth={1.5} aria-hidden />
               </span>
               <p className="text-sm font-medium text-ink">{title}</p>

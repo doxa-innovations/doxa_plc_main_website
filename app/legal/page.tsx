@@ -4,6 +4,7 @@ import { Section } from "@/components/layout/Section";
 import { LegalDetails } from "@/components/marketing/LegalDetails";
 import { CtaBand } from "@/components/marketing/CtaBand";
 import { Reveal } from "@/components/Reveal";
+import { isEthiopianVisitor } from "@/lib/geo";
 
 export const metadata = buildMetadata({
   title: "Legal & Trust",
@@ -31,7 +32,8 @@ const POLICIES = [
   },
 ];
 
-export default function LegalPage() {
+export default async function LegalPage() {
+  const isEthiopia = await isEthiopianVisitor();
   return (
     <>
       <PageHeader
@@ -44,12 +46,12 @@ export default function LegalPage() {
         ]}
       />
 
-      <Section variant="surface">
+      <Section variant="muted" frame>
         <div className="mx-auto max-w-3xl">
           <h2 className="text-xl font-bold text-ink">Registration details</h2>
           <Reveal>
             <div className="mt-6">
-              <LegalDetails />
+              <LegalDetails showVerification={!isEthiopia} />
             </div>
           </Reveal>
 

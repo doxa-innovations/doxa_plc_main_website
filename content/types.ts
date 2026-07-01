@@ -88,6 +88,12 @@ export interface Service {
   techStack: string[];
   timeline: string;
   startingFrom: Money;
+  /**
+   * Ethiopian-visitor starting price in ETB, or "custom" to show "Pricing:
+   * Custom" instead of a "from" figure. International visitors see
+   * `startingFrom` (USD); Ethiopian visitors see this.
+   */
+  etStartingFrom: number | "custom";
 }
 
 export type ProjectStatus = "live" | "in-development";
@@ -148,6 +154,8 @@ export interface PricingTier {
   bestFor: string;
   includes: string[];
   priceFrom: string;
+  /** Ethiopian-visitor price label (ETB), e.g. "From ETB 30,000" or "On order". */
+  priceFromEt: string;
   timeline: string;
   payment: string;
   highlighted: boolean;

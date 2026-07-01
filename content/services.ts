@@ -26,6 +26,7 @@ export const SERVICES: Service[] = [
     techStack: ["Next.js", "React", "Tailwind CSS"],
     timeline: "3 to 6 weeks",
     startingFrom: { amount: 1500, currency: "USD" },
+    etStartingFrom: 20000,
   },
   {
     slug: "e-commerce",
@@ -47,6 +48,7 @@ export const SERVICES: Service[] = [
     techStack: ["Laravel", "React", "Shopify", "Stripe"],
     timeline: "4 to 8 weeks",
     startingFrom: { amount: 2500, currency: "USD" },
+    etStartingFrom: 79999,
   },
   {
     slug: "custom-software",
@@ -68,6 +70,7 @@ export const SERVICES: Service[] = [
     techStack: ["Laravel", "Next.js", "FilamentPHP", "PostgreSQL", "Redis"],
     timeline: "Defined per project",
     startingFrom: { amount: 3000, currency: "USD" },
+    etStartingFrom: 119999,
   },
   {
     slug: "branding",
@@ -90,6 +93,7 @@ export const SERVICES: Service[] = [
     techStack: ["Figma", "Adobe Illustrator"],
     timeline: "1 to 3 weeks",
     startingFrom: { amount: 500, currency: "USD" },
+    etStartingFrom: 19999,
   },
   {
     slug: "mobile",
@@ -112,6 +116,7 @@ export const SERVICES: Service[] = [
     techStack: ["React Native", "Expo", "Laravel"],
     timeline: "Defined per project",
     startingFrom: { amount: 5000, currency: "USD" },
+    etStartingFrom: 199999,
   },
   {
     slug: "maintenance",
@@ -134,6 +139,7 @@ export const SERVICES: Service[] = [
     techStack: ["Docker", "Cloudflare", "Linux VPS"],
     timeline: "Monthly retainer",
     startingFrom: { amount: 100, currency: "USD" },
+    etStartingFrom: "custom",
   },
 ];
 

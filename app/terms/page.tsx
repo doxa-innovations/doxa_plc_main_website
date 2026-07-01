@@ -69,7 +69,7 @@ export default function TermsPage() {
           { name: "Terms", path: "/terms" },
         ]}
       />
-      <Section variant="surface">
+      <Section variant="muted">
         <div className="mx-auto max-w-3xl space-y-10">
           {SECTIONS.map((s) => (
             <Reveal key={s.heading}>

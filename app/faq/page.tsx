@@ -2,8 +2,7 @@ import { buildMetadata } from "@/lib/metadata";
 import { FAQ_VIDEOS } from "@/content/faqVideos";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Section } from "@/components/layout/Section";
-import { Reveal } from "@/components/Reveal";
-import { VideoEmbed } from "@/components/VideoEmbed";
+import { FaqVideos } from "@/components/marketing/FaqVideos";
 import { CtaBand } from "@/components/marketing/CtaBand";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { faqPageSchema, graph } from "@/lib/jsonld";
@@ -28,25 +27,8 @@ export default function FaqPage() {
         ]}
       />
 
-      <Section variant="surface">
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {FAQ_VIDEOS.map((item, i) => (
-            <Reveal key={item.question}>
-              <div className="flex h-full flex-col rounded-[1.5rem] border border-white/10 bg-white/[0.02] p-5">
-                <VideoEmbed
-                  orientation="portrait"
-                  src={item.videoSrc}
-                  title={`Q${i + 1}`}
-                  className="mx-auto w-full max-w-[230px]"
-                />
-                <h2 className="mt-5 font-display text-lg font-semibold text-ink">
-                  {item.question}
-                </h2>
-                <p className="mt-2 text-sm text-ink-muted">{item.answer}</p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
+      <Section variant="muted" frame>
+        <FaqVideos items={FAQ_VIDEOS} />
       </Section>
 
       <CtaBand

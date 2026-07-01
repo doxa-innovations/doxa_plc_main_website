@@ -3,17 +3,30 @@ import { SITE } from "@/content/site";
 import { Button } from "@/components/ui/button";
 import { QrVerify } from "@/components/QrVerify";
 
-/** Full legal-transparency block, reused on /about and /legal. */
-export function LegalDetails() {
+/**
+ * Full legal-transparency block, reused on /about and /legal. When
+ * `showVerification` is false (Ethiopian visitors) the sensitive registration
+ * numbers (commercial registration, license, TIN, VAT) and the independent
+ * verification QR are omitted; the company identity rows still show.
+ */
+export function LegalDetails({
+  showVerification = true,
+}: {
+  showVerification?: boolean;
+}) {
   const { registration: reg, address } = SITE;
 
   const rows: { label: string; value: string; href?: string }[] = [
     { label: "Company Name", value: SITE.legalName },
     { label: "Legal Form", value: "Private Limited Company (PLC), Ethiopia" },
-    { label: "Commercial Registration No.", value: reg.commercialRegNo },
-    { label: "Business License No.", value: reg.licenseNo },
-    { label: "Taxpayer ID (TIN)", value: reg.tin },
-    { label: "VAT Registration No.", value: reg.vat },
+    ...(showVerification
+      ? [
+          { label: "Commercial Registration No.", value: reg.commercialRegNo },
+          { label: "Business License No.", value: reg.licenseNo },
+          { label: "Taxpayer ID (TIN)", value: reg.tin },
+          { label: "VAT Registration No.", value: reg.vat },
+        ]
+      : []),
     { label: "Licensed Activities", value: reg.licensedActivities.join(", ") },
     { label: "Established", value: "December 2024" },
     {
@@ -24,7 +37,7 @@ export function LegalDetails() {
   ];
 
   return (
-    <div className="rounded-[1.5rem] border border-white/10 bg-white/[0.02] p-8 shadow-[0_40px_90px_-50px_rgba(124,60,180,0.6)] sm:p-10">
+    <div className="rounded-[1.5rem] border border-line bg-panel p-8 shadow-[0_40px_90px_-50px_rgba(124,60,180,0.6)] sm:p-10">
       <div className="divide-y divide-border">
         {rows.map((row) => (
           <dl
@@ -38,7 +51,7 @@ export function LegalDetails() {
                   href={row.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-pj-secondary"
+                  className="hover:text-brand"
                 >
                   {row.value}
                 </a>
@@ -49,10 +62,12 @@ export function LegalDetails() {
           </dl>
         ))}
       </div>
-      <div className="mt-8">
-        <QrVerify />
-      </div>
-      {SITE.driveProfileUrl && (
+      {showVerification && (
+        <div className="mt-8">
+          <QrVerify />
+        </div>
+      )}
+      {showVerification && SITE.driveProfileUrl && (
         <Button asChild variant="outline" className="mt-6">
           <a
             href={SITE.driveProfileUrl}

@@ -19,7 +19,7 @@ const LOGOS = [
 export function ClientLogos() {
   const track = [...LOGOS, ...LOGOS];
   return (
-    <section className="border-y border-white/[0.06] bg-deep py-12">
+    <section className="border-y border-line bg-deep py-12">
       <Container>
         <p className="text-center text-sm text-ink-muted">
           Trusted by clients across the US, the Netherlands, and East Africa

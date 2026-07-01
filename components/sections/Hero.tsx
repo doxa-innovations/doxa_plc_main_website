@@ -7,17 +7,20 @@ import { SITE } from "@/content/site";
 import { getProjectBySlug } from "@/content/projects";
 import { Container } from "@/components/layout/Container";
 import { HeroShowcase } from "@/components/sections/HeroShowcase";
+import { GridField, FrameMarks, Hatch } from "@/components/visual/Decor";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
 export function Hero() {
   const reduce = useReducedMotion();
-  // Carousel order: [left, center, right] with KLA starting in the center.
-  // Add more slugs here and the deck cycles through all of them.
+  // Deck order, shown left-to-right with LCE (the middle of the list) starting
+  // in the center. The deck auto-rotates through all of them.
   const showcase = [
-    getProjectBySlug("lce-church"),
     getProjectBySlug("kla-construction-equipment"),
-    getProjectBySlug("doxa-ledger"),
+    getProjectBySlug("scholten-pattern-works"),
+    getProjectBySlug("lce-church"),
+    getProjectBySlug("classic-noodle-burger"),
+    getProjectBySlug("maor-lutheran-seminary"),
   ].filter((p): p is NonNullable<typeof p> => Boolean(p));
 
   const container: Variants = {
@@ -30,7 +33,11 @@ export function Hero() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-surface">
+    <section className="relative isolate overflow-hidden bg-surface">
+      {/* blueprint grid + hatch + corner crosshairs, behind the glow */}
+      <GridField fade="edges" />
+      <Hatch />
+      <FrameMarks variant="plus" />
       {/* glow field */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute -left-32 top-0 size-[40rem] rounded-full bg-pj-primary/25 blur-[130px] animate-blob" />
@@ -47,9 +54,9 @@ export function Hero() {
         >
           <motion.p
             variants={item}
-            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-1.5 text-xs font-medium text-ink-muted backdrop-blur-sm"
+            className="inline-flex items-center gap-1.5 rounded-full border border-line bg-panel px-2.5 py-1 text-[0.62rem] font-medium text-ink-muted backdrop-blur-sm sm:gap-2 sm:px-3.5 sm:py-1.5 sm:text-xs"
           >
-            <span className="size-1.5 rounded-full bg-pj-secondary" />
+            <span className="size-1 shrink-0 rounded-full bg-pj-secondary sm:size-1.5" />
             Legally registered PLC · Est. {SITE.registration.foundingYear} ·
             Bishoftu, Ethiopia
           </motion.p>
@@ -59,7 +66,7 @@ export function Hero() {
             className="mt-6 text-balance font-display text-[2.6rem] font-semibold leading-[1.02] tracking-[-0.035em] text-ink sm:text-6xl lg:text-[4.2rem]"
           >
             Great software,{" "}
-            <span className="text-pj-secondary">built affordably.</span>
+            <span className="text-brand">built affordably.</span>
           </motion.h1>
 
           <motion.p
@@ -76,27 +83,30 @@ export function Hero() {
           >
             <Link
               href="/contact"
-              className="group inline-flex items-center gap-2 rounded-full bg-primary py-3.5 pl-6 pr-3 text-base font-medium text-primary-foreground shadow-[0_16px_44px_-12px_rgba(178,119,211,0.95)] transition-transform duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.98]"
+              className="group inline-flex items-center gap-2 rounded-full bg-primary py-2.5 pl-5 pr-2.5 text-sm font-medium text-primary-foreground shadow-[0_16px_44px_-12px_rgba(178,119,211,0.95)] transition-transform duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.98] sm:py-3.5 sm:pl-6 sm:pr-3 sm:text-base"
             >
               Start a project
-              <span className="grid size-8 place-items-center rounded-full bg-white/15 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-                <ArrowUpRight className="size-4" strokeWidth={2} />
+              <span className="grid size-6 place-items-center rounded-full bg-white/15 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 sm:size-8">
+                <ArrowUpRight className="size-3.5 sm:size-4" strokeWidth={2} />
               </span>
             </Link>
             <Link
               href="/works"
-              className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-6 py-3.5 text-base font-medium text-ink backdrop-blur-sm transition-colors duration-200 hover:bg-white/[0.09]"
+              className="inline-flex items-center gap-2 rounded-full border border-line-strong bg-panel px-5 py-2.5 text-sm font-medium text-ink backdrop-blur-sm transition-colors duration-200 hover:bg-panel-strong sm:px-6 sm:py-3.5 sm:text-base"
             >
               See our work
             </Link>
           </motion.div>
-          <motion.p variants={item} className="mt-4 text-sm text-ink-muted/80">
+          <motion.p
+            variants={item}
+            className="mt-3 text-[0.66rem] text-ink-muted/80 sm:mt-4 sm:text-sm"
+          >
             Free discovery call · no upfront payment · you own everything.
           </motion.p>
         </motion.div>
 
         {/* Auto-rotating deck: hover any card to slide it to the front */}
-        <HeroShowcase projects={showcase} initialIndex={1} />
+        <HeroShowcase projects={showcase} initialIndex={2} />
       </Container>
     </section>
   );

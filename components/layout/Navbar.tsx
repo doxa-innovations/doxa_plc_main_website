@@ -57,8 +57,8 @@ export function Navbar() {
           className={cn(
             "flex w-full items-center justify-between gap-2 rounded-full border px-3 py-2 pl-5 transition-[background-color,border-color,box-shadow] duration-300",
             scrolled || open
-              ? "border-white/10 bg-deep/80 shadow-[0_18px_50px_-24px_rgba(124,60,180,0.8)] backdrop-blur-xl"
-              : "border-white/[0.06] bg-white/[0.02] backdrop-blur-md",
+              ? "border-line bg-deep/80 shadow-[0_18px_50px_-24px_rgba(124,60,180,0.8)] backdrop-blur-xl"
+              : "border-line bg-panel backdrop-blur-md",
           )}
         >
           <Wordmark onClick={() => setOpen(false)} />
@@ -71,7 +71,7 @@ export function Navbar() {
                 className={cn(
                   "rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors duration-200",
                   isActive(link.href)
-                    ? "bg-white/[0.07] text-ink"
+                    ? "bg-panel-strong text-ink"
                     : "text-ink-muted hover:text-ink",
                 )}
               >
@@ -97,7 +97,7 @@ export function Navbar() {
               onClick={() => setOpen((v) => !v)}
               aria-label={open ? "Close menu" : "Open menu"}
               aria-expanded={open}
-              className="grid size-10 place-items-center rounded-full border border-white/10 bg-white/[0.03] lg:hidden"
+              className="grid size-10 place-items-center rounded-full border border-line bg-panel lg:hidden"
             >
               <span className="relative block h-4 w-5">
                 <span
@@ -139,7 +139,7 @@ export function Navbar() {
                   <Link
                     href={link.href}
                     onClick={() => setOpen(false)}
-                    className="block border-b border-white/[0.06] py-4 font-display text-2xl font-medium text-ink"
+                    className="block border-b border-line py-4 font-display text-2xl font-medium text-ink"
                   >
                     {link.label}
                   </Link>

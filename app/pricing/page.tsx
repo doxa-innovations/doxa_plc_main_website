@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Check, Info } from "lucide-react";
 import { buildMetadata } from "@/lib/metadata";
 import { PRICING_TIERS, ADD_ONS } from "@/content/pricing";
+import { isEthiopianVisitor } from "@/lib/geo";
 import { cn } from "@/lib/utils";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Section } from "@/components/layout/Section";
@@ -18,7 +19,8 @@ export const metadata = buildMetadata({
   path: "/pricing",
 });
 
-export default function PricingPage() {
+export default async function PricingPage() {
+  const isEthiopia = await isEthiopianVisitor();
   return (
     <>
       <PageHeader
@@ -32,17 +34,20 @@ export default function PricingPage() {
       />
 
       {/* Tiers */}
-      <Section variant="surface">
+      <Section variant="surface" frame grid>
         <Reveal>
         <div className="grid items-start gap-6 lg:grid-cols-3">
-          {PRICING_TIERS.map((tier) => (
+          {PRICING_TIERS.map((tier) => {
+            const price = isEthiopia ? tier.priceFromEt : tier.priceFrom;
+            const isQuoteOnly = price === "On request" || price === "On order";
+            return (
             <div
               key={tier.name}
               className={cn(
-                "flex h-full flex-col rounded-[1.6rem] border bg-white/[0.02] p-7 transition-[transform,border-color] duration-300 hover:-translate-y-0.5",
+                "flex h-full flex-col rounded-[1.6rem] border bg-panel p-7 transition-[transform,border-color] duration-300 hover:-translate-y-0.5",
                 tier.highlighted
                   ? "border-pj-secondary/50 bg-pj-primary/[0.07] shadow-[0_40px_100px_-50px_rgba(178,119,211,0.95)] ring-1 ring-pj-secondary/40"
-                  : "border-white/10 hover:border-white/20",
+                  : "border-line hover:border-line-strong",
               )}
             >
               <div className="flex items-center justify-between">
@@ -55,7 +60,7 @@ export default function PricingPage() {
               </div>
               <p className="mt-2 min-h-10 text-sm text-ink/70">{tier.bestFor}</p>
               <p className="mt-5 text-3xl font-extrabold text-ink">
-                {tier.priceFrom}
+                {price}
               </p>
               <div className="mt-4 space-y-1 text-sm text-ink/60">
                 <dl className="flex justify-between">
@@ -70,7 +75,7 @@ export default function PricingPage() {
               <ul className="mt-6 flex-1 space-y-2.5">
                 {tier.includes.map((item) => (
                   <li key={item} className="flex items-start gap-2 text-sm text-ink/80">
-                    <Check className="mt-0.5 size-4 shrink-0 text-pj-secondary" aria-hidden />
+                    <Check className="mt-0.5 size-4 shrink-0 text-brand" aria-hidden />
                     {item}
                   </li>
                 ))}
@@ -81,19 +86,18 @@ export default function PricingPage() {
                 variant={tier.highlighted ? "default" : "outline"}
               >
                 <Link href="/contact">
-                  {tier.priceFrom === "On request"
-                    ? "Book a scoping call"
-                    : "Get started"}
+                  {isQuoteOnly ? "Book a scoping call" : "Get started"}
                 </Link>
               </Button>
             </div>
-          ))}
+            );
+          })}
         </div>
         </Reveal>
       </Section>
 
       {/* Add-ons */}
-      <Section variant="muted">
+      <Section variant="muted" frame>
         <SectionHeading
           eyebrow="Add-Ons"
           title="Ongoing services, when you need them"
@@ -102,19 +106,21 @@ export default function PricingPage() {
           {ADD_ONS.map((addon) => (
             <div
               key={addon.name}
-              className="rounded-[1.25rem] border border-white/10 bg-white/[0.02] p-6"
+              className="rounded-[1.25rem] border border-line bg-panel p-6"
             >
               <h3 className="text-base font-bold text-ink">{addon.name}</h3>
-              <p className="mt-1 text-sm font-semibold text-pj-secondary">
-                {addon.priceFrom}
-              </p>
+              {!isEthiopia && (
+                <p className="mt-1 text-sm font-semibold text-brand">
+                  {addon.priceFrom}
+                </p>
+              )}
               <p className="mt-2 text-sm text-ink/70">{addon.detail}</p>
             </div>
           ))}
         </div>
 
-        <div className="mx-auto mt-10 flex max-w-3xl gap-3 rounded-[1.25rem] border border-white/10 bg-white/[0.03] p-5">
-          <Info className="mt-0.5 size-5 shrink-0 text-pj-secondary" aria-hidden />
+        <div className="mx-auto mt-10 flex max-w-3xl gap-3 rounded-[1.25rem] border border-line bg-panel p-5">
+          <Info className="mt-0.5 size-5 shrink-0 text-brand" aria-hidden />
           <p className="text-sm text-ink/80">
             All prices are starting points and guides. Every project is scoped
             individually, and no quote is given without a discovery conversation.

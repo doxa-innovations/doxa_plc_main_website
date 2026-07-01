@@ -1,0 +1,310 @@
+"use client";
+
+import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  Play,
+  Pause,
+  Square,
+  Volume2,
+  VolumeX,
+  Maximize,
+  Minimize,
+  X,
+} from "lucide-react";
+import { cn } from "@/lib/utils";
+
+function fmt(t: number) {
+  if (!Number.isFinite(t) || t < 0) return "0:00";
+  const m = Math.floor(t / 60);
+  const s = Math.floor(t % 60);
+  return `${m}:${s.toString().padStart(2, "0")}`;
+}
+
+const ctrlBtn =
+  "grid size-9 place-items-center rounded-full border border-line bg-panel-strong text-ink transition-colors hover:border-pj-secondary/50 hover:bg-pj-secondary/20 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pj-secondary";
+
+/**
+ * Branded, fully custom video player for the "A look inside Doxa" walkthrough.
+ * Plays inline in its own player (no native chrome). Once it has been started
+ * and the user scrolls it out of view, the same <video> element re-docks to a
+ * floating mini-player in the corner so playback continues while they browse.
+ * Floating relies on `position: fixed`, so this must not sit under a
+ * transformed / backdrop-filtered ancestor (it is rendered outside <Reveal>).
+ */
+export function OfficeVideo({
+  src,
+  poster,
+  captions,
+  title,
+}: {
+  src: string;
+  poster?: string;
+  captions?: string;
+  title: string;
+}) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const playerRef = useRef<HTMLDivElement>(null);
+  const anchorRef = useRef<HTMLDivElement>(null);
+
+  const [playing, setPlaying] = useState(false);
+  const [started, setStarted] = useState(false);
+  const [muted, setMuted] = useState(false);
+  const [current, setCurrent] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [ratio, setRatio] = useState(1);
+  const [dismissed, setDismissed] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  // Float once the player has been started, the user hasn't dismissed it, and
+  // the inline anchor has mostly scrolled off screen.
+  const floating = started && !dismissed && ratio < 0.25;
+
+  useEffect(() => {
+    const el = anchorRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        setRatio(entry.intersectionRatio);
+        if (entry.intersectionRatio > 0.6) setDismissed(false);
+      },
+      { threshold: [0, 0.1, 0.25, 0.5, 0.6, 0.8, 1] },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const onFs = () => setIsFullscreen(Boolean(document.fullscreenElement));
+    document.addEventListener("fullscreenchange", onFs);
+    return () => document.removeEventListener("fullscreenchange", onFs);
+  }, []);
+
+  const togglePlay = useCallback(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    if (v.paused) void v.play();
+    else v.pause();
+  }, []);
+
+  const stop = useCallback(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    v.pause();
+    v.currentTime = 0;
+  }, []);
+
+  const toggleMute = useCallback(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    v.muted = !v.muted;
+    setMuted(v.muted);
+  }, []);
+
+  const seek = useCallback((value: number) => {
+    const v = videoRef.current;
+    if (!v) return;
+    v.currentTime = value;
+    setCurrent(value);
+  }, []);
+
+  const toggleFullscreen = useCallback(() => {
+    if (document.fullscreenElement) void document.exitFullscreen();
+    else void playerRef.current?.requestFullscreen?.();
+  }, []);
+
+  const returnToSection = useCallback(() => {
+    anchorRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }, []);
+
+  const dismiss = useCallback(() => {
+    videoRef.current?.pause();
+    setDismissed(true);
+  }, []);
+
+  return (
+    <div ref={anchorRef} className="relative aspect-video w-full">
+      {/* Reserved-space placeholder shown while the player floats in the corner */}
+      {floating && (
+        <div className="absolute inset-0 grid place-items-center rounded-[1.4rem] border border-dashed border-line-strong bg-panel p-6 text-center">
+          <div className="flex flex-col items-center gap-3">
+            <span className="grid size-12 place-items-center rounded-full border border-pj-secondary/40 bg-pj-primary/15 text-brand">
+              <Play className="size-5 translate-x-0.5" aria-hidden />
+            </span>
+            <p className="text-sm font-medium text-ink">
+              Playing in the corner
+            </p>
+            <button
+              type="button"
+              onClick={returnToSection}
+              className="rounded-full border border-line-strong bg-panel px-4 py-1.5 text-xs font-medium text-ink transition-colors hover:border-pj-secondary/50 hover:bg-pj-secondary/15"
+            >
+              Bring it back here
+            </button>
+          </div>
+        </div>
+      )}
+
+      <div
+        ref={playerRef}
+        className={cn(
+          "group overflow-hidden bg-deep shadow-[0_40px_90px_-50px_rgba(124,60,180,0.8)]",
+          floating
+            ? "fixed bottom-4 right-4 z-[60] aspect-video w-[22rem] max-w-[85vw] animate-[mini-pop_0.28s_cubic-bezier(0.16,1,0.3,1)] rounded-2xl border border-pj-secondary/40 ring-1 ring-pj-secondary/25"
+            : "absolute inset-0 rounded-[1.4rem] border border-line",
+        )}
+      >
+        <video
+          ref={videoRef}
+          src={src}
+          poster={poster}
+          playsInline
+          preload="metadata"
+          aria-label={title}
+          className="size-full cursor-pointer object-cover"
+          onClick={togglePlay}
+          onPlay={() => {
+            setPlaying(true);
+            setStarted(true);
+          }}
+          onPause={() => setPlaying(false)}
+          onEnded={() => setPlaying(false)}
+          onTimeUpdate={(e) => setCurrent(e.currentTarget.currentTime)}
+          onLoadedMetadata={(e) => setDuration(e.currentTarget.duration)}
+          onVolumeChange={(e) => setMuted(e.currentTarget.muted)}
+        >
+          {captions && (
+            <track
+              kind="captions"
+              src={captions}
+              srcLang="en"
+              label="English"
+              default
+            />
+          )}
+        </video>
+
+        {/* Center play button (visible whenever paused) */}
+        {!playing && (
+          <button
+            type="button"
+            onClick={togglePlay}
+            aria-label={current > 0 ? "Resume video" : "Play video"}
+            className="absolute inset-0 grid place-items-center bg-deep/30 transition-colors hover:bg-deep/20 focus-visible:outline-none"
+          >
+            <span
+              className={cn(
+                "grid place-items-center rounded-full bg-pj-primary text-white shadow-[0_18px_50px_-12px_rgba(120,81,169,0.95)] transition-transform duration-200 group-hover:scale-105",
+                floating ? "size-12" : "size-16 sm:size-20",
+              )}
+            >
+              <Play
+                className={cn("translate-x-0.5", floating ? "size-5" : "size-7 sm:size-9")}
+                fill="currentColor"
+                aria-hidden
+              />
+            </span>
+          </button>
+        )}
+
+        {/* Floating-only: return + close */}
+        {floating && (
+          <div className="absolute right-2 top-2 z-10 flex gap-1.5">
+            <button
+              type="button"
+              onClick={returnToSection}
+              aria-label="Expand back to the page"
+              className="grid size-7 place-items-center rounded-full bg-deep/70 text-ink backdrop-blur-sm transition-colors hover:bg-deep/90 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pj-secondary"
+            >
+              <Maximize className="size-3.5" aria-hidden />
+            </button>
+            <button
+              type="button"
+              onClick={dismiss}
+              aria-label="Close mini player"
+              className="grid size-7 place-items-center rounded-full bg-deep/70 text-ink backdrop-blur-sm transition-colors hover:bg-deep/90 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pj-secondary"
+            >
+              <X className="size-3.5" aria-hidden />
+            </button>
+          </div>
+        )}
+
+        {/* Branded control bar */}
+        <div
+          className={cn(
+            "absolute inset-x-0 bottom-0 bg-gradient-to-t from-deep/95 via-deep/55 to-transparent px-3 pb-2.5 pt-10 transition-opacity duration-200",
+            playing
+              ? "opacity-0 group-hover:opacity-100 group-focus-within:opacity-100"
+              : "opacity-100",
+          )}
+        >
+          <label className="sr-only" htmlFor="office-video-seek">
+            Seek
+          </label>
+          <input
+            id="office-video-seek"
+            type="range"
+            min={0}
+            max={duration || 0}
+            step={0.05}
+            value={current}
+            onChange={(e) => seek(Number(e.target.value))}
+            className="h-1.5 w-full cursor-pointer rounded-full accent-pj-secondary"
+            aria-label="Seek"
+          />
+          <div className="mt-2 flex items-center gap-2 sm:gap-2.5">
+            <button
+              type="button"
+              onClick={togglePlay}
+              aria-label={playing ? "Pause" : "Play"}
+              className="grid size-9 place-items-center rounded-full bg-pj-primary text-white shadow-[0_10px_30px_-10px_rgba(120,81,169,0.9)] transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pj-secondary"
+            >
+              {playing ? (
+                <Pause className="size-4" fill="currentColor" aria-hidden />
+              ) : (
+                <Play className="size-4 translate-x-px" fill="currentColor" aria-hidden />
+              )}
+            </button>
+            <button
+              type="button"
+              onClick={stop}
+              aria-label="Stop"
+              className={ctrlBtn}
+            >
+              <Square className="size-3.5" fill="currentColor" aria-hidden />
+            </button>
+            <button
+              type="button"
+              onClick={toggleMute}
+              aria-label={muted ? "Unmute" : "Mute"}
+              className={ctrlBtn}
+            >
+              {muted ? (
+                <VolumeX className="size-4" aria-hidden />
+              ) : (
+                <Volume2 className="size-4" aria-hidden />
+              )}
+            </button>
+            <span className="ml-1 text-xs font-medium tabular-nums text-ink-muted">
+              {fmt(current)} <span className="text-ink-muted/50">/</span>{" "}
+              {fmt(duration)}
+            </span>
+            {!floating && (
+              <button
+                type="button"
+                onClick={toggleFullscreen}
+                aria-label={isFullscreen ? "Exit fullscreen" : "Fullscreen"}
+                className={cn(ctrlBtn, "ml-auto")}
+              >
+                {isFullscreen ? (
+                  <Minimize className="size-4" aria-hidden />
+                ) : (
+                  <Maximize className="size-4" aria-hidden />
+                )}
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

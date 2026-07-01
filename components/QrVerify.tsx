@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
  */
 export function QrVerify() {
   return (
-    <div className="flex flex-col items-center gap-6 rounded-[1.4rem] border border-white/10 bg-white/[0.03] p-6 text-center sm:flex-row sm:text-left sm:p-7">
+    <div className="flex flex-col items-center gap-6 rounded-[1.4rem] border border-line bg-panel p-6 text-center sm:flex-row sm:text-left sm:p-7">
       <div className="shrink-0 rounded-2xl bg-white p-3">
         <QRCode
           value={SITE.etradeVerifyUrl}
