@@ -18,12 +18,13 @@ function Wordmark({ onClick }: { onClick?: () => void }) {
       onClick={onClick}
       className="flex items-center gap-2.5 font-display text-base font-semibold tracking-tight text-ink sm:text-lg"
     >
-      {/* White plate behind the mark: the SVG's fill is a baked #7851A9, which
-          is a dark violet and sits too close to the navbar's own surface to
-          read on its own. */}
-      <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-white p-1 shadow-[0_0_12px_-2px_rgba(178,119,211,0.55)]">
-        <img src="/logo.svg" alt="Doxa Innovations logo" className="size-full" />
-      </span>
+      {/* No plate. The SVG's fill is a baked #7851A9, so it leans on the
+          brightness lift and glow to separate from the navbar surface. */}
+      <img
+        src="/logo.svg"
+        alt="Doxa Innovations logo"
+        className="size-9 shrink-0 brightness-125 drop-shadow-[0_0_10px_rgba(178,119,211,0.6)]"
+      />
       Doxa Innovations
     </Link>
   );

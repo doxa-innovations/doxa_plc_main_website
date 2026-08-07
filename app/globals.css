@@ -36,6 +36,7 @@
      visibly repeats instead of being cut off mid-cycle. */
   --animate-sonar: sonar 1.8s var(--ease-out-expo) infinite;
   --animate-ring-drift: ring-drift 24s ease-in-out infinite;
+  --animate-emblem-ping: emblem-ping 3.6s var(--ease-out-quint) infinite;
 }
 
 @keyframes blob {
@@ -462,6 +463,25 @@ body::after {
   }
   100% {
     transform: scale(2);
+    opacity: 0;
+  }
+}
+
+/* Orbit rings on the About emblem, pushing outward and fading. Three of them
+   run on the same cycle offset by a third, so one is always near full strength
+   and the group reads as a continuous ping rather than a blink.
+   Gated behind `motion-safe:` at the call site; the rings' resting `opacity-60`
+   is what reduced-motion visitors see, so they still get the rings, static. */
+@keyframes emblem-ping {
+  0% {
+    transform: scale(0.94);
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.65;
+  }
+  100% {
+    transform: scale(1.35);
     opacity: 0;
   }
 }

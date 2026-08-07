@@ -24,7 +24,18 @@ import type {
 export const ORG_ID = `${SITE.url}/#organization`;
 export const WEBSITE_ID = `${SITE.url}/#website`;
 
-export function organizationSchema(site: SiteConfig = SITE) {
+/**
+ * `showTaxIds` mirrors the visible gating. The registration numbers are hidden
+ * from Ethiopian visitors in the UI, but they were still emitted here on every
+ * page — the schema is rendered by app/(site)/layout.tsx, so the TIN and VAT sat
+ * in the source of the homepage, the pricing page, everywhere, regardless of
+ * country. Structured data has to follow the same rule as the markup it
+ * describes, or the gating is decorative.
+ */
+export function organizationSchema(
+  site: SiteConfig = SITE,
+  showTaxIds = true,
+) {
   return {
     "@type": "Organization",
     "@id": ORG_ID,
@@ -34,8 +45,9 @@ export function organizationSchema(site: SiteConfig = SITE) {
     logo: `${site.url}/logo.svg`,
     description: site.description,
     foundingDate: site.registration.foundingDate,
-    taxID: site.registration.tin,
-    vatID: site.registration.vat,
+    ...(showTaxIds
+      ? { taxID: site.registration.tin, vatID: site.registration.vat }
+      : {}),
     areaServed: "Worldwide",
     knowsLanguage: ["en"],
     address: {

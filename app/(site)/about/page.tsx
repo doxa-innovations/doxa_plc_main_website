@@ -101,7 +101,7 @@ export default async function AboutPage() {
           {VALUES.map((v) => (
             <div
               key={v.title}
-              className="rounded-[1.4rem] border border-line bg-panel p-6"
+              className="card-lift rounded-[1.4rem] border border-line bg-panel p-6"
             >
               <span className="inline-flex size-11 items-center justify-center rounded-xl border border-line bg-pj-primary/15 text-brand shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
                 <v.icon className="size-5" aria-hidden />
@@ -135,7 +135,7 @@ export default async function AboutPage() {
                 <div className="mt-6 space-y-4 text-lg text-ink-muted">
                   <p>
                     Doxa is the Greek word{" "}
-                    <span lang="el" className="text-ink">
+                    <span lang="el" className="font-semibold text-ink">
                       δόξα
                     </span>{" "}
                     — glory: the weight and honour a thing carries when it is
@@ -158,11 +158,18 @@ export default async function AboutPage() {
                 className="relative mx-auto grid aspect-square w-full max-w-sm place-items-center"
               >
                 <div className="absolute size-[65%] rounded-full bg-pj-primary/30 blur-[90px]" />
-                {[46, 64, 82].map((pct) => (
+                {/* Staggered across one cycle so a ring is always near full
+                    strength — it reads as a continuous outward ping rather
+                    than three rings blinking in unison. */}
+                {[46, 64, 82].map((pct, i) => (
                   <span
                     key={pct}
-                    className="absolute rounded-full border border-grid-strong"
-                    style={{ width: `${pct}%`, height: `${pct}%` }}
+                    className="absolute rounded-full border border-grid-strong opacity-60 motion-safe:animate-emblem-ping"
+                    style={{
+                      width: `${pct}%`,
+                      height: `${pct}%`,
+                      animationDelay: `${i * 1.2}s`,
+                    }}
                   />
                 ))}
                 <img

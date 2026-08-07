@@ -23,7 +23,7 @@ function FounderCard({
   compact: boolean;
 }) {
   return (
-    <article className="group flex flex-col overflow-hidden rounded-[1.6rem] border border-line bg-panel shadow-[0_40px_90px_-50px_rgba(124,60,180,0.6)] transition-[transform,border-color] duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 hover:border-line-strong">
+    <article className="card-lift group flex flex-col overflow-hidden rounded-[1.6rem] border border-line bg-panel">
       <div
         className={cn(
           "relative w-full overflow-hidden bg-surface-muted",

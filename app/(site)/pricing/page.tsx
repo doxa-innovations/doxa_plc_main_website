@@ -50,7 +50,7 @@ export default async function PricingPage() {
                 // `.light` inverts the card against the violet band: white fill,
                 // violet ink. The highlighted tier takes the tinted step of the
                 // same ramp so it still reads as the odd one out.
-                "flex h-full flex-col rounded-[1.6rem] border bg-panel p-7 transition-[transform,border-color] duration-300 hover:-translate-y-0.5",
+                "card-lift flex h-full flex-col rounded-[1.6rem] border bg-panel p-7",
                 tier.highlighted
                   ? "border-pj-secondary/50 bg-surface-muted shadow-[0_40px_100px_-50px_rgba(178,119,211,0.95)] ring-1 ring-pj-secondary/40"
                   : "border-line hover:border-line-strong",
@@ -112,7 +112,7 @@ export default async function PricingPage() {
           {addOns.map((addon) => (
             <div
               key={addon.name}
-              className="rounded-[1.25rem] border border-line bg-panel p-6"
+              className="card-lift rounded-[1.25rem] border border-line bg-panel p-6"
             >
               <h3 className="text-base font-bold text-ink">{addon.name}</h3>
               {/* Add-ons are USD only, so their prices stay hidden from

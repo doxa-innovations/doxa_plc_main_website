@@ -3,6 +3,7 @@ import { Footer } from "@/components/layout/Footer";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { ConsentManager } from "@/components/consent/ConsentManager";
 import { getSite } from "@/lib/content";
+import { isEthiopianVisitor } from "@/lib/geo";
 import { RouteLoaderProvider } from "@/components/loading/RouteLoaderProvider";
 import {
   graph,
@@ -29,13 +30,16 @@ export default async function SiteLayout({
   // Structured data reads the same CMS-backed config the pages render, so a
   // changed phone number updates the visible footer and the LocalBusiness
   // schema together rather than letting them drift apart.
-  const site = await getSite();
+  const [site, isEthiopia] = await Promise.all([
+    getSite(),
+    isEthiopianVisitor(),
+  ]);
 
   return (
     <>
       <JsonLd
         schema={graph(
-          organizationSchema(site),
+          organizationSchema(site, !isEthiopia),
           websiteSchema(),
           localBusinessSchema(site),
         )}
