@@ -41,9 +41,14 @@ export default async function SiteLayout({
         )}
       />
       <RouteLoaderProvider>
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
+        {/* One aurora canvas for the whole public site. Bands render with no
+            fill of their own so it shows through; the Footer keeps its own
+            `bg-deep` and is unaffected. */}
+        <div className="aurora-canvas isolate">
+          <Navbar />
+          <main>{children}</main>
+          <Footer />
+        </div>
         <ConsentManager />
       </RouteLoaderProvider>
     </>

@@ -45,7 +45,7 @@ export default async function ProjectPage({ params }: { params: Params }) {
   return (
     <>
       {/* Header */}
-      <section className="relative isolate overflow-hidden border-b border-line bg-surface pb-10 pt-28 sm:pt-32">
+      <section className="relative isolate overflow-hidden border-b border-line pb-10 pt-28 sm:pt-32">
         <GridField />
         <FrameMarks variant="plus" />
         <Container className="relative text-center sm:text-left">

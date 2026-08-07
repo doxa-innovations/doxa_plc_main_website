@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Section } from "@/components/layout/Section";
 import { SectionHeading } from "@/components/SectionHeading";
-import { Reveal } from "@/components/Reveal";
+import { RevealUp } from "@/components/marketing/RevealUp";
 import { PaymentTimeline } from "@/components/marketing/PaymentTimeline";
 import { FaqSection } from "@/components/marketing/FaqSection";
 
@@ -60,7 +60,7 @@ export default function HowItWorksPage() {
               const flip = i % 2 === 1;
               return (
                 <li key={stage.number}>
-                  <Reveal>
+                  <RevealUp>
                     <div className="grid items-center gap-8 md:grid-cols-2 md:gap-14">
                       <div
                         className={cn(
@@ -88,7 +88,7 @@ export default function HowItWorksPage() {
                         <p className="mt-2 text-ink-muted">{stage.description}</p>
                       </div>
                     </div>
-                  </Reveal>
+                  </RevealUp>
                 </li>
               );
             })}

@@ -24,7 +24,7 @@ export default function ThankYouPage() {
   return (
     <>
       {/* Intro — clean, no background decoration */}
-      <section className="relative overflow-hidden bg-surface pb-10 pt-36">
+      <section className="relative overflow-hidden pb-10 pt-36">
         <div
           aria-hidden
           className="pointer-events-none absolute -top-32 left-1/2 size-[44rem] -translate-x-1/2 rounded-full bg-pj-primary/20 blur-[130px]"
@@ -71,7 +71,7 @@ export default function ThankYouPage() {
       </Container>
 
       {/* FAQ videos — same component as the FAQ page */}
-      <section className="bg-surface pb-16 sm:pb-20">
+      <section className="pb-16 sm:pb-20">
         <Container>
           <SectionHeading
             title="Frequently asked questions"

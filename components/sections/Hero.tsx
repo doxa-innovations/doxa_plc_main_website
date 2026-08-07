@@ -29,15 +29,17 @@ export function Hero({ showcase }: { showcase: ShowcaseItem[] }) {
   };
 
   return (
-    <section className="relative isolate overflow-hidden bg-surface">
+    // Transparent, not `bg-surface`: the homepage's aurora canvas is the
+    // ground here, and a fill would paint straight over it.
+    <section className="relative isolate overflow-hidden">
       {/* blueprint grid + hatch + corner crosshairs, behind the glow */}
       <GridField fade="edges" />
       <Hatch />
       <FrameMarks variant="plus" />
-      {/* glow field */}
+      {/* The two drifting blooms that used to sit here are gone: the page's
+          aurora canvas now supplies the ambient violet, and stacking both
+          washed the black out of the ground entirely. */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute -left-32 top-0 size-[40rem] rounded-full bg-pj-primary/25 blur-[130px] animate-blob" />
-        <div className="absolute -right-24 top-24 size-[34rem] rounded-full bg-pj-secondary/20 blur-[130px] animate-blob [animation-delay:4s]" />
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
       </div>
 

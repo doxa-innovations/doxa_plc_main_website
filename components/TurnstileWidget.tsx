@@ -38,10 +38,21 @@ const SCRIPT_SRC =
 export function TurnstileWidget({
   siteKey,
   onToken,
+  onError,
 }: {
   siteKey: string;
   /** Called with the token, or null when it expires or errors. */
   onToken: (token: string | null) => void;
+  /**
+   * Called with Cloudflare's error code when the widget cannot produce a token
+   * at all, and with null once it recovers.
+   *
+   * Worth surfacing rather than swallowing. `110200` means the hostname is not
+   * on the widget's allowed list, which fires for every visitor on that
+   * hostname, and the visible symptom without this is a form that simply
+   * refuses to work with no clue as to why.
+   */
+  onError?: (code: string | null) => void;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const widgetIdRef = useRef<string | null>(null);
@@ -53,6 +64,10 @@ export function TurnstileWidget({
   useEffect(() => {
     onTokenRef.current = onToken;
   }, [onToken]);
+  const onErrorRef = useRef(onError);
+  useEffect(() => {
+    onErrorRef.current = onError;
+  }, [onError]);
 
   useEffect(() => {
     let cancelled = false;
@@ -69,17 +84,21 @@ export function TurnstileWidget({
           // Telemetry marker used by Cloudflare for aggregate activation
           // stats. Never per-user.
           action: "turnstile-spin-v1",
-          callback: (token: string) => onTokenRef.current(token),
+          callback: (token: string) => {
+            onTokenRef.current(token);
+            onErrorRef.current?.(null);
+          },
           // A token is single-use and expires after ~5 minutes. Clearing it
           // means a slow form-filler gets a fresh one rather than submitting
           // a stale token that would be rejected.
           "expired-callback": () => onTokenRef.current(null),
           "timeout-callback": () => onTokenRef.current(null),
-          "error-callback": () => {
+          "error-callback": (code: string) => {
             onTokenRef.current(null);
-            // Not fatal: the server treats an absent token as unverified and
-            // decides from there, so a Cloudflare outage cannot wedge a
-            // visitor out of the form.
+            onErrorRef.current?.(String(code));
+            // Returning true keeps the widget alive so it can retry rather
+            // than rendering Cloudflare's own error box, which is not in this
+            // site's design language and says nothing a visitor can act on.
             return true;
           },
         }) ?? null;

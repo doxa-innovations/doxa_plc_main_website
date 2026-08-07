@@ -81,6 +81,8 @@ Read these before touching the related area.
 
 8. **Never point a dev server at the production database.** Dev `push` writes a `batch: -1` row into `payload_migrations`, which makes production `migrate()` open an interactive prompt and hang in a non-TTY container.
 
+9. **The Turnstile widget's hostname list is a single point of failure for the whole contact form.** A hostname that is not on it gets client error `110200` and no token, for every visitor, and the form stops working. Check it before blaming the code. Related: a failed challenge is the ONE bot check in `app/api/contact/route.ts` that answers with a visible error rather than a silent `{ok:true}`. That is deliberate. The honeypot and user-agent checks can never false-positive on a human, so silence costs nothing there; a challenge that could not run is usually a real person with an ad blocker or a misconfigured hostname, and a silent 200 sends them to `/thank-you` while the enquiry is discarded.
+
 ## Conventions
 
 - **Path alias:** `@/*` → repo root. There is no `src/`. `_archive/` is the dead legacy app, excluded from tsconfig and eslint; ignore it.
@@ -97,7 +99,7 @@ Read these before touching the related area.
 Copy `.env.example` to `.env`.
 
 - **Database:** `DATABASE_URI`, `PAYLOAD_SECRET`. `PAYLOAD_SECRET` is also required at build time; the Dockerfile passes a throwaway value inline so the real one never enters the image.
-- **Email:** `SMTP_*`, `CONTACT_NOTIFY_TO` (falls back to `CONTACT_TO`). Locally, point SMTP at Mailpit on 1025 so development never sends real mail to a real person.
+- **Email:** `SMTP_*` only. There is no recipient env var: both the customer confirmation's `Reply-To` and the company notification's `To` are `site.email` from the CMS, so the address is changed in `/olympus` and in one place. `CONTACT_NOTIFY_TO` and `CONTACT_TO` are gone; setting them now does nothing. Locally, point SMTP at Mailpit on 1025 so development never sends real mail to a real person.
 - **Media:** `R2_BUCKET`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_ENDPOINT`, `R2_PUBLIC_URL`. Uploads are disabled when `R2_BUCKET` is unset, so local development works without credentials.
 - `FORCE_COUNTRY` previews the Ethiopian view. **Analytics deliberately ignores it** (`countryFromHeaders` vs `getCountryCode` in `lib/geo.ts`), or a value left set in production would mislabel all traffic.
 

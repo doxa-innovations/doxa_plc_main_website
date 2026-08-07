@@ -30,7 +30,7 @@ export function PageHeader({
   let i = 0;
 
   return (
-    <section className="relative isolate overflow-hidden border-b border-line bg-surface pb-14 pt-32 sm:pb-20 sm:pt-36">
+    <section className="relative isolate overflow-hidden border-b border-line pb-14 pt-32 sm:pb-20 sm:pt-36">
       <GridField />
       <FrameMarks variant="plus" />
       <div

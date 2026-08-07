@@ -106,7 +106,10 @@ export default async function ContactPage() {
           {/* Form */}
           <div className="lg:col-span-3">
             <div className="rounded-[1.6rem] border border-line bg-panel p-6 shadow-[0_40px_90px_-50px_rgba(124,60,180,0.6)] sm:p-8">
-              <ContactForm turnstileSiteKey={turnstileSiteKey()} />
+              <ContactForm
+                turnstileSiteKey={turnstileSiteKey()}
+                fallbackEmail={SITE.email}
+              />
             </div>
           </div>
         </div>

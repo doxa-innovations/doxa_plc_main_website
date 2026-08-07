@@ -78,6 +78,10 @@
 :root {
   --radius: 0.875rem;
 
+  /* Aurora ground. Near-black with a violet cast rather than pure #000, so
+     the blooms have something to bleed into instead of a hard edge. */
+  --aurora-base: #06000f;
+
   /* premium easing curves */
   --ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -496,16 +500,19 @@ html.route-loading body {
   }
 }
 
-.route-loader-boot {
-  animation: boot-failsafe 0.4s linear 4s forwards;
-}
+/* There was a `boot-failsafe` animation here that faded the curtain out after
+   4s in case hydration never ran. It has been removed on purpose.
 
-@keyframes boot-failsafe {
-  to {
-    opacity: 0;
-    visibility: hidden;
-  }
-}
+   Any animation on this element promotes it to its own compositing layer,
+   which makes it a BACKDROP ROOT — and a backdrop root confines the
+   `backdrop-filter` on the glass plate inside it to sampling only its own
+   (empty) contents. The result was that on every hard refresh the curtain
+   rendered with no frost at all and the page behind it stayed perfectly
+   legible, while in-page navigation looked correct.
+
+   A certain, universal visual break is not worth insuring against a rare one:
+   visitors with no JavaScript are already covered by the `scripting: none`
+   rule above, and if JS loads but hydration dies the page is broken anyway. */
 
 /* ------------------------------------------------------------------ */
 /*  Page-header entrance — the eyebrow / title / lead rise on first     */
@@ -582,6 +589,81 @@ html.route-loading body {
   .reach-pulse-sm {
     display: none;
   }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Card hover — the site's one tile interaction: a small lift, the     */
+/*  hairline brightening, and a violet bloom pooling underneath.        */
+/*                                                                     */
+/*  Defined once and shared by the portfolio, service and bento tiles   */
+/*  so they cannot drift apart. The global reduced-motion rule zeroes   */
+/*  the duration, which leaves the hover state instant rather than      */
+/*  animated — correct, and nothing here gates visibility.              */
+/* ------------------------------------------------------------------ */
+.card-lift {
+  transition-property: transform, border-color, box-shadow;
+  transition-duration: 300ms;
+  transition-timing-function: var(--ease-out-quint);
+}
+
+.card-lift:hover,
+.card-lift:focus-visible {
+  transform: translateY(-4px);
+  border-color: var(--line-strong);
+  box-shadow: 0 40px 90px -50px rgba(124, 60, 180, 0.9);
+}
+
+/* ------------------------------------------------------------------ */
+/*  AURORA CANVAS                                                      */
+/*                                                                     */
+/*  Near-black ground with large violet blooms, so the page reads as    */
+/*  lit rather than as one flat fill. Put `aurora-canvas` on the page   */
+/*  wrapper; bands inside opt out of their own fill with                */
+/*  `bg-transparent` so the canvas shows through.                       */
+/*                                                                     */
+/*  Radial gradients, not blurred circles: a `blur()` of this size is a */
+/*  per-frame compositor cost on scroll, and the gradient falloff is    */
+/*  indistinguishable at these radii.                                   */
+/*                                                                     */
+/*  Fixed, so the light stays put while content moves past it — the     */
+/*  page feels lit by the room rather than papered with a texture.      */
+/* ------------------------------------------------------------------ */
+.aurora-canvas {
+  position: relative;
+  background-color: var(--aurora-base);
+}
+
+.aurora-canvas::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-color: var(--aurora-base);
+  /* Tight radii and an early falloff on purpose: broad, overlapping blooms
+     average out into one flat violet wash, which is the thing this is meant
+     to avoid. The black between the spots is the effect. */
+  background-image:
+    radial-gradient(
+      67% 57% at 3% 0%,
+      rgba(138, 95, 192, 0.62),
+      transparent 62%
+    ),
+    radial-gradient(
+      73% 67% at 88% 26%,
+      rgba(120, 81, 169, 0.55),
+      transparent 64%
+    ),
+    radial-gradient(
+      60% 53% at 99% 97%,
+      rgba(178, 119, 211, 0.34),
+      transparent 62%
+    ),
+    radial-gradient(
+      53% 47% at 6% 96%,
+      rgba(120, 81, 169, 0.28),
+      transparent 64%
+    );
 }
 
 /* ------------------------------------------------------------------ */

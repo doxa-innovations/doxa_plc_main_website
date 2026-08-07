@@ -9,7 +9,7 @@ export function ProjectCard({ project }: { project: Project }) {
   return (
     <Link
       href={`/works/${project.slug}`}
-      className="group relative flex flex-col overflow-hidden rounded-[1.4rem] border border-line bg-panel transition-[transform,border-color,box-shadow] duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-1 hover:border-line-strong hover:shadow-[0_40px_90px_-50px_rgba(124,60,180,0.9)] focus-visible:outline-2 focus-visible:outline-pj-secondary light:shadow-[0_8px_30px_-16px_rgba(25,0,58,0.2)]"
+      className="card-lift group relative flex flex-col overflow-hidden rounded-[1.4rem] border border-line bg-panel focus-visible:outline-2 focus-visible:outline-pj-secondary light:shadow-[0_8px_30px_-16px_rgba(25,0,58,0.2)]"
     >
       <div className="relative aspect-[16/10] overflow-hidden">
         <Image

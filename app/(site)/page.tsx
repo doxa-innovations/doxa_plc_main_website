@@ -90,7 +90,7 @@ function BentoCell({
 }) {
   return (
     <div
-      className={`relative flex flex-col overflow-hidden rounded-[1.4rem] border border-line bg-panel p-7 ${className ?? ""}`}
+      className={`card-lift relative flex flex-col overflow-hidden rounded-[1.4rem] border border-line bg-panel p-7 ${className ?? ""}`}
     >
       {emphasized && (
         <div
@@ -134,7 +134,7 @@ export default async function HomePage() {
       <Hero showcase={showcase} />
 
       {/* Micro-trust strip */}
-      <section className="border-y border-line bg-deep">
+      <section className="border-y border-line bg-deep/60">
         <Container>
           {/* Mobile: a single, barely-there line so it never competes for attention */}
           <p className="py-2.5 text-center text-[0.6rem] leading-relaxed text-ink-muted/60 sm:hidden">

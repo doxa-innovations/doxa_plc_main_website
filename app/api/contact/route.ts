@@ -16,10 +16,6 @@ import { contactSchema } from "@/lib/validation";
 
 export const runtime = "nodejs";
 
-const NOTIFY_TO =
-  process.env.CONTACT_NOTIFY_TO ||
-  process.env.CONTACT_TO ||
-  "company@doxaplc.com";
 const FROM_DOMAIN = process.env.DOMAIN || "doxaplc.com";
 
 // Lightweight in-memory rate limit. The app runs as a single standalone
@@ -89,12 +85,19 @@ export async function POST(req: Request) {
   const data = parsed.data;
 
   /**
-   * Bot checks. All of them answer 200 OK and do nothing.
+   * Bot checks, part one: the two that answer 200 OK and silently do nothing.
    *
-   * Silence rather than an error is deliberate: an error message tells the
-   * author of a spam script exactly which check caught them, which is free
-   * tuning feedback. A success they can never see the result of gives them
-   * nothing to iterate against.
+   * Silence rather than an error is deliberate HERE, and only here: an error
+   * message tells the author of a spam script exactly which check caught them,
+   * which is free tuning feedback. A success they can never see the result of
+   * gives them nothing to iterate against.
+   *
+   * Both are safe to fail silently because a false positive is close to
+   * impossible. A human never fills a display:none field, and a human's browser
+   * never sends a user agent that names a crawler.
+   *
+   * The Turnstile check below is NOT safe to fail silently, and does not. See
+   * the comment there.
    *
    * These catch unsophisticated automation. Anything that runs a real browser
    * and waits will get through, which is what a challenge is for.
@@ -121,13 +124,34 @@ export async function POST(req: Request) {
    * or misconfigured on our side, and fails closed only when Cloudflare
    * actively rejects a token. See lib/turnstile.ts.
    *
-   * A rejected token gets the same silent 200 as the other bot checks, so a
-   * spam script learns nothing about which gate stopped it.
+   * This one answers with a VISIBLE error, unlike the two checks above.
+   *
+   * The silent-200 treatment was extended to here at first and it was wrong.
+   * A missing token is indistinguishable server-side from a bot that posted
+   * straight to this route, but on the visitor's side it is overwhelmingly a
+   * widget that could not run: an ad blocker that eats challenges.cloudflare
+   * .com, no network to Cloudflare, an outage, or the hostname missing from
+   * the widget's allowed list. That last one was reproduced here and returns
+   * client error 110200 for EVERY visitor on the affected hostname.
+   *
+   * With a silent 200 the form pushes to /thank-you, so those people are told
+   * their enquiry arrived while it is dropped on the floor. Losing every
+   * enquiry from a domain typo, invisibly, is far worse than a spam script
+   * learning that a challenge exists, which it can already see in the page
+   * source. So say so, and name a route to a human that does not depend on
+   * the thing that just broke.
    */
   const turnstile = await verifyTurnstile(data._turnstile, ip);
   if (!turnstile.ok) {
     console.warn(`contact: turnstile ${turnstile.reason}`);
-    return NextResponse.json({ ok: true });
+    const { email } = await getSite();
+    return NextResponse.json(
+      {
+        ok: false,
+        error: `We could not verify your browser, so this message was not sent. Please email us at ${email} and we will pick it up from there.`,
+      },
+      { status: 403 },
+    );
   }
 
   const now = Date.now();
@@ -242,7 +266,19 @@ export async function POST(req: Request) {
     const [notifyResult, confirmResult] = await Promise.allSettled([
       transport.sendMail({
         from,
-        to: NOTIFY_TO,
+        /**
+         * Both emails now address the same CMS-managed inbox, from opposite
+         * ends: the customer is told to reply to it, and this is delivered
+         * into it. Changing `email` in /olympus moves both together, which is
+         * the point, and there is no env var to forget to update alongside it.
+         *
+         * This replaced CONTACT_NOTIFY_TO / CONTACT_TO. Those allowed alerts
+         * to go somewhere private, separate from the public address; that
+         * split was deliberately given up in favour of one place to change.
+         * Reintroducing it means adding the env var back here, not editing
+         * the CMS.
+         */
+        to: site.email,
         replyTo: data.email,
         subject: notification.subject,
         html: notification.html,
@@ -251,7 +287,12 @@ export async function POST(req: Request) {
       transport.sendMail({
         from: `Doxa Innovations <hello@${FROM_DOMAIN}>`,
         to: data.email,
-        replyTo: NOTIFY_TO,
+        /**
+         * The address the body of this very email already tells them to write
+         * to. Taking it from the same CMS value the body renders means the
+         * header and the visible text can never disagree.
+         */
+        replyTo: site.email,
         subject: confirmation.subject,
         html: confirmation.html,
         text: confirmation.text,

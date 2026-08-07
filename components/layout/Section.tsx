@@ -12,8 +12,13 @@ const variantClasses: Record<SectionVariant, string> = {
   // `light` and `tint` are the white accent bands. Adding the `.light` class
   // flips the token scope (globals.css), so `bg-surface` resolves to #ffffff
   // and `text-ink` to the violet — every token-based child inverts with it.
-  surface: "bg-surface text-ink",
-  muted: "bg-surface text-ink",
+  // `surface` and `muted` paint NOTHING. The site sits on the shared aurora
+  // canvas (globals.css, mounted in app/(site)/layout.tsx); a fill here would
+  // paint straight over it. They stay as separate names because call sites use
+  // them to mean "default band" vs "the next one along", and `deep`/`accent`
+  // still darken deliberately on top of the canvas.
+  surface: "text-ink",
+  muted: "text-ink",
   light: "light bg-surface text-ink",
   tint: "light bg-surface-muted text-ink",
   deep: "bg-deep text-ink",

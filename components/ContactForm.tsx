@@ -35,14 +35,21 @@ import {
  * `turnstileSiteKey` arrives as a prop, read from the server's runtime
  * environment. An empty string means Turnstile is not configured and the form
  * behaves exactly as it did before it existed.
+ *
+ * `fallbackEmail` is the route to a human when the challenge cannot run. It is
+ * the CMS-managed public address, the same one the page already shows above
+ * the form, so it can never drift from what is displayed.
  */
 export function ContactForm({
   turnstileSiteKey = "",
+  fallbackEmail = "",
 }: {
   turnstileSiteKey?: string;
+  fallbackEmail?: string;
 }) {
   const router = useRouter();
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [turnstileError, setTurnstileError] = useState<string | null>(null);
   const form = useForm<ContactInput>({
     resolver: zodResolver(contactSchema),
     defaultValues: {
@@ -239,7 +246,41 @@ export function ContactForm({
           <TurnstileWidget
             siteKey={turnstileSiteKey}
             onToken={setTurnstileToken}
+            onError={setTurnstileError}
           />
+        )}
+
+        {/* Shown the moment the challenge fails, not after the visitor has
+            written a long message and pressed send. The submit button stays
+            enabled on purpose: the server is the authority on whether a token
+            is required, and it fails open when Turnstile is unconfigured or
+            Cloudflare is unreachable, so disabling here would refuse
+            submissions the server would have happily accepted. */}
+        {turnstileError && (
+          <p
+            role="alert"
+            className="rounded-[1.25rem] border border-destructive/40 bg-destructive/10 p-4 text-sm text-ink-muted"
+          >
+            <span className="font-semibold text-ink">
+              We could not run the spam check in your browser.
+            </span>{" "}
+            An ad blocker or a network restriction is the usual cause. Sending
+            may not work.{" "}
+            {fallbackEmail ? (
+              <>
+                Email us at{" "}
+                <a
+                  href={`mailto:${fallbackEmail}`}
+                  className="text-brand underline underline-offset-4 hover:text-glow"
+                >
+                  {fallbackEmail}
+                </a>{" "}
+                and we will pick it up from there.
+              </>
+            ) : (
+              <>Please use one of the contact routes listed on this page.</>
+            )}
+          </p>
         )}
 
         <Button type="submit" size="lg" disabled={submitting} className="w-full sm:w-auto">

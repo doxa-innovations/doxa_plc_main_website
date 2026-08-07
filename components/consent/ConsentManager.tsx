@@ -219,7 +219,10 @@ export function ConsentManager() {
       // z-[70] clears the floating video mini-player at z-[60]. The film-grain
       // overlay sits at z-100 but is pointer-events:none at 3% opacity.
       className={cn(
-        "fixed inset-x-0 bottom-0 z-[70] border-t border-line bg-deep/95 backdrop-blur-xl",
+        // Opaque, no backdrop-blur: the translucent blur smeared the page
+        // content behind the bar, which read to visitors as the site itself
+        // being out of focus while it loaded.
+        "fixed inset-x-0 bottom-0 z-[70] border-t border-line bg-deep",
         "transition-transform ease-[cubic-bezier(0.16,1,0.3,1)]",
         // Enter deliberately, leave quickly: slow where the visitor is
         // deciding, fast once the system is only acknowledging.

@@ -18,7 +18,9 @@ import { RouteLoaderProvider } from "@/components/loading/RouteLoaderProvider";
 export default function NotFound() {
   return (
     <RouteLoaderProvider>
-      <Navbar />
+      {/* Outside the (site) group, so this page mounts the canvas itself. */}
+      <div className="aurora-canvas isolate">
+        <Navbar />
       <main>
         <Container className="flex min-h-[70vh] flex-col items-center justify-center gap-5 py-32 text-center">
           <p className="text-sm font-semibold uppercase tracking-wide text-brand">
@@ -44,7 +46,8 @@ export default function NotFound() {
           </div>
         </Container>
       </main>
-      <Footer />
+        <Footer />
+      </div>
     </RouteLoaderProvider>
   );
 }
