@@ -1,7 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import { TurnstileWidget } from "@/components/TurnstileWidget";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import {
@@ -29,8 +31,18 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export function ContactForm() {
+/**
+ * `turnstileSiteKey` arrives as a prop, read from the server's runtime
+ * environment. An empty string means Turnstile is not configured and the form
+ * behaves exactly as it did before it existed.
+ */
+export function ContactForm({
+  turnstileSiteKey = "",
+}: {
+  turnstileSiteKey?: string;
+}) {
   const router = useRouter();
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const form = useForm<ContactInput>({
     resolver: zodResolver(contactSchema),
     defaultValues: {
@@ -50,7 +62,8 @@ export function ContactForm() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+        // The server verifies this against Cloudflare before storing anything.
+        body: JSON.stringify({ ...values, _turnstile: turnstileToken }),
       });
       const data = (await res.json()) as { ok?: boolean; error?: string };
       if (res.ok && data.ok) {
@@ -217,6 +230,17 @@ export function ContactForm() {
             </FormItem>
           )}
         />
+
+        {/* Invisible in the normal case: nothing is drawn unless Cloudflare
+            decides this visitor genuinely needs to prove something. Placed
+            above the button so that on the rare occasion a challenge does
+            appear, it is not below the fold. */}
+        {turnstileSiteKey && (
+          <TurnstileWidget
+            siteKey={turnstileSiteKey}
+            onToken={setTurnstileToken}
+          />
+        )}
 
         <Button type="submit" size="lg" disabled={submitting} className="w-full sm:w-auto">
           {submitting ? "Sending…" : "Send Message"}

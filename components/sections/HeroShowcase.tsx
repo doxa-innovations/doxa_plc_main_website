@@ -3,7 +3,19 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion, useReducedMotion } from "motion/react";
-import type { Project } from "@/content/types";
+/**
+ * The deck only ever draws a screenshot in a browser frame, so it asks for
+ * exactly that rather than a whole Project. A Project satisfies this shape
+ * structurally, so CMS-backed entries still pass straight through — and a
+ * screenshot with no case study behind it can be listed without inventing
+ * one.
+ */
+export interface ShowcaseItem {
+  slug: string;
+  client: string;
+  title: string;
+  coverImage: string;
+}
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 const ROTATE_MS = 3800;
@@ -54,7 +66,13 @@ function mobileVariant(d: number) {
   return { x: "0%", y: 56, rotate: 0, scale: 0.82, opacity: 0 };
 }
 
-function CardFrame({ project, priority }: { project: Project; priority: boolean }) {
+function CardFrame({
+  project,
+  priority,
+}: {
+  project: ShowcaseItem;
+  priority: boolean;
+}) {
   return (
     <div className="overflow-hidden rounded-xl border border-line bg-deep shadow-[0_50px_120px_-40px_rgba(124,60,180,0.9)]">
       <div className="flex items-center gap-1.5 border-b border-line bg-panel px-3 py-2.5">
@@ -85,7 +103,7 @@ export function HeroShowcase({
   projects,
   initialIndex = 0,
 }: {
-  projects: Project[];
+  projects: ShowcaseItem[];
   initialIndex?: number;
 }) {
   const reduce = useReducedMotion();

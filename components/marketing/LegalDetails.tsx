@@ -1,5 +1,5 @@
 import { FolderOpen } from "lucide-react";
-import { SITE } from "@/content/site";
+import { getSite, longLocation } from "@/lib/content";
 import { Button } from "@/components/ui/button";
 import { QrVerify } from "@/components/QrVerify";
 
@@ -9,11 +9,14 @@ import { QrVerify } from "@/components/QrVerify";
  * numbers (commercial registration, license, TIN, VAT) and the independent
  * verification QR are omitted; the company identity rows still show.
  */
-export function LegalDetails({
+export async function LegalDetails({
   showVerification = true,
 }: {
   showVerification?: boolean;
 }) {
+  // The registered address must match what the footer and contact page show,
+  // so it reads the CMS-backed config rather than the static module.
+  const SITE = await getSite();
   const { registration: reg, address } = SITE;
 
   const rows: { label: string; value: string; href?: string }[] = [
@@ -31,7 +34,7 @@ export function LegalDetails({
     { label: "Established", value: "December 2024" },
     {
       label: "Registered Address",
-      value: `${address.street}, ${address.city}, ${address.region}, ${address.country}`,
+      value: longLocation(address),
       href: SITE.mapUrl,
     },
   ];

@@ -1,43 +1,120 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Guidance for Claude Code (claude.ai/code) working in this repository.
 
 ## What this is
 
-Marketing/portfolio website for **Doxa Innovations Software Development PLC** (the npm package and some metadata still use the older "Bee Design Studio" name). Next.js 15 App Router, React 19, TypeScript, Tailwind CSS v3. Deploys live at `https://beedesign.studio`.
+Marketing site, lead-attribution system, and self-hosted CMS for **Doxa Innovations Software Development PLC**. Next.js 16 App Router, React 19, TypeScript, Tailwind **v4**, Payload CMS 3 on Postgres.
+
+> Some npm metadata still carries the older "Bee Design Studio" name. The live domain is `doxaplc.com`.
 
 ## Commands
 
 ```bash
-npm run dev      # dev server with Turbopack (http://localhost:3000)
-npm run build    # production build (output: "standalone", for Docker)
-npm run start     # serve a production build
-npm run lint     # next lint (ESLint)
+npm run dev             # dev server (Turbopack)
+npm run build           # production build, output: "standalone", for Docker
+npm run start           # serve a production build
+npm run lint            # eslint
+npm run typecheck       # tsc --noEmit
+
+npm run db:up           # local Postgres (5433) + Mailpit (1025, UI on 8025)
+npm run db:down
+
+npm run seed:admin      # ADMIN_EMAIL=… ADMIN_PASSWORD=… — the ONLY way to create a login
+npm run seed:content    # import content/*.ts into the database, idempotent
+npm run generate:types  # regenerate payload-types.ts after a schema change
+npm run migrate:create  # after changing any collection
+npm run migrate         # apply migrations
+npm run prune:visits    # retention job, DRY_RUN=1 to preview
 ```
 
-There is **no test suite** — no test runner is configured. Don't claim tests pass; there are none to run. Verify changes via `npm run build` and `npm run lint`.
-
-Docker: multi-stage `Dockerfile` builds the Next.js standalone output on `node:18-alpine`, runs `node server.js`, exposes port 3000.
+**There is no test suite.** No test runner is configured. Do not claim tests pass. Verify with `npm run typecheck`, `npm run lint`, `npm run build`, and by exercising the app.
 
 ## Architecture
 
-**Every page is wrapped in `src/app/_LayoutOutline.tsx`** (`<LayoutOutline>`) — this `"use client"` component is the real shared page shell. It renders the header (bee/logo/crown-sword icons, the "Go to" nav dropdown, the back arrow), the footer copyright line, the 300ms loading spinner, and the animated blob background (`LiveBGStatic`). All seven routes (`/`, `about`, `contact`, `prices`, `services`, `team`, `works`) wrap their content in it and configure it via props: `title`, `description`, `backLink` (string href, or `null` to hide the back arrow and show the crown-sword icon instead), `logoShow`, `lgLogoShow`. To change global chrome (nav links, header, footer), edit `_LayoutOutline.tsx`, not the individual pages.
+### Route groups
 
-**`src/Context/LayoutContext.tsx` is dead code.** `LayoutProvider`/`useLayout` are defined but imported nowhere — the layout state actually flows through `_LayoutOutline` props described above. Don't wire new work through this context expecting it to do anything.
+`app/layout.tsx` is only the document shell (html, body, fonts, metadata). Chrome lives one level down:
 
-**`src/app/layout.tsx`** is the root layout: it loads the local Georama font (`src/app/fonts/*.ttf` via `next/font/local`), defines all SEO `metadata` (OpenGraph, Twitter, keyword list), and preloads CDN images. Page-level `<title>`/icons live here.
+- **`app/(site)/`** — the public site. `app/(site)/layout.tsx` renders the navbar, footer, JSON-LD and cookie banner. Route groups do not appear in URLs.
+- **`app/olympus/`** — the admin panel. `(panel)/layout.tsx` is the signed-in shell; `login/` sits outside it so it is not behind its own auth check.
+- **`app/not-found.tsx`** renders the navbar and footer itself, because an unmatched URL belongs to no route group and never reaches `(site)`.
 
-**Contact form is the only backend.** `src/app/contact/page.tsx` posts the form via `axios` to `POST /api/contact` (`src/app/api/contact/route.ts`), which sends an email through **nodemailer/SMTP** to `doxainnovationsplc@gmail.com`. Requires the SMTP env vars below. The UI surfaces success/error through a `<dialog id="notify-dialog">` toggled imperatively via `document.getElementById`.
+### Payload runs headless
 
-**`src/FileDatabase.json`** is the portfolio data source: an array of project objects (`title`, `image`, `tag`, `link`, `clamp`, `filled`, `details{subTitle, description, techStack[], image}`). Consumed only by `src/app/works/page.tsx`, which lays projects out in a hex grid and pads to 10 cells. Add a project here, not in JSX.
+There is **no `app/(payload)` directory, and creating one is what would enable Payload's admin UI, REST and GraphQL APIs.** Everything goes through the Local API (`getPayloadClient()` in `lib/payload.ts`). Consequences, all deliberate: no importmap step, no `sharp`, no rich-text editor.
+
+`payload.config.ts` and `collections/` sit at the repo root. `@payload-config` is a tsconfig path alias.
+
+### Content flow
+
+Content lives in Postgres and is read through **`lib/content.ts`**, which returns the interfaces declared in **`content/types.ts`**. Keep that contract: `lib/jsonld.ts` builds structured data from the same objects the pages render, which is what stops visible copy and schema.org output drifting apart.
+
+`content/*.ts` are now **seed data**, not what the site renders. `scripts/seed-content.ts` imports them.
+
+Not editable, deliberately, and each for a reason documented in `globals/SiteSettings.ts`: `SITE.url`, the registration numbers, `mapEmbedUrl`, and the nav trees.
+
+### Tracking
+
+- `lib/channel.ts` — pure channel classifier. Paid beats owned beats earned; click ids beat UTM tags beat the referrer.
+- `lib/attribution.ts` — the daily-rotating salted hash of IP and user agent. **No IP is ever stored.**
+- `app/api/t/route.ts` — the visit beacon. Cookieless by default, so it measures people who decline cookies.
+- `app/api/consent/route.ts` — consent audit trail, and deletes the visitor cookie on withdrawal.
+
+## Traps that have already cost time
+
+Read these before touching the related area.
+
+1. **`export const dynamic = "force-dynamic"` does NOT stop `generateStaticParams` running.** Next calls it for any route with dynamic segments. A `generateStaticParams` that reads Payload will open a database connection during `next build`, which has no database in Docker, and fail the build. `app/(site)/works/[slug]` therefore has none.
+
+2. **Call `headers()` before opening the Payload connection.** `lib/auth.ts` does this on purpose. The other order makes Next prerender the route and hit the database at build time.
+
+3. **Every authenticated page must call `requireUser()` ITSELF, not rely on the layout.** Layouts and pages render *concurrently*, so an unguarded page runs its queries and renders real data while the layout is still awaiting the check, and Next ships that output as the body of the 307 redirect. This leaked customer names and email addresses to anonymous `curl` until it was fixed.
+
+4. **`updateTag`, not `revalidateTag(tag, "max")`, in the content actions.** "max" is stale-while-revalidate: the first page load after a save still serves the old value. For a CMS that reads as a broken save.
+
+5. **Never call `revalidateTag`/`updateTag` from a Payload hook.** Outside a server action there is no work store, it throws E263, and because `afterChange` errors propagate it aborts the write. It would also fire during migrations and seed scripts.
+
+6. **`csrf` in `payload.config.ts` must list every origin the panel is served from.** Page loads send no `Origin` header and pass; server actions do send one, and a missing origin makes Payload discard the auth cookie, which surfaces only as "not signed in" on save.
+
+7. **Payload's `run` command needs TOP-LEVEL await in scripts.** It does `await import(script)` then `process.exit(0)`, so a floating promise is killed and the script exits 0 having done nothing.
+
+8. **Never point a dev server at the production database.** Dev `push` writes a `batch: -1` row into `payload_migrations`, which makes production `migrate()` open an interactive prompt and hang in a non-TTY container.
 
 ## Conventions
 
-- **Path alias:** `@/*` → `./src/*` (e.g. `@/app/_LayoutOutline`, `@/Components/LiveBG`).
-- **Brand colors are fixed — never change these values.** Primary is **always** `#7851A9`, Secondary is **always** `#b277d3`, Accent is **always** `#19003a`. They are exposed as the Tailwind tokens `pj-primary`, `pj-secondary`, `pj-accent` in `tailwind.config.ts` (alongside `pj-dark` `#1E1E1E` and `pj-white` `#ECECEC`). Always reference the `pj-*` tokens rather than hardcoding hex, and don't alter the hex values behind them. The font utility is `font-pj-font` (Georama).
-- **Images:** most assets are remote, served from `https://cdn.doxaplc.com/doxa-public/...`, and rendered with plain `<img>` — the `@next/next/no-img-element` ESLint rule is intentionally **off** (`eslint.config.mjs`). `next/image` is used in a few components (`StatCard`, parts of `works`); either is acceptable.
-- Interactive pages/components are `"use client"`. Only `route.ts` and `layout.tsx` are server-side.
+- **Path alias:** `@/*` → repo root. There is no `src/`. `_archive/` is the dead legacy app, excluded from tsconfig and eslint; ignore it.
+- **Brand colors are fixed, never change these values.** Primary `#7851A9`, Secondary `#b277d3`, Accent `#19003a`, exposed as `pj-primary`, `pj-secondary`, `pj-accent`. Font utility `font-pj-font` (Georama, loaded via `next/font/local`).
+- **Tailwind v4, CSS-first.** All theme tokens live in `app/globals.css`. There is no `tailwind.config.ts` in the active tree.
+- **The `.light` class** flips the token scope to a white surface. It sets `color: var(--ink)` itself; without that, text inherits the near-white value resolved on `<body>` and becomes invisible on white. This was a real bug on the contact form.
+- **`--chart-1..5` are a monochromatic violet ramp.** Fine for single-series charts, but they FAIL categorical-palette validation (adjacent pairs sit below the ΔE 15 floor). Do not use them for a five-category pie or stacked chart.
+- **Images** are remote URLs rendered with plain `<img>` in places; `@next/next/no-img-element` is intentionally off. `next/image` is also fine.
+- Only `route.ts`, `layout.tsx`, `proxy.ts` and server components are server-side. Interactive components are `"use client"`.
+- **`proxy.ts`, not `middleware.ts`.** Next 16 renamed the convention.
 
 ## Environment
 
-Copy `.env.example` to `.env`. The contact route reads `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASS` (and `DOMAIN`). Without valid SMTP credentials, contact-form submissions return a 500 and the UI shows the "Server Error" dialog.
+Copy `.env.example` to `.env`.
+
+- **Database:** `DATABASE_URI`, `PAYLOAD_SECRET`. `PAYLOAD_SECRET` is also required at build time; the Dockerfile passes a throwaway value inline so the real one never enters the image.
+- **Email:** `SMTP_*`, `CONTACT_NOTIFY_TO` (falls back to `CONTACT_TO`). Locally, point SMTP at Mailpit on 1025 so development never sends real mail to a real person.
+- **Media:** `R2_BUCKET`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_ENDPOINT`, `R2_PUBLIC_URL`. Uploads are disabled when `R2_BUCKET` is unset, so local development works without credentials.
+- `FORCE_COUNTRY` previews the Ethiopian view. **Analytics deliberately ignores it** (`countryFromHeaders` vs `getCountryCode` in `lib/geo.ts`), or a value left set in production would mislabel all traffic.
+
+## Deployment
+
+Multi-stage `Dockerfile` on `node:22-alpine`, builds the standalone output, runs `node server.js`. Image pushed to GHCR, deployed with `docker stack deploy`. Postgres is managed by Dokploy.
+
+**The build must always succeed with no database reachable.** That is the acceptance test for any change to data fetching: `docker build .` with Postgres stopped.
+
+Migrations run automatically at container boot via `instrumentation.ts` and `prodMigrations`. Because `payload.config.ts` imports `migrations/` statically, they are bundled into `.next/standalone` and need no extra `COPY`.
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->

@@ -2,16 +2,20 @@ import { cn } from "@/lib/utils";
 import { Container } from "./Container";
 import { FrameMarks, GridField, Dots } from "@/components/visual/Decor";
 
-type SectionVariant = "surface" | "muted" | "light" | "deep" | "accent";
+type SectionVariant = "surface" | "muted" | "light" | "tint" | "deep" | "accent";
 
 const variantClasses: Record<SectionVariant, string> = {
-  // One consistent deep-violet canvas (the original #14002e). `surface`,
-  // `muted` and `light` are all that base color; `deep` is the darker spotlight
-  // band, `accent` the brand-accent. Tonal interest comes from the decoration,
-  // not from band-color steps.
+  // Deep-violet is the default canvas (the original #14002e): `surface` and
+  // `muted` are both that base color, `deep` the darker spotlight band,
+  // `accent` the brand-accent.
+  //
+  // `light` and `tint` are the white accent bands. Adding the `.light` class
+  // flips the token scope (globals.css), so `bg-surface` resolves to #ffffff
+  // and `text-ink` to the violet — every token-based child inverts with it.
   surface: "bg-surface text-ink",
   muted: "bg-surface text-ink",
-  light: "bg-surface text-ink",
+  light: "light bg-surface text-ink",
+  tint: "light bg-surface-muted text-ink",
   deep: "bg-deep text-ink",
   accent: "bg-pj-accent text-pj-white",
 };

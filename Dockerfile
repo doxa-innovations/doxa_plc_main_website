@@ -24,12 +24,17 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Next.js collects completely anonymous telemetry data about general usage.
-# Learn more here: https://nextjs.org/telemetry
-# Uncomment the following line in case you want to disable telemetry during the build.
-# ENV NEXT_TELEMETRY_DISABLED=1
+ENV NEXT_TELEMETRY_DISABLED=1
 
+# PAYLOAD_SECRET is set inline on the RUN rather than as an ENV so it never
+# enters the image environment or history. buildConfig() requires a secret to
+# be present, but the build only sanitizes the config; it never signs anything.
+# The running container reads the real PAYLOAD_SECRET from its own environment.
+#
+# DATABASE_URI is deliberately NOT set. The build must succeed with no database
+# reachable, which is what keeps `npm ci && npm run build` working in CI.
 RUN \
+  export PAYLOAD_SECRET=build-time-placeholder-replaced-at-runtime; \
   if [ -f yarn.lock ]; then yarn run build; \
   elif [ -f package-lock.json ]; then npm run build; \
   elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm run build; \

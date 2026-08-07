@@ -1,23 +1,34 @@
+import type { CSSProperties } from "react";
 import { Container } from "./Container";
-import { Breadcrumbs, type Crumb } from "@/components/seo/Breadcrumbs";
 import { GridField, FrameMarks } from "@/components/visual/Decor";
 
+/** Stagger step for the entrance, in ms. */
+const STEP = 90;
+
+const delay = (i: number) => ({ "--ph-delay": `${i * STEP}ms` }) as CSSProperties;
+
 /**
- * Inner-page header on the dark canvas: clears the floating navbar, shows
- * breadcrumbs (which also emit BreadcrumbList JSON-LD), a violet glow, and the
- * page title in the display face.
+ * Inner-page header on the dark canvas: clears the floating navbar, adds a
+ * violet glow, and rises into place on first paint.
+ *
+ * The entrance is the `.ph-rise` CSS animation (globals.css) rather than
+ * motion, which keeps this a server component — no client bundle, nothing to
+ * hydrate, and no risk of the server/client variant mismatch that a
+ * `useReducedMotion()` branch introduces.
  */
 export function PageHeader({
   eyebrow,
   title,
   lead,
-  breadcrumbs,
 }: {
   eyebrow?: string;
   title: string;
   lead?: string;
-  breadcrumbs?: Crumb[];
 }) {
+  // The eyebrow is optional, so the title leads the stagger when it is absent
+  // and nothing animates against an invisible gap.
+  let i = 0;
+
   return (
     <section className="relative isolate overflow-hidden border-b border-line bg-surface pb-14 pt-32 sm:pb-20 sm:pt-36">
       <GridField />
@@ -28,21 +39,25 @@ export function PageHeader({
       />
       {/* Centered on mobile, left-aligned from sm up. */}
       <Container className="relative text-center sm:text-left">
-        {breadcrumbs && (
-          <div className="mb-6 flex justify-center sm:justify-start">
-            <Breadcrumbs items={breadcrumbs} />
-          </div>
-        )}
         {eyebrow && (
-          <p className="mb-3 inline-flex items-center gap-2 rounded-full border border-line bg-panel px-3 py-1 text-xs font-medium uppercase tracking-[0.18em] text-brand">
+          <p
+            style={delay(i++)}
+            className="ph-rise mb-3 inline-flex items-center gap-2 rounded-full border border-line bg-panel px-3 py-1 text-xs font-medium uppercase tracking-[0.18em] text-brand"
+          >
             {eyebrow}
           </p>
         )}
-        <h1 className="mx-auto max-w-3xl text-balance font-display text-4xl font-semibold tracking-[-0.03em] text-ink sm:mx-0 sm:text-5xl lg:text-6xl">
+        <h1
+          style={delay(i++)}
+          className="ph-rise mx-auto max-w-3xl text-balance font-display text-4xl font-semibold tracking-[-0.03em] text-ink sm:mx-0 sm:text-5xl lg:text-6xl"
+        >
           {title}
         </h1>
         {lead && (
-          <p className="mx-auto mt-5 max-w-2xl text-pretty text-lg text-ink-muted sm:mx-0">
+          <p
+            style={delay(i++)}
+            className="ph-rise mx-auto mt-5 max-w-2xl text-pretty text-lg text-ink-muted sm:mx-0"
+          >
             {lead}
           </p>
         )}

@@ -13,8 +13,9 @@ export const PROCESS_STAGES: ProcessStage[] = [
   {
     number: 2,
     title: "Project Proposal",
-    image:
-      "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=70",
+    // Our own team mapping a product out on the office whiteboard — real
+    // scoping work, in place of the stock photo that used to sit here.
+    image: "/office_planning.png",
     description:
       "Within 3 to 5 business days we deliver a written proposal covering scope, deliverables, timeline, tech stack, and phased pricing. Nothing is vague. If something is unclear, there's a revision round before anything is signed.",
   },
@@ -29,8 +30,8 @@ export const PROCESS_STAGES: ProcessStage[] = [
   {
     number: 4,
     title: "Development & Reviews",
-    image:
-      "https://images.unsplash.com/photo-1517180102446-f3ece451e9d8?auto=format&fit=crop&w=1200&q=70",
+    // The team mid-build in the Bishoftu office.
+    image: "/workers.png",
     description:
       "Work happens in sprint cycles. Every 1 to 2 weeks you get a progress update and review the work in a staging environment. Your feedback is incorporated before we move on. You are never surprised.",
   },

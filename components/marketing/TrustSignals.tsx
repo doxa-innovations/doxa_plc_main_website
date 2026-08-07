@@ -6,10 +6,11 @@ import {
   ShieldCheck,
   type LucideIcon,
 } from "lucide-react";
-import { SITE } from "@/content/site";
+import { getSite } from "@/lib/content";
 
 /** Verifiable legal/registration facts, a glass credential panel on dark. */
-export function TrustSignals() {
+export async function TrustSignals() {
+  const SITE = await getSite();
   const { registration: reg, address } = SITE;
 
   const facts: {

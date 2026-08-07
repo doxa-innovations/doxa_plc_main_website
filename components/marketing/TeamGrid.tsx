@@ -1,6 +1,5 @@
 import Image from "next/image";
 import type { TeamMember } from "@/content/types";
-import { TEAM } from "@/content/team";
 import { Badge } from "@/components/ui/badge";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { graph, personSchema } from "@/lib/jsonld";
@@ -39,15 +38,32 @@ function TeamCard({ member, showBio }: { member: TeamMember; showBio: boolean })
 }
 
 /** Team member cards + Person JSON-LD for every member. */
-export function TeamGrid({ showBios = false }: { showBios?: boolean }) {
+/**
+ * Members come in as a prop rather than being imported.
+ *
+ * They now live in the CMS, and fetching inside a shared presentational
+ * component would either force it async at every call site or duplicate the
+ * query on pages that render it twice. The server page fetches once and passes
+ * the list down; the Person structured data is still built from the SAME
+ * objects the cards render.
+ */
+export function TeamGrid({
+  members,
+  showBios = false,
+}: {
+  members: TeamMember[];
+  showBios?: boolean;
+}) {
+  if (members.length === 0) return null;
+
   return (
     <>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {TEAM.map((member) => (
+        {members.map((member) => (
           <TeamCard key={member.slug} member={member} showBio={showBios} />
         ))}
       </div>
-      <JsonLd schema={graph(...TEAM.map((m) => personSchema(m)))} />
+      <JsonLd schema={graph(...members.map((m) => personSchema(m)))} />
     </>
   );
 }

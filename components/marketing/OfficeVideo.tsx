@@ -149,7 +149,11 @@ export function OfficeVideo({
         className={cn(
           "group overflow-hidden bg-deep shadow-[0_40px_90px_-50px_rgba(124,60,180,0.8)]",
           floating
-            ? "fixed bottom-4 right-4 z-[60] aspect-video w-[22rem] max-w-[85vw] animate-[mini-pop_0.28s_cubic-bezier(0.16,1,0.3,1)] rounded-2xl border border-pj-secondary/40 ring-1 ring-pj-secondary/25"
+            // The consent banner publishes its height as --consent-banner-h
+            // while it is open, so the dock lifts above it instead of hiding
+            // underneath. The variable is absent otherwise and the fallback
+            // gives the normal 1rem inset.
+            ? "fixed bottom-[calc(1rem+var(--consent-banner-h,0px))] right-4 z-[60] aspect-video w-[22rem] max-w-[85vw] animate-[mini-pop_0.28s_cubic-bezier(0.16,1,0.3,1)] rounded-2xl border border-pj-secondary/40 ring-1 ring-pj-secondary/25 transition-[bottom] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]"
             : "absolute inset-0 rounded-[1.4rem] border border-line",
         )}
       >

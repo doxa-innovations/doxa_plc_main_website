@@ -1,16 +1,19 @@
 import Link from "next/link";
 import { Mail, MessageCircle, MapPin, Phone, ArrowUpRight } from "lucide-react";
-import { SITE } from "@/content/site";
+import { getSite, shortLocation } from "@/lib/content";
 import { Container } from "./Container";
 import { Rings } from "@/components/visual/Decor";
+import { CookieSettingsLink } from "@/components/consent/CookieSettingsLink";
 import { isEthiopianVisitor } from "@/lib/geo";
 
 function FooterColumn({
   title,
   links,
+  extra,
 }: {
   title: string;
   links: { label: string; href: string }[];
+  extra?: React.ReactNode;
 }) {
   return (
     <div>
@@ -29,14 +32,18 @@ function FooterColumn({
             </Link>
           </li>
         ))}
+        {extra ? <li>{extra}</li> : null}
       </ul>
     </div>
   );
 }
 
 export async function Footer() {
+  const [isEthiopia, SITE] = await Promise.all([
+    isEthiopianVisitor(),
+    getSite(),
+  ]);
   const { registration: reg } = SITE;
-  const isEthiopia = await isEthiopianVisitor();
   const whatsappUrl = `https://wa.me/${SITE.whatsapp.replace(/\D/g, "")}`;
 
   return (
@@ -120,8 +127,7 @@ export async function Footer() {
                     className="mt-0.5 size-4 shrink-0 text-brand"
                     strokeWidth={1.5}
                   />
-                  {SITE.address.city}, {SITE.address.region},{" "}
-                  {SITE.address.country}
+                  {shortLocation(SITE.address)}
                 </a>
               </li>
             </ul>
@@ -129,7 +135,15 @@ export async function Footer() {
 
           <FooterColumn title="Services" links={SITE.footerNav.services} />
           <FooterColumn title="Company" links={SITE.footerNav.company} />
-          <FooterColumn title="Legal" links={SITE.footerNav.legal} />
+          <FooterColumn
+            title="Legal"
+            links={SITE.footerNav.legal}
+            // Withdrawing consent must be as easy as granting it, so this
+            // lives permanently in the footer rather than inside the policy.
+            extra={
+              <CookieSettingsLink className="text-sm text-ink-muted transition-colors hover:text-ink" />
+            }
+          />
         </div>
 
         {/* Registration + copyright */}

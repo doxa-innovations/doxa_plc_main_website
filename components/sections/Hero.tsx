@@ -3,25 +3,21 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { motion, useReducedMotion, type Variants } from "motion/react";
+// Static config only: the founding year in the badge. Contact details are not
+// used here, so this does not need the CMS-backed config.
 import { SITE } from "@/content/site";
-import { getProjectBySlug } from "@/content/projects";
+
 import { Container } from "@/components/layout/Container";
-import { HeroShowcase } from "@/components/sections/HeroShowcase";
+import {
+  HeroShowcase,
+  type ShowcaseItem,
+} from "@/components/sections/HeroShowcase";
 import { GridField, FrameMarks, Hatch } from "@/components/visual/Decor";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-export function Hero() {
+export function Hero({ showcase }: { showcase: ShowcaseItem[] }) {
   const reduce = useReducedMotion();
-  // Deck order, shown left-to-right with LCE (the middle of the list) starting
-  // in the center. The deck auto-rotates through all of them.
-  const showcase = [
-    getProjectBySlug("kla-construction-equipment"),
-    getProjectBySlug("scholten-pattern-works"),
-    getProjectBySlug("lce-church"),
-    getProjectBySlug("classic-noodle-burger"),
-    getProjectBySlug("maor-lutheran-seminary"),
-  ].filter((p): p is NonNullable<typeof p> => Boolean(p));
 
   const container: Variants = {
     hidden: {},
@@ -66,16 +62,8 @@ export function Hero() {
             className="mt-6 text-balance font-display text-[2.6rem] font-semibold leading-[1.02] tracking-[-0.035em] text-ink sm:text-6xl lg:text-[4.2rem]"
           >
             Great software,{" "}
-            <span className="text-brand">built affordably.</span>
+            <span className="text-brand">built to last.</span>
           </motion.h1>
-
-          <motion.p
-            variants={item}
-            className="mx-auto mt-6 max-w-xl text-pretty text-lg text-ink-muted"
-          >
-            We&apos;re a legally registered Ethiopian software studio building
-            websites, e-commerce, and custom products for businesses worldwide.
-          </motion.p>
 
           <motion.div
             variants={item}

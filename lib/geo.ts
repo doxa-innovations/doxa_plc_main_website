@@ -25,6 +25,23 @@ const GEO_HEADERS = [
   "x-appengine-country", // Google App Engine
 ] as const;
 
+/**
+ * Reads the country from CDN/edge headers only, ignoring the `FORCE_COUNTRY`
+ * env var and the `country` cookie.
+ *
+ * Analytics must use THIS, not `getCountryCode()`. The overrides exist so a
+ * developer can preview the Ethiopian view, and letting them reach the visit
+ * log would silently mislabel real traffic, or in the case of a `FORCE_COUNTRY`
+ * left set in production, mislabel all of it.
+ */
+export function countryFromHeaders(h: Headers): string | null {
+  for (const key of GEO_HEADERS) {
+    const value = h.get(key)?.trim().toUpperCase();
+    if (value && value !== "XX" && value !== "T1") return value;
+  }
+  return null;
+}
+
 export async function getCountryCode(): Promise<string | null> {
   const forced = process.env.FORCE_COUNTRY?.trim().toUpperCase();
   if (forced) return forced;
@@ -33,12 +50,7 @@ export async function getCountryCode(): Promise<string | null> {
   const fromCookie = cookieStore.get("country")?.value?.trim().toUpperCase();
   if (fromCookie) return fromCookie;
 
-  const h = await headers();
-  for (const key of GEO_HEADERS) {
-    const value = h.get(key)?.trim().toUpperCase();
-    if (value && value !== "XX" && value !== "T1") return value;
-  }
-  return null;
+  return countryFromHeaders(await headers());
 }
 
 /** True only when we positively know the visitor is in Ethiopia. */

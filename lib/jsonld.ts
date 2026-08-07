@@ -1,45 +1,59 @@
 import { SITE } from "@/content/site";
-import type { FaqItem, Project, Service, TeamMember } from "@/content/types";
+import type {
+  FaqItem,
+  Project,
+  Service,
+  SiteConfig,
+  TeamMember,
+} from "@/content/types";
 
 /**
  * Pure JSON-LD builders. Each returns a schema.org object derived from the
  * typed content in `content/`. Stable @id values let schemas cross-reference
  * the single Organization/WebSite node (a @graph) instead of duplicating it.
+ *
+ * The builders that carry contact details accept a `site` argument so callers
+ * can pass the CMS-backed config. It defaults to the static one, which keeps
+ * every existing call site working and means structured data still renders
+ * correctly if the database is unreachable.
+ *
+ * These MUST keep reading the same objects the pages render. Copy and schema
+ * drifting apart is the exact failure this arrangement exists to prevent.
  */
 
 export const ORG_ID = `${SITE.url}/#organization`;
 export const WEBSITE_ID = `${SITE.url}/#website`;
 
-export function organizationSchema() {
+export function organizationSchema(site: SiteConfig = SITE) {
   return {
     "@type": "Organization",
     "@id": ORG_ID,
-    name: SITE.name,
-    legalName: SITE.legalName,
-    url: SITE.url,
-    logo: `${SITE.url}/logo.svg`,
-    description: SITE.description,
-    foundingDate: SITE.registration.foundingDate,
-    taxID: SITE.registration.tin,
-    vatID: SITE.registration.vat,
+    name: site.name,
+    legalName: site.legalName,
+    url: site.url,
+    logo: `${site.url}/logo.svg`,
+    description: site.description,
+    foundingDate: site.registration.foundingDate,
+    taxID: site.registration.tin,
+    vatID: site.registration.vat,
     areaServed: "Worldwide",
     knowsLanguage: ["en"],
     address: {
       "@type": "PostalAddress",
-      streetAddress: SITE.address.street,
-      addressLocality: SITE.address.city,
-      addressRegion: SITE.address.region,
-      addressCountry: SITE.address.countryCode,
+      streetAddress: site.address.street,
+      addressLocality: site.address.city,
+      addressRegion: site.address.region,
+      addressCountry: site.address.countryCode,
     },
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "sales",
-      email: SITE.email,
-      telephone: SITE.phone,
+      email: site.email,
+      telephone: site.phone,
       areaServed: "Worldwide",
       availableLanguage: ["English"],
     },
-    ...(SITE.social.length ? { sameAs: SITE.social.map((s) => s.href) } : {}),
+    ...(site.social.length ? { sameAs: site.social.map((s) => s.href) } : {}),
   };
 }
 
@@ -55,27 +69,27 @@ export function websiteSchema() {
   };
 }
 
-export function localBusinessSchema() {
+export function localBusinessSchema(site: SiteConfig = SITE) {
   return {
     "@type": "ProfessionalService",
-    "@id": `${SITE.url}/#localbusiness`,
-    name: SITE.legalName,
-    url: SITE.url,
-    image: `${SITE.url}/logo.svg`,
-    email: SITE.email,
-    telephone: SITE.phone,
+    "@id": `${site.url}/#localbusiness`,
+    name: site.legalName,
+    url: site.url,
+    image: `${site.url}/logo.svg`,
+    email: site.email,
+    telephone: site.phone,
     priceRange: "$$",
     address: {
       "@type": "PostalAddress",
-      streetAddress: SITE.address.street,
-      addressLocality: SITE.address.city,
-      addressRegion: SITE.address.region,
-      addressCountry: SITE.address.countryCode,
+      streetAddress: site.address.street,
+      addressLocality: site.address.city,
+      addressRegion: site.address.region,
+      addressCountry: site.address.countryCode,
     },
     geo: {
       "@type": "GeoCoordinates",
-      latitude: SITE.address.geo.latitude,
-      longitude: SITE.address.geo.longitude,
+      latitude: site.address.geo.latitude,
+      longitude: site.address.geo.longitude,
     },
     areaServed: "Worldwide",
     parentOrganization: { "@id": ORG_ID },

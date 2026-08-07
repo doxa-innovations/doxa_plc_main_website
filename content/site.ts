@@ -55,11 +55,22 @@ export const SITE: SiteConfig = {
   mapEmbedUrl:
     "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d409.2007424607873!2d38.964116035473445!3d8.750459859189782!2m3!1f46.12500000000005!2f13.585591140307123!3f0!3m2!1i1024!2i768!4f35!3m3!1m2!1s0x164b73f8e215f665%3A0xa504912407f9384f!2sDoxa%20Innovations%20Software%20Development%20PLC!5e1!3m2!1sen!2set!4v1782733194866!5m2!1sen!2set",
   mainNav: [
+    { label: "Home", href: "/" },
     { label: "Services", href: "/services" },
-    { label: "Works", href: "/works" },
-    { label: "How It Works", href: "/how-it-works" },
+    // "Works" is a group, not just a page. The portfolio, the process and the
+    // pricing all answer "what is it like to work with you", so they sit
+    // together. The child is labelled "Our Work" because a dropdown that
+    // repeats its own parent's label reads as a mistake.
+    {
+      label: "Works",
+      href: "/works",
+      children: [
+        { label: "Our Work", href: "/works" },
+        { label: "Our Process", href: "/how-it-works" },
+        { label: "Pricing", href: "/pricing" },
+      ],
+    },
     { label: "About", href: "/about" },
-    { label: "Pricing", href: "/pricing" },
     { label: "Team", href: "/team" },
   ],
   footerNav: {

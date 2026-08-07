@@ -31,6 +31,8 @@ export const contactSchema = z.object({
   budget: z.enum(BUDGET_RANGES, { message: "Pick a budget range." }),
   message: z.string().min(10, "Tell us a little about your project."),
   _gotcha: z.string().optional(),
+  /** Cloudflare Turnstile token. Verified server-side; null when unsolved. */
+  _turnstile: z.string().nullable().optional(),
 });
 
 export type ContactInput = z.infer<typeof contactSchema>;

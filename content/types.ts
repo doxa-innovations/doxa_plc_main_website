@@ -7,6 +7,12 @@
 export interface NavLink {
   label: string;
   href: string;
+  /**
+   * Optional sub-menu. A link with children renders as a dropdown in the
+   * navbar; `href` stays the destination for the parent itself, so the group
+   * is still reachable without JavaScript and on touch.
+   */
+  children?: NavLink[];
 }
 
 export interface SocialLink {
@@ -143,19 +149,32 @@ export interface TeamMember {
   slug: string;
   name: string;
   role: string;
+  /** Renders in the Founders block instead of the team grid. */
+  founder: boolean;
   expertise: string[];
   bio: string;
   photo: string;
   social: SocialLink[];
 }
 
+/**
+ * `quote` tiers show "On request" and switch the call to action to booking a
+ * scoping call. This used to be inferred by string-comparing the rendered
+ * price against the literals "On request" and "On order", which meant an
+ * editor retyping that copy silently changed the button. The mode is now
+ * explicit, and prices are stored as numbers and formatted at render.
+ */
+export type PricingMode = "from" | "quote";
+
 export interface PricingTier {
   name: string;
   bestFor: string;
   includes: string[];
-  priceFrom: string;
-  /** Ethiopian-visitor price label (ETB), e.g. "From ETB 30,000" or "On order". */
-  priceFromEt: string;
+  mode: PricingMode;
+  /** Null when `mode` is "quote". */
+  amountUsd: number | null;
+  /** Shown to Ethiopian visitors. Null when `mode` is "quote". */
+  amountEtb: number | null;
   timeline: string;
   payment: string;
   highlighted: boolean;
@@ -164,7 +183,8 @@ export interface PricingTier {
 export interface AddOn {
   name: string;
   detail: string;
-  priceFrom: string;
+  amountUsd: number;
+  interval: "month" | "once";
 }
 
 export interface FaqItem {

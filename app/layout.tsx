@@ -2,16 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { SITE } from "@/content/site";
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
-import { JsonLd } from "@/components/seo/JsonLd";
 import { Toaster } from "@/components/ui/sonner";
-import {
-  graph,
-  localBusinessSchema,
-  organizationSchema,
-  websiteSchema,
-} from "@/lib/jsonld";
 
 const georama = localFont({
   variable: "--font-georama",
@@ -67,6 +58,14 @@ export const metadata: Metadata = {
   },
 };
 
+/**
+ * The document shell, and nothing else.
+ *
+ * The marketing chrome (navbar, footer, JSON-LD, consent banner) lives in
+ * `app/(site)/layout.tsx` so that the admin panel at /olympus can render
+ * without it. Route groups do not affect URLs, so every public path is
+ * unchanged.
+ */
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -76,16 +75,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://cdn.doxaplc.com" crossOrigin="" />
       </head>
       <body className="min-h-dvh bg-surface font-sans text-ink antialiased">
-        <JsonLd
-          schema={graph(
-            organizationSchema(),
-            websiteSchema(),
-            localBusinessSchema(),
-          )}
-        />
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
+        {children}
         <Toaster richColors position="top-center" />
       </body>
     </html>

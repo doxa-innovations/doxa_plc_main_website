@@ -48,3 +48,6 @@ next-env.d.ts
 
 # Playwright MCP screenshot artifacts
 .playwright-mcp/
+
+# Local dev image uploads. Production writes to R2 instead.
+/public/uploads

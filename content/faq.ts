@@ -19,12 +19,12 @@ export const FAQS: FaqItem[] = [
   {
     question: "How do I pay you?",
     answer:
-      "We accept PayPal and bank transfer to our US bank account. We don't use Wise. Invoices are issued in US Dollars or Euros, per your preference.",
+      "We accept PayPal, bank transfer to our US bank account, and direct transfer to our Ethiopian bank accounts. We don't use Wise. Invoices are issued in US Dollars, Euros, or Ethiopian Birr, per your preference.",
   },
   {
     question: "What currency do you invoice in?",
     answer:
-      "US Dollars or Euros, whichever you prefer.",
+      "US Dollars, Euros, or Ethiopian Birr, whichever you prefer.",
   },
   {
     question: "Can I see your legal registration?",

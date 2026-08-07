@@ -2,7 +2,10 @@ import nextCoreWebVitals from "eslint-config-next/core-web-vitals";
 import nextTypescript from "eslint-config-next/typescript";
 
 const eslintConfig = [
-  // Never lint the archived legacy app, build output, tooling, or docs.
+  // Never lint the archived legacy app, build output, tooling, docs, or
+  // generated files. `migrations/` is written by `payload migrate:create` and
+  // is rewritten wholesale on every schema change, so lint findings there
+  // cannot be fixed, only re-created.
   {
     ignores: [
       "_archive/**",
@@ -11,6 +14,8 @@ const eslintConfig = [
       ".github/**",
       "docs/**",
       ".agents/**",
+      "migrations/**",
+      "payload-types.ts",
       "next-env.d.ts",
     ],
   },

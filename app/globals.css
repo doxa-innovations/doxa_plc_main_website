@@ -27,6 +27,15 @@
   --animate-blob: blob 14s infinite ease-in-out;
   --animate-marquee: marquee 38s linear infinite;
   --animate-float: float 7s ease-in-out infinite;
+
+  /* Route-transition loading screen. `var()` resolves at use time, so
+     referencing the :root easing curves declared further down is fine. */
+  --animate-letter-pop: letter-pop 1.7s var(--ease-out-quint) infinite;
+  --animate-logo-breathe: logo-breathe 3.4s ease-in-out infinite;
+  /* Period is deliberately shorter than the curtain's hold, so the ping
+     visibly repeats instead of being cut off mid-cycle. */
+  --animate-sonar: sonar 1.8s var(--ease-out-expo) infinite;
+  --animate-ring-drift: ring-drift 24s ease-in-out infinite;
 }
 
 @keyframes blob {
@@ -186,6 +195,17 @@
   --sidebar-accent-foreground: #2a1458;
   --sidebar-border: rgba(25, 0, 58, 0.1);
   --sidebar-ring: #7851a9;
+
+  /* Re-assert the text colour, not just the variable.
+     `text-ink` on <body> resolves var(--ink) ONCE, at the body, and children
+     inherit the resulting near-white value. Redefining --ink here does not
+     retroactively change it, so any element inside a .light panel that relies
+     on inherited colour stays near-white on white and becomes invisible.
+     Section's light variant papered over this by re-applying `text-ink`, but
+     a bare `class="light ..."` panel did not, which is how the contact form's
+     field labels ended up at roughly 1:1 contrast. Setting colour here fixes
+     every .light region at once and keeps future ones correct by default. */
+  color: var(--ink);
 }
 
 /* Re-assert violet — for html.dark and for any element that opts back into
@@ -243,6 +263,11 @@
   --sidebar-accent-foreground: #f3effb;
   --sidebar-border: rgba(255, 255, 255, 0.1);
   --sidebar-ring: #b277d3;
+
+  /* Symmetry with .light: an element that opts back into dark inside a light
+     band would otherwise inherit that band's dark ink. Harmless on <html>,
+     where body's own `text-ink` takes over immediately. */
+  color: var(--ink);
 }
 
 @theme inline {
@@ -390,4 +415,233 @@ body::after {
     opacity: 1;
     transform: none;
   }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Route-transition loading screen.                                   */
+/*                                                                     */
+/*  `letter-pop` and `logo-breathe` animate TRANSFORM ONLY, never       */
+/*  opacity. The global reduced-motion rule above forces every          */
+/*  animation to 0.001ms, which freezes a keyframe at its 0% frame — an */
+/*  opacity there would leave the word permanently dimmed. Anything     */
+/*  that must fade (sonar) is gated behind `motion-safe:` instead and   */
+/*  rests at opacity 0, so it simply never appears.                     */
+/* ------------------------------------------------------------------ */
+@keyframes letter-pop {
+  0%,
+  30%,
+  100% {
+    transform: none;
+  }
+  12% {
+    transform: translateY(-0.45em);
+  }
+}
+
+@keyframes logo-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.045);
+  }
+}
+
+@keyframes sonar {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+@keyframes ring-drift {
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.14) rotate(7deg);
+  }
+}
+
+/* Scroll lock. Scoped to <html> rather than reusing the body.overflow
+   idiom in Navbar.tsx, because the mobile menu clears body.overflow when
+   it closes — which is exactly when a nav click starts a transition. */
+html.route-loading,
+html.route-loading body {
+  overflow: hidden;
+}
+
+/* The boot overlay ships in the server-rendered HTML, so it must be able
+   to clear itself without React. */
+@media (scripting: none) {
+  .route-loader-boot {
+    display: none;
+  }
+}
+
+/* A 0.001ms failsafe (see the reduced-motion rule) would read as a flash,
+   so reduced-motion visitors skip the boot overlay entirely. */
+@media (prefers-reduced-motion: reduce) {
+  .route-loader-boot {
+    display: none;
+  }
+}
+
+.route-loader-boot {
+  animation: boot-failsafe 0.4s linear 4s forwards;
+}
+
+@keyframes boot-failsafe {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Page-header entrance — the eyebrow / title / lead rise on first     */
+/*  paint, staggered via an inline --ph-delay.                          */
+/*                                                                     */
+/*  Deliberately CSS, not motion: PageHeader stays a server component   */
+/*  (no client JS, nothing to hydrate) and the global reduced-motion    */
+/*  rule above neutralises it for free. That rule zeroes duration but   */
+/*  NOT delay, so the delay is cleared explicitly below — otherwise a   */
+/*  staggered item would sit at `from` (invisible) through its delay    */
+/*  and then snap in.                                                   */
+/* ------------------------------------------------------------------ */
+@keyframes header-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+.ph-rise {
+  animation: header-rise 0.75s var(--ease-out-expo) both;
+  animation-delay: var(--ph-delay, 0ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ph-rise {
+    animation-delay: 0ms !important;
+  }
+}
+
+/* Delivery arcs on the About page's reach map: a short dash chases each
+   route, and the origin breathes. Decorative only — the map is fully legible
+   with both animations stopped, which is what reduced-motion gets. */
+/* Values are in the map's own viewBox units (119 x 60 from dotted-map), not
+   pixels, so they are small numbers — 31.6 is one dash + one gap. */
+@keyframes reach-flow {
+  from {
+    stroke-dashoffset: 31.6;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes reach-pulse-sm {
+  0% {
+    r: 1.6;
+    stroke-opacity: 0.7;
+  }
+  100% {
+    r: 5.5;
+    stroke-opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .reach-flow {
+    animation: reach-flow 3.6s linear infinite;
+  }
+  .reach-pulse-sm {
+    animation: reach-pulse-sm 3s var(--ease-out-expo) infinite;
+  }
+}
+
+/* Without the animation the chase dash would sit as a stray tick on the arc. */
+@media (prefers-reduced-motion: reduce) {
+  .reach-flow,
+  .reach-pulse-sm {
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  SPECIAL THEME                                                      */
+/*                                                                     */
+/*  The deep-glow band treatment, preserved by name from the closing   */
+/*  CTA section that used to carry it ("Ready to build something       */
+/*  great?"). The section is gone; this is the background system it    */
+/*  wore, kept so it can be reapplied on request.                      */
+/*                                                                     */
+/*  Three layers: the darkest canvas (--deep, #0d0020), a large violet */
+/*  bloom centred in the band, and a soft radial vignette over the top.*/
+/*                                                                     */
+/*  Usage — put it on any full-bleed section:                          */
+/*    <section className="special-theme py-24 sm:py-32">               */
+/*      <GridField />                                                  */
+/*      <FrameMarks variant="plus" />                                  */
+/*      <Container className="relative">…</Container>                  */
+/*    </section>                                                       */
+/*                                                                     */
+/*  `isolation: isolate` is what lets the negative-z layers paint above */
+/*  the band's own background but still behind its content, and it is  */
+/*  also what keeps GridField's -z-10 scoped to the band.              */
+/* ------------------------------------------------------------------ */
+.special-theme {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background-color: var(--deep);
+}
+
+.special-theme::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: -1;
+  width: 44rem;
+  height: 44rem;
+  transform: translate(-50%, -50%);
+  border-radius: 9999px;
+  background-color: color-mix(
+    in oklab,
+    var(--color-pj-primary) 25%,
+    transparent
+  );
+  filter: blur(130px);
+  pointer-events: none;
+}
+
+.special-theme::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.4;
+  background: radial-gradient(
+    60% 60% at 50% 50%,
+    rgba(178, 119, 211, 0.12),
+    transparent
+  );
+  pointer-events: none;
 }
