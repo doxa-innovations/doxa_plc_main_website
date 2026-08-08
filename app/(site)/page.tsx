@@ -22,6 +22,7 @@ import { Section } from "@/components/layout/Section";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Reveal } from "@/components/Reveal";
 import { Hero } from "@/components/sections/Hero";
+import { ProcessStaircase } from "@/components/sections/ProcessStaircase";
 import type { ShowcaseItem } from "@/components/sections/HeroShowcase";
 import { ClientLogos } from "@/components/marketing/ClientLogos";
 import { ServiceCard } from "@/components/marketing/ServiceCard";
@@ -193,28 +194,9 @@ export default async function HomePage() {
           />
         </Reveal>
         <Reveal delay={0.05}>
-          <div className="relative mt-14">
-            {/* Connector runs only from the first node to the last (node centers
-                sit at ~12.5% and ~87.5% across the four equal columns). */}
-            <span
-              aria-hidden
-              className="absolute left-[12.5%] right-[12.5%] top-5 hidden h-px bg-gradient-to-r from-pj-secondary/50 via-pj-primary/40 to-pj-secondary/50 md:block"
-            />
-            <ol className="grid gap-10 md:grid-cols-4 md:gap-6">
-              {STEPS.map((s) => (
-                <li key={s.n} className="relative text-center">
-                  <span className="relative z-10 inline-flex size-10 items-center justify-center rounded-full border border-line bg-surface font-display text-base font-semibold text-brand shadow-[0_0_30px_-6px_rgba(178,119,211,0.8)]">
-                    {s.n}
-                  </span>
-                  <h3 className="mt-5 font-display text-base font-semibold text-ink">
-                    {s.title}
-                  </h3>
-                  <p className="mt-1.5 text-sm text-ink-muted">{s.body}</p>
-                </li>
-              ))}
-            </ol>
-          </div>
+          <ProcessStaircase steps={STEPS} />
         </Reveal>
+
         <div className="mt-12 text-center">
           <Button asChild variant="outline">
             <Link href="/how-it-works">
@@ -226,7 +208,10 @@ export default async function HomePage() {
       </Section>
 
       {/* Gallery */}
-      <Section variant="deep">
+      {/* z-[60] so the floating mini player is not painted over by the
+          bands below it — Section is `isolate`, which would otherwise trap
+          the player inside this one. */}
+      <Section variant="deep" className="relative z-[60]">
         <Reveal>
           <SectionHeading
             title="A look inside Doxa"

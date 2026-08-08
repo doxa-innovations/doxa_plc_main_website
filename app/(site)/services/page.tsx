@@ -6,7 +6,6 @@ import { isEthiopianVisitor } from "@/lib/geo";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Section } from "@/components/layout/Section";
 import { Container } from "@/components/layout/Container";
-import { Reveal } from "@/components/Reveal";
 import { ServiceShowcase } from "@/components/marketing/ServiceShowcase";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { graph, serviceSchema } from "@/lib/jsonld";
@@ -39,15 +38,18 @@ export default async function ServicesPage() {
       />
 
       <Section variant="surface" frame grid>
-        <div className="space-y-8">
+        <div className="space-y-5 sm:space-y-0">
           {SERVICES.map((service, i) => (
-            <Reveal key={service.slug}>
-              <ServiceShowcase
-                service={service}
-                price={priceText(service, isEthiopia)}
-                flip={i % 2 === 1}
-              />
-            </Reveal>
+            // No Reveal wrapper: it introduces a transform, which creates a
+            // containing block and breaks the negative margins the panels use
+            // to tessellate.
+            <ServiceShowcase
+              key={service.slug}
+              service={service}
+              price={priceText(service, isEthiopia)}
+              index={i}
+              total={SERVICES.length}
+            />
           ))}
         </div>
       </Section>

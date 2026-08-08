@@ -37,6 +37,9 @@
   --animate-sonar: sonar 1.8s var(--ease-out-expo) infinite;
   --animate-ring-drift: ring-drift 24s ease-in-out infinite;
   --animate-emblem-ping: emblem-ping 3.6s var(--ease-out-quint) infinite;
+  --animate-arrow-seq-1: arrow-seq-1 5.5s ease-in-out infinite;
+  --animate-arrow-seq-2: arrow-seq-2 5.5s ease-in-out infinite;
+  --animate-arrow-seq-3: arrow-seq-3 5.5s ease-in-out infinite;
 }
 
 @keyframes blob {
@@ -342,7 +345,8 @@
     scroll-behavior: smooth;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply text-foreground;
+    background-color: var(--aurora-base);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     line-height: 1.6;
@@ -486,6 +490,63 @@ body::after {
   }
 }
 
+/* Process arrows: 1 -> 2 -> 3 light up in turn, all three hold together for
+   ~2s, then all go dark on the SAME frame, and the cycle rests before
+   repeating.
+
+   That "off together" is why these are three separate keyframes rather than
+   one keyframe with a per-arrow animation-delay. A shared delay staggers the
+   END as well as the start, so each arrow would switch off on its own
+   schedule — which is exactly the behaviour being corrected here. Same
+   duration, no delay, different on-ramps.
+
+   They never fade to zero: the arrows are what make the staircase read as a
+   progression, so they rest at 35% and the animation only lifts them. Gated
+   behind `motion-safe:` at the call site. */
+@keyframes arrow-seq-1 {
+  0% {
+    opacity: 0.35;
+  }
+  4%,
+  51% {
+    opacity: 1;
+  }
+  56%,
+  100% {
+    opacity: 0.35;
+  }
+}
+
+@keyframes arrow-seq-2 {
+  0%,
+  7% {
+    opacity: 0.35;
+  }
+  11%,
+  51% {
+    opacity: 1;
+  }
+  56%,
+  100% {
+    opacity: 0.35;
+  }
+}
+
+@keyframes arrow-seq-3 {
+  0%,
+  14% {
+    opacity: 0.35;
+  }
+  18%,
+  51% {
+    opacity: 1;
+  }
+  56%,
+  100% {
+    opacity: 0.35;
+  }
+}
+
 @keyframes ring-drift {
   0%,
   100% {
@@ -621,6 +682,14 @@ html.route-loading body {
 /*  animated — correct, and nothing here gates visibility.              */
 /* ------------------------------------------------------------------ */
 .card-lift {
+  /* Positioned so the hover rule's `z-index: 1` has something to apply to: the
+     glow pools BELOW the card, and in a stacked list the next item would
+     otherwise paint over it.
+
+     This was once blamed for the glow flashing and vanishing on the process
+     steps. It was not the cause — that is the negative spread, see below — but
+     the raise is still needed, so it stays. */
+  position: relative;
   transition-property: transform, border-color, box-shadow;
   transition-duration: 300ms;
   transition-timing-function: var(--ease-out-quint);
@@ -628,9 +697,22 @@ html.route-loading body {
 
 .card-lift:hover,
 .card-lift:focus-visible {
+  z-index: 1;
   transform: translateY(-4px);
   border-color: var(--line-strong);
-  box-shadow: 0 40px 90px -50px rgba(124, 60, 180, 0.9);
+  /* The spread is NEGATIVE, so it insets the shadow box by that much on every
+     side — which means a tile shorter than twice the spread has no shadow box
+     left and paints no glow at all. At the old -50px that floor was 100px, and
+     the process steps are 90px: the glow appeared while the spread animated
+     through 0 → -50px, then vanished the instant it settled. It read as a
+     flash, not as a missing shadow, which is what made it look like a
+     compositing bug rather than arithmetic.
+
+     -30px puts the floor at 60px, below every tile on the site, and the offset
+     and blur come down with it so the bloom on the tall tiles lands where it
+     did before. Anything added here that is shorter than 60px needs these
+     numbers revisited. */
+  box-shadow: 0 30px 80px -30px rgba(124, 60, 180, 0.9);
 }
 
 /* ------------------------------------------------------------------ */
@@ -648,42 +730,47 @@ html.route-loading body {
 /*  Fixed, so the light stays put while content moves past it — the     */
 /*  page feels lit by the room rather than papered with a texture.      */
 /* ------------------------------------------------------------------ */
-.aurora-canvas {
-  position: relative;
-  background-color: var(--aurora-base);
-}
-
-.aurora-canvas::before {
-  content: "";
+/*
+ * Two pieces on purpose.
+ *
+ * `.aurora-bg` is the painting layer: one fixed element, rendered once per
+ * page, sitting at z-index 0. `.aurora-canvas` wraps the page and sits at
+ * z-index 1, so EVERY piece of content is above the blooms by construction
+ * rather than by relying on a negative-z pseudo-element staying behind — which
+ * only held as long as nothing above it created a stacking context.
+ */
+.aurora-bg {
   position: fixed;
   inset: 0;
-  z-index: -1;
+  z-index: 0;
   pointer-events: none;
   background-color: var(--aurora-base);
-  /* Tight radii and an early falloff on purpose: broad, overlapping blooms
-     average out into one flat violet wash, which is the thing this is meant
-     to avoid. The black between the spots is the effect. */
   background-image:
     radial-gradient(
       67% 57% at 3% 0%,
-      rgba(138, 95, 192, 0.62),
+      rgba(88, 56, 142, 0.66),
       transparent 62%
     ),
     radial-gradient(
       73% 67% at 88% 26%,
-      rgba(120, 81, 169, 0.55),
+      rgba(72, 43, 118, 0.62),
       transparent 64%
     ),
     radial-gradient(
       60% 53% at 99% 97%,
-      rgba(178, 119, 211, 0.34),
+      rgba(108, 64, 158, 0.36),
       transparent 62%
     ),
     radial-gradient(
       53% 47% at 6% 96%,
-      rgba(120, 81, 169, 0.28),
+      rgba(72, 43, 118, 0.32),
       transparent 64%
     );
+}
+
+.aurora-canvas {
+  position: relative;
+  z-index: 1;
 }
 
 /* ------------------------------------------------------------------ */

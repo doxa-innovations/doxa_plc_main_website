@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Section } from "@/components/layout/Section";
 import { SectionHeading } from "@/components/SectionHeading";
-import { RevealUp } from "@/components/marketing/RevealUp";
+import { ProcessSteps, ProcessStep } from "@/components/marketing/ProcessSteps";
 import { PaymentTimeline } from "@/components/marketing/PaymentTimeline";
 import { FaqSection } from "@/components/marketing/FaqSection";
 
@@ -55,44 +55,46 @@ export default function HowItWorksPage() {
             </defs>
           </svg>
 
-          <ol className="space-y-14 md:space-y-24">
-            {PROCESS_STAGES.map((stage, i) => {
-              const flip = i % 2 === 1;
-              return (
-                <li key={stage.number}>
-                  <RevealUp>
-                    <div className="grid items-center gap-8 md:grid-cols-2 md:gap-14">
-                      <div
-                        className={cn(
-                          "relative aspect-[16/10] overflow-hidden rounded-[1.4rem] border border-line bg-surface-muted",
-                          flip && "md:order-2",
-                        )}
-                      >
-                        <Image
-                          src={stage.image}
-                          alt={stage.title}
-                          fill
-                          sizes="(max-width: 768px) 100vw, 45vw"
-                          unoptimized
-                          className="object-cover"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-deep/70 to-transparent" />
+          <ProcessSteps>
+            <ol className="space-y-14 md:space-y-24">
+              {PROCESS_STAGES.map((stage, i) => {
+                const flip = i % 2 === 1;
+                return (
+                  <li key={stage.number}>
+                    <ProcessStep index={i}>
+                      <div className="grid items-center gap-8 md:grid-cols-2 md:gap-14">
+                        <div
+                          className={cn(
+                            "relative aspect-[16/10] overflow-hidden rounded-[1.4rem] border border-line bg-surface-muted",
+                            flip && "md:order-2",
+                          )}
+                        >
+                          <Image
+                            src={stage.image}
+                            alt={stage.title}
+                            fill
+                            sizes="(max-width: 768px) 100vw, 45vw"
+                            unoptimized
+                            className="object-cover"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-deep/70 to-transparent" />
+                        </div>
+                        <div className={cn("text-center md:text-left", flip && "md:order-1")}>
+                          <span className="inline-flex size-11 items-center justify-center rounded-full border border-line bg-pj-primary font-display text-lg font-semibold text-pj-white shadow-[0_0_30px_-6px_rgba(178,119,211,0.9)]">
+                            {stage.number}
+                          </span>
+                          <h3 className="mt-4 font-display text-xl font-semibold text-ink">
+                            {stage.title}
+                          </h3>
+                          <p className="mt-2 text-ink-muted">{stage.description}</p>
+                        </div>
                       </div>
-                      <div className={cn("text-center md:text-left", flip && "md:order-1")}>
-                        <span className="inline-flex size-11 items-center justify-center rounded-full border border-line bg-pj-primary font-display text-lg font-semibold text-pj-white shadow-[0_0_30px_-6px_rgba(178,119,211,0.9)]">
-                          {stage.number}
-                        </span>
-                        <h3 className="mt-4 font-display text-xl font-semibold text-ink">
-                          {stage.title}
-                        </h3>
-                        <p className="mt-2 text-ink-muted">{stage.description}</p>
-                      </div>
-                    </div>
-                  </RevealUp>
-                </li>
-              );
-            })}
-          </ol>
+                    </ProcessStep>
+                  </li>
+                );
+              })}
+            </ol>
+          </ProcessSteps>
         </div>
       </Section>
 

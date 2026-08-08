@@ -30,6 +30,11 @@ const ctrlBtn =
  * floating mini-player in the corner so playback continues while they browse.
  * Floating relies on `position: fixed`, so this must not sit under a
  * transformed / backdrop-filtered ancestor (it is rendered outside <Reveal>).
+ *
+ * Its Section also needs a z-index above the sections that follow it. `Section`
+ * is `isolate`, which traps this component's z-[60] inside that one band — so
+ * later bands painted over the floating player and swallowed its clicks the
+ * moment you scrolled past the video.
  */
 export function OfficeVideo({
   src,
@@ -63,10 +68,7 @@ export function OfficeVideo({
     const el = anchorRef.current;
     if (!el) return;
     const io = new IntersectionObserver(
-      ([entry]) => {
-        setRatio(entry.intersectionRatio);
-        if (entry.intersectionRatio > 0.6) setDismissed(false);
-      },
+      ([entry]) => setRatio(entry.intersectionRatio),
       { threshold: [0, 0.1, 0.25, 0.5, 0.6, 0.8, 1] },
     );
     io.observe(el);
@@ -82,8 +84,16 @@ export function OfficeVideo({
   const togglePlay = useCallback(() => {
     const v = videoRef.current;
     if (!v) return;
-    if (v.paused) void v.play();
-    else v.pause();
+    if (v.paused) {
+      // Pressing play is the only thing that re-arms the mini player. The
+      // observer used to clear `dismissed` whenever the anchor came back into
+      // view, which meant closing it while ABOVE the video and then scrolling
+      // down re-opened it on the way past — the close never held.
+      setDismissed(false);
+      void v.play();
+    } else {
+      v.pause();
+    }
   }, []);
 
   const stop = useCallback(() => {

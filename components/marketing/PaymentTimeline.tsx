@@ -1,7 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { PAYMENT_MILESTONES } from "@/content/process";
+import { useScrollDirection } from "@/components/marketing/useScrollDirection";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -25,19 +27,43 @@ const STEP = FILL + GAP;
  * particular could sit unfilled well past its turn. Observing the container
  * once and staggering by delay makes every milestone land on schedule.
  *
- * As in RevealUp: `initial` never branches on `useReducedMotion()`, because the
- * hook disagrees between server and client and would desync hydration. Only the
- * transition is branched.
+ * The fill replays every time the bar is scrolled DOWN onto, and never when it
+ * is scrolled back UP onto. Arriving from below means the visitor has already
+ * watched it fill and is on their way back to something above it; refilling
+ * under them there reads as a glitch rather than as an entrance. It is restored
+ * at its end state instead, with the transition zeroed so nothing moves.
+ *
+ * `initial` never branches on `useReducedMotion()`, because the hook disagrees
+ * between server and client and would desync hydration. Only the transition is
+ * branched.
  */
 export function PaymentTimeline() {
   const reduce = useReducedMotion();
   const at = (i: number) => (reduce ? 0 : i * STEP);
 
+  const direction = useScrollDirection();
+  const [state, setState] = useState<"hidden" | "show">("hidden");
+  // Set when the bar is restored rather than played, which zeroes every
+  // duration below for that one pass.
+  const [instant, setInstant] = useState(false);
+
+  const still = reduce || instant;
+
   return (
     <motion.div
       initial="hidden"
-      whileInView="show"
+      animate={state}
       viewport={{ once: false, amount: 0.4 }}
+      onViewportEnter={() => {
+        setInstant(direction.current === "up");
+        setState("show");
+      }}
+      onViewportLeave={() => {
+        // Rearm while off screen, so the next downward pass fills from empty.
+        // Safe to do unseen — by definition nothing here is on screen to reset.
+        setInstant(false);
+        setState("hidden");
+      }}
       className="rounded-[1.5rem] border border-line bg-panel p-6 shadow-[0_40px_90px_-50px_rgba(124,60,180,0.6)] sm:p-8"
     >
       {/* The track stays visible under the fill, so an unfilled segment reads
@@ -54,7 +80,7 @@ export function PaymentTimeline() {
               show: { flexBasis: `${m.percent}%` },
             }}
             transition={
-              reduce
+              still
                 ? { duration: 0 }
                 : { duration: FILL, delay: at(i), ease: EASE }
             }
@@ -67,7 +93,7 @@ export function PaymentTimeline() {
             <motion.span
               variants={{ hidden: { opacity: 0 }, show: { opacity: 1 } }}
               transition={
-                reduce
+                still
                   ? { duration: 0 }
                   : { duration: 0.3, delay: at(i) + FILL * 0.5 }
               }
@@ -87,7 +113,7 @@ export function PaymentTimeline() {
               show: { opacity: 1, y: 0 },
             }}
             transition={
-              reduce
+              still
                 ? { duration: 0 }
                 : { duration: 0.45, delay: at(i) + FILL * 0.5, ease: EASE }
             }

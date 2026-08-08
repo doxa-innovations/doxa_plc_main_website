@@ -45,10 +45,11 @@ export default async function SiteLayout({
         )}
       />
       <RouteLoaderProvider>
-        {/* One aurora canvas for the whole public site. Bands render with no
-            fill of their own so it shows through; the Footer keeps its own
-            `bg-deep` and is unaffected. */}
-        <div className="aurora-canvas isolate">
+        {/* The blooms, painted once behind everything. Separate element so
+            the whole page can sit above it on z-index rather than depending on
+            a negative-z pseudo-element. The Footer keeps its own `bg-deep`. */}
+        <div className="aurora-bg" aria-hidden />
+        <div className="aurora-canvas">
           <Navbar />
           <main>{children}</main>
           <Footer />
