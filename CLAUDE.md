@@ -20,8 +20,8 @@ npm run typecheck       # tsc --noEmit
 npm run db:up           # local Postgres (5433) + Mailpit (1025, UI on 8025)
 npm run db:down
 
-npm run seed:admin      # ADMIN_EMAIL=… ADMIN_PASSWORD=… — the ONLY way to create a login
-npm run seed:content    # import content/*.ts into the database, idempotent
+npm run seed:admin      # ADMIN_EMAIL=… ADMIN_PASSWORD=… — add a login by hand
+npm run seed:content    # OVERWRITE the database from content/*.ts, discarding Olympus edits
 npm run generate:types  # regenerate payload-types.ts after a schema change
 npm run migrate:create  # after changing any collection
 npm run migrate         # apply migrations
@@ -50,7 +50,12 @@ There is **no `app/(payload)` directory, and creating one is what would enable P
 
 Content lives in Postgres and is read through **`lib/content.ts`**, which returns the interfaces declared in **`content/types.ts`**. Keep that contract: `lib/jsonld.ts` builds structured data from the same objects the pages render, which is what stops visible copy and schema.org output drifting apart.
 
-`content/*.ts` are now **seed data**, not what the site renders. `scripts/seed-content.ts` imports them.
+`content/*.ts` are now **seed data**, not what the site renders. `lib/seed.ts` turns them into database records, and two callers write them:
+
+- **`instrumentation.ts`, on every boot.** Creates only what is missing and never touches an existing document, so a restart cannot revert an edit made in `/olympus`. It also creates the first login from `ADMIN_EMAIL` / `ADMIN_PASSWORD` / `ADMIN_NAME`. The trade-off is that a document *deleted* in `/olympus` comes back on the next boot, because "missing" and "never seeded" are indistinguishable — unpublish instead of deleting, or remove it from `content/`.
+- **`npm run seed:content`, by hand.** Overwrites. This is the only way to push a `content/` copy change to an already-seeded site, and it discards `/olympus` edits to the documents it covers.
+
+Seeding is best-effort and never throws: a failed seed logs and the server still starts. That is the opposite of the migration policy directly above it, deliberately — a site missing content beats a container that will not boot.
 
 Not editable, deliberately, and each for a reason documented in `globals/SiteSettings.ts`: `SITE.url`, the registration numbers, `mapEmbedUrl`, and the nav trees.
 
@@ -109,7 +114,7 @@ Multi-stage `Dockerfile` on `node:22-alpine`, builds the standalone output, runs
 
 **The build must always succeed with no database reachable.** That is the acceptance test for any change to data fetching: `docker build .` with Postgres stopped.
 
-Migrations run automatically at container boot via `instrumentation.ts` and `prodMigrations`. Because `payload.config.ts` imports `migrations/` statically, they are bundled into `.next/standalone` and need no extra `COPY`.
+Migrations run automatically at container boot via `instrumentation.ts` and `prodMigrations`, followed by seeding (see Content flow). Because `payload.config.ts` imports `migrations/` statically, they are bundled into `.next/standalone` and need no extra `COPY`.
 
 <!-- BEGIN:nextjs-agent-rules -->
 

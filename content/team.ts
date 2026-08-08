@@ -38,18 +38,10 @@ export const TEAM: TeamMember[] = [
     photo: `${CDN}/Cheri.avif`,
     social: [],
   },
-  // TODO: replace name, role, expertise, bio, and photo with the real 4th
-  // member's details (the client will provide these).
-  {
-    slug: "new-team-member",
-    name: "New Team Member",
-    role: "Software Engineer",
-    founder: false,
-    expertise: ["Engineering"],
-    bio: "Details coming soon. This card is a placeholder for our newest team member.",
-    photo: "https://picsum.photos/seed/doxa-member-4/600/600",
-    social: [],
-  },
+  // The real 4th member is added in /olympus once the client supplies their
+  // details. Deliberately NOT a placeholder entry here: this array is seed
+  // data, so a placeholder would be created in the database on first boot and
+  // then have to be deleted by hand.
 ];
 
 export function getTeamMemberBySlug(slug: string): TeamMember | undefined {

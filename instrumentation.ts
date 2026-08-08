@@ -1,8 +1,14 @@
 /**
  * Runs once when a server instance starts, before it accepts requests.
  *
- * Its only job is to initialise Payload, which opens the database connection
- * and, in production, applies any pending migrations via `prodMigrations`.
+ * It initialises Payload, which opens the database connection and, in
+ * production, applies any pending migrations via `prodMigrations`. It then
+ * seeds anything the database is missing: the content from /content, and the
+ * /olympus login from ADMIN_EMAIL / ADMIN_PASSWORD / ADMIN_NAME.
+ *
+ * Seeding runs AFTER `getPayload()` resolves, which is the point at which
+ * migrations have finished. Seeding into a schema that has not been migrated
+ * yet is exactly the failure this ordering avoids.
  *
  * Without this, migrations would still run, but lazily: on the first request
  * that happens to touch Payload. That means an unlucky visitor waits for the
@@ -24,5 +30,8 @@ export async function register() {
   const { getPayload } = await import("payload");
   const config = (await import("@payload-config")).default;
 
-  await getPayload({ config });
+  const payload = await getPayload({ config });
+
+  const { seedOnBoot } = await import("./lib/seed");
+  await seedOnBoot(payload);
 }

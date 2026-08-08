@@ -321,7 +321,9 @@ export const PROJECTS: Project[] = [
   {
     slug: "doxa-ledger",
     title: "Accounting Ledger Software",
-    client: "Doxa Innovations",
+    // The product's name, not the company's. `client` is the card heading, so
+    // "Doxa Innovations" here read as a case study about ourselves.
+    client: "Doxa Ledger",
     country: "Ethiopia",
     countryCode: "ET",
     industry: "Accounting / FinTech",
