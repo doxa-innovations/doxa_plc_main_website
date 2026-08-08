@@ -309,15 +309,33 @@ export async function seedOnBoot(payload: Payload): Promise<void> {
       );
     }
 
+    // Every branch logs, including the ones that do nothing. A silent skip here
+    // is indistinguishable from a seeder that never ran, which leaves the only
+    // way into /olympus in a state nobody can diagnose from the boot output.
     const admin = await seedAdminUser(payload);
-    if (admin === "created") {
-      payload.logger.info(
-        `Seed: created admin ${process.env.ADMIN_EMAIL}. Sign in at /olympus/login.`,
-      );
-    } else if (admin === "password-too-short") {
-      payload.logger.warn(
-        "Seed: ADMIN_PASSWORD is shorter than 12 characters; no account created.",
-      );
+    switch (admin) {
+      case "created":
+        payload.logger.info(
+          `Seed: created admin ${process.env.ADMIN_EMAIL}. Sign in at /olympus/login.`,
+        );
+        break;
+      case "exists":
+        payload.logger.info(
+          `Seed: admin ${process.env.ADMIN_EMAIL} already exists, left untouched.`,
+        );
+        break;
+      case "password-too-short":
+        payload.logger.warn(
+          "Seed: ADMIN_PASSWORD is shorter than 12 characters, so no account was created.",
+        );
+        break;
+      case "not-configured":
+        payload.logger.warn(
+          "Seed: ADMIN_EMAIL and ADMIN_PASSWORD are not both set in this process, " +
+            "so no /olympus account was created. If they are configured in the host " +
+            "panel, check they are runtime variables rather than build arguments.",
+        );
+        break;
     }
   } catch (error) {
     payload.logger.error({ err: error }, "Seed: failed, continuing to serve");
