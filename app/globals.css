@@ -396,7 +396,18 @@ body::after {
     .reveal {
       animation: reveal-rise linear both;
       animation-timeline: view();
-      animation-range: entry 0% cover 28%;
+      /* Both ends in `entry`, never `cover`. The two ranges scale off different
+         things: `cover` runs the subject's whole height PLUS the viewport, so a
+         percentage of it grows with the element, and /works wraps its entire
+         card grid in one Reveal. 28% of that was most of a phone screen's worth
+         of scrolling several times over, which is why the top card stayed
+         half-revealed while fully in view.
+
+         `entry` is capped at the viewport height however tall the subject gets,
+         so 35% is roughly a third of a screen on any page, at any width, for a
+         single card or a grid of twelve. Short enough that a small scroll
+         finishes it, which is the whole ask. */
+      animation-range: entry 0% entry 35%;
     }
   }
 }
