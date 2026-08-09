@@ -16,7 +16,13 @@ import { GridField, FrameMarks, Hatch } from "@/components/visual/Decor";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-export function Hero({ showcase }: { showcase: ShowcaseItem[] }) {
+export function Hero({
+  showcase,
+  initialIndex = 0,
+}: {
+  showcase: ShowcaseItem[];
+  initialIndex?: number;
+}) {
   const reduce = useReducedMotion();
 
   const container: Variants = {
@@ -96,7 +102,7 @@ export function Hero({ showcase }: { showcase: ShowcaseItem[] }) {
         </motion.div>
 
         {/* Auto-rotating deck: hover any card to slide it to the front */}
-        <HeroShowcase projects={showcase} initialIndex={2} />
+        <HeroShowcase projects={showcase} initialIndex={initialIndex} />
       </Container>
     </section>
   );

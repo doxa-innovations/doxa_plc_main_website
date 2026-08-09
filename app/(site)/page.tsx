@@ -34,7 +34,7 @@ import { Button } from "@/components/ui/button";
 export const metadata = buildMetadata({ path: "/" });
 
 /**
- * The hero deck, left to right, with LCE (the middle entry) starting centred.
+ * The hero deck, left to right.
  *
  * Lives here rather than inside Hero because Hero is a client component and
  * cannot query the CMS. A string is a project slug, resolved against the
@@ -60,6 +60,16 @@ const HERO_SHOWCASE: (string | ShowcaseItem)[] = [
     coverImage: "/work/dubs.png",
   },
 ];
+
+/**
+ * Which card is centred on load. The deck rotates from there.
+ *
+ * A slug rather than a position, because `showcase` below drops any entry whose
+ * project is unpublished or renamed. A numeric index survives that silently and
+ * starts a different card centred; a slug that no longer resolves just falls
+ * back to the first card.
+ */
+const HERO_INITIAL_SLUG = "classic-noodle-burger";
 
 const MICRO_TRUST = [
   { icon: ShieldCheck, label: "Legally registered PLC", sub: "TIN & VAT on file" },
@@ -130,9 +140,16 @@ export default async function HomePage() {
       : entry,
   ).filter((p): p is NonNullable<typeof p> => Boolean(p));
 
+  // -1 (the slug resolved to nothing) becomes 0, so the deck always has a card
+  // at the front rather than starting one index before the first.
+  const heroInitial = Math.max(
+    0,
+    showcase.findIndex((p) => p.slug === HERO_INITIAL_SLUG),
+  );
+
   return (
     <>
-      <Hero showcase={showcase} />
+      <Hero showcase={showcase} initialIndex={heroInitial} />
 
       {/* Micro-trust strip */}
       <section className="border-y border-line bg-deep/60">
