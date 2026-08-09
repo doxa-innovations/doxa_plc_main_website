@@ -25,7 +25,23 @@ const GAP_PCT = 1.6;
  * read as a gradient rather than as six panels — the opposite of the point. The
  * panels are separated by the seam and the gap; shade does not need to do it.
  */
-const TINT = "38 17 78";
+const TINT = "178 119 211"; /* --brand, #b277d3 */
+
+/**
+ * The glass, matching the bento cells on the home page.
+ *
+ * Those are `--panel`: white at 3% over the aurora, so the canvas reads THROUGH
+ * the card and the card only lifts off it. This is the same idea pushed to the
+ * brand violet and 8%, so the services sit a shade warmer than a neutral pane
+ * while still being something you see the aurora through.
+ *
+ * It replaces a dark purple at 0.45 behind `backdrop-blur-2xl`, which covered
+ * the aurora instead of sampling it and printed each panel as a solid block.
+ * The blur is gone with it, and not only for the look: at this opacity every
+ * band would frost its own backdrop independently, and abutting bands with
+ * separately-sampled blurs show the join the whole silhouette exists to hide.
+ */
+const GLASS = "bg-[rgb(var(--tint)/0.08)]";
 
 /**
  * Shared by every band. `border` rather than `ring` so the edge where one band
@@ -33,8 +49,7 @@ const TINT = "38 17 78";
  * a line straight across the join and made the tab read as a separate box
  * sitting on the panel rather than part of it.
  */
-const BAND =
-  "absolute border border-line/70 bg-[rgb(var(--tint)/0.45)] backdrop-blur-2xl";
+const BAND = `absolute border border-line/70 ${GLASS}`;
 
 /**
  * One service panel: drawn art beside the words, on tinted glass.
@@ -89,8 +104,8 @@ export function ServiceShowcase({
       className={cn(
         "group relative isolate scroll-mt-24 sm:mt-[var(--pull)]",
         // Mobile: one plain rounded card, no interlock.
-        "rounded-[2rem] bg-[rgb(var(--tint)/0.45)] backdrop-blur-2xl ring-1 ring-inset ring-line/70",
-        "sm:rounded-none sm:bg-transparent sm:ring-0 sm:backdrop-blur-none",
+        `rounded-[2rem] ${GLASS} ring-1 ring-inset ring-line/70`,
+        "sm:rounded-none sm:bg-transparent sm:ring-0",
       )}
     >
       {/* The silhouette, behind the content. */}
