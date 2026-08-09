@@ -401,16 +401,22 @@ body::after {
   }
 }
 
+/* No `filter: blur()` here, unlike `header-rise` below, and the difference is
+   the timeline rather than taste. `header-rise` runs on a clock and is over in
+   0.75s; this one is scroll-driven over `entry 0% cover 28%`, and `cover` spans
+   the element's whole height plus the viewport. On a tall wrapper — the /works
+   grid is one Reveal around every card — 28% of that is a long scroll, so the
+   first card sits ON SCREEN, at its `from` state, unreadably blurred until you
+   scroll far past it. Opacity and translate degrade gracefully when caught
+   mid-range. A blur does not. */
 @keyframes reveal-rise {
   from {
     opacity: 0;
     transform: translateY(26px);
-    filter: blur(6px);
   }
   to {
     opacity: 1;
     transform: none;
-    filter: none;
   }
 }
 
