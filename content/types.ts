@@ -80,13 +80,21 @@ export interface SiteConfig {
 
 export type Money = { amount: number; currency: "USD" | "EUR" };
 
+/**
+ * Whether a service is quoted per project or held on a monthly retainer.
+ *
+ * This is what puts "/mo" after the starting price. It used to be decided by
+ * comparing the slug against the literal "maintenance", so re-slugging that
+ * service, or adding a second retainer, silently priced it as a one-off. Same
+ * class of bug as the pricing tiers' `mode`, and fixed the same way.
+ */
+export type ServiceBilling = "project" | "monthly";
+
 export interface Service {
   slug: string;
   name: string;
   /** lucide-react icon name */
   icon: string;
-  /** Topical image (stock placeholder until brand assets land). */
-  image: string;
   summary: string;
   description: string;
   forWhom: string;
@@ -100,6 +108,9 @@ export interface Service {
    * `startingFrom` (USD); Ethiopian visitors see this.
    */
   etStartingFrom: number | "custom";
+  billing: ServiceBilling;
+  /** Listed in the footer's Services column. */
+  showInFooter: boolean;
 }
 
 export type ProjectStatus = "live" | "in-development";
@@ -207,9 +218,16 @@ export interface ProcessStage {
 }
 
 export interface Testimonial {
+  /** Stable key for React. The database id, stringified. */
+  id: string;
   quote: string;
   name: string;
+  /** Whole stars, 1 to 5. */
+  rating: number;
+  /** Absolute image URL. Empty means fall back to initials. */
+  photo: string;
+  /** Standing, e.g. "CEO at Three Roots International". */
   role: string;
-  company: string;
-  country: string;
+  /** ISO date, or null. Rendered as the month and year. */
+  date: string | null;
 }

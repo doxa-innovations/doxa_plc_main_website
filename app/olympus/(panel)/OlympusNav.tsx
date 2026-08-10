@@ -6,7 +6,9 @@ import {
   BarChart3,
   Briefcase,
   Inbox,
+  Layers,
   MapPin,
+  Quote,
   Tags,
   Users,
 } from "lucide-react";
@@ -17,8 +19,14 @@ const LINKS = [
   { href: "/olympus", label: "Overview", icon: BarChart3 },
   { href: "/olympus/leads", label: "Leads", icon: Inbox },
   { href: "/olympus/content/team", label: "Team", icon: Users },
+  { href: "/olympus/content/services", label: "Services", icon: Layers },
   { href: "/olympus/content/works", label: "Works", icon: Briefcase },
   { href: "/olympus/content/pricing", label: "Pricing", icon: Tags },
+  {
+    href: "/olympus/content/testimonials",
+    label: "Testimonials",
+    icon: Quote,
+  },
   { href: "/olympus/content/contact", label: "Contact", icon: MapPin },
 ];
 

@@ -1,7 +1,7 @@
 import { Ban } from "lucide-react";
 import { buildMetadata } from "@/lib/metadata";
-import { SERVICES } from "@/content/services";
 import type { Service } from "@/content/types";
+import { getServices } from "@/lib/content";
 import { isEthiopianVisitor } from "@/lib/geo";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Section } from "@/components/layout/Section";
@@ -23,12 +23,18 @@ function priceText(service: Service, isEthiopia: boolean): string {
       ? "Pricing: Custom"
       : `From ETB ${service.etStartingFrom.toLocaleString()}`;
   }
-  const isMonthly = service.slug === "maintenance";
-  return `From $${service.startingFrom.amount.toLocaleString()}${isMonthly ? "/mo" : ""}`;
+  // `billing`, not a comparison against the slug "maintenance": re-slugging
+  // that service, or adding a second retainer, used to silently price it as a
+  // one-off.
+  const suffix = service.billing === "monthly" ? "/mo" : "";
+  return `From $${service.startingFrom.amount.toLocaleString()}${suffix}`;
 }
 
 export default async function ServicesPage() {
-  const isEthiopia = await isEthiopianVisitor();
+  const [isEthiopia, services] = await Promise.all([
+    isEthiopianVisitor(),
+    getServices(),
+  ]);
   return (
     <>
       <PageHeader
@@ -39,7 +45,7 @@ export default async function ServicesPage() {
 
       <Section variant="surface" frame grid>
         <div className="space-y-5 sm:space-y-0">
-          {SERVICES.map((service, i) => (
+          {services.map((service, i) => (
             // No Reveal wrapper: it introduces a transform, which creates a
             // containing block and breaks the negative margins the panels use
             // to tessellate.
@@ -48,7 +54,7 @@ export default async function ServicesPage() {
               service={service}
               price={priceText(service, isEthiopia)}
               index={i}
-              total={SERVICES.length}
+              total={services.length}
             />
           ))}
         </div>
@@ -72,7 +78,7 @@ export default async function ServicesPage() {
         </Container>
       </Section>
 
-      <JsonLd schema={graph(...SERVICES.map((s) => serviceSchema(s)))} />
+      <JsonLd schema={graph(...services.map((s) => serviceSchema(s)))} />
     </>
   );
 }

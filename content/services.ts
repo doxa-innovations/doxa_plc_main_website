@@ -1,16 +1,23 @@
 import type { Service } from "./types";
 
 /**
- * Services offered, in display order. `icon` is a lucide-react icon name
- * resolved by the UI. `startingFrom` anchors both the page copy and the
- * Service/Offer JSON-LD so prices never drift between the two.
+ * SEED DATA. The site reads services from the database via `getServices()` in
+ * lib/content.ts; this array is what `lib/seed.ts` writes when a service is
+ * missing, and what `npm run seed:content` overwrites them with.
+ *
+ * The lineup is fixed at these six. `slug` picks the illustration in
+ * ServiceArt and is the /services#… anchor; `icon` is a lucide name resolved
+ * by components/Icon.tsx. Neither is editable in /olympus, so adding a seventh
+ * service here means adding its drawing and its icon mapping too.
+ *
+ * `startingFrom` anchors both the page copy and the Service/Offer JSON-LD so
+ * prices never drift between the two.
  */
 export const SERVICES: Service[] = [
   {
     slug: "website-development",
     name: "Website Development",
     icon: "Globe",
-    image: "/work/classic.png",
     summary:
       "Fast, accessible business websites, portfolios, and landing pages built to convert and to rank.",
     description:
@@ -27,12 +34,13 @@ export const SERVICES: Service[] = [
     timeline: "3 to 6 weeks",
     startingFrom: { amount: 1500, currency: "USD" },
     etStartingFrom: 20000,
+    billing: "project",
+    showInFooter: true,
   },
   {
     slug: "e-commerce",
     name: "E-Commerce Stores",
     icon: "ShoppingCart",
-    image: "/work/ecommerce.png",
     summary:
       "Shopify builds or fully custom online stores with payments, inventory, and order management.",
     description:
@@ -49,12 +57,13 @@ export const SERVICES: Service[] = [
     timeline: "4 to 8 weeks",
     startingFrom: { amount: 2500, currency: "USD" },
     etStartingFrom: 79999,
+    billing: "project",
+    showInFooter: true,
   },
   {
     slug: "custom-software",
     name: "Custom Software & Tools",
     icon: "Wrench",
-    image: "/work/ledger.png",
     summary:
       "Internal dashboards, booking systems, CRMs, LMS platforms, and automation built around your workflow.",
     description:
@@ -71,13 +80,13 @@ export const SERVICES: Service[] = [
     timeline: "Defined per project",
     startingFrom: { amount: 3000, currency: "USD" },
     etStartingFrom: 119999,
+    billing: "project",
+    showInFooter: true,
   },
   {
     slug: "branding",
     name: "Branding & Identity",
     icon: "Palette",
-    image:
-      "https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=1200&q=70",
     summary:
       "Logo design, color systems, typography, and brand guidelines that make you look established.",
     description:
@@ -94,13 +103,13 @@ export const SERVICES: Service[] = [
     timeline: "1 to 3 weeks",
     startingFrom: { amount: 500, currency: "USD" },
     etStartingFrom: 19999,
+    billing: "project",
+    showInFooter: true,
   },
   {
     slug: "mobile",
     name: "Mobile Applications",
     icon: "Smartphone",
-    image:
-      "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=1200&q=70",
     summary:
       "Cross-platform iOS + Android apps with React Native, customer, driver, and companion apps.",
     description:
@@ -117,13 +126,13 @@ export const SERVICES: Service[] = [
     timeline: "Defined per project",
     startingFrom: { amount: 5000, currency: "USD" },
     etStartingFrom: 199999,
+    billing: "project",
+    showInFooter: true,
   },
   {
     slug: "maintenance",
     name: "Maintenance & Support",
     icon: "LifeBuoy",
-    image:
-      "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=70",
     summary:
       "Ongoing hosting, security updates, uptime monitoring, and content updates on a monthly retainer.",
     description:
@@ -140,9 +149,9 @@ export const SERVICES: Service[] = [
     timeline: "Monthly retainer",
     startingFrom: { amount: 100, currency: "USD" },
     etStartingFrom: "custom",
+    billing: "monthly",
+    // The footer's Services column lists the five things you buy, not the
+    // thing you buy afterwards.
+    showInFooter: false,
   },
 ];
-
-export function getServiceBySlug(slug: string): Service | undefined {
-  return SERVICES.find((s) => s.slug === slug);
-}

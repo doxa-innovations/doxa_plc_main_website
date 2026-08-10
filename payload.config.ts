@@ -10,7 +10,9 @@ import { Leads } from "./collections/Leads";
 import { Media } from "./collections/Media";
 import { AddOns, PricingTiers } from "./collections/PricingTiers";
 import { Projects } from "./collections/Projects";
+import { Services } from "./collections/Services";
 import { TeamMembers } from "./collections/TeamMembers";
+import { Testimonials } from "./collections/Testimonials";
 import { Users } from "./collections/Users";
 import { Visits } from "./collections/Visits";
 import { SiteSettings } from "./globals/SiteSettings";
@@ -54,6 +56,8 @@ export default buildConfig({
     ConsentEvents,
     TeamMembers,
     Projects,
+    Services,
+    Testimonials,
     PricingTiers,
     AddOns,
   ],

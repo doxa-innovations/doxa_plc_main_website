@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Mail, MessageCircle, MapPin, Phone, ArrowUpRight } from "lucide-react";
-import { getSite, shortLocation } from "@/lib/content";
+import { getServices, getSite, shortLocation } from "@/lib/content";
 import { Container } from "./Container";
 import { Rings } from "@/components/visual/Decor";
 import { CookieSettingsLink } from "@/components/consent/CookieSettingsLink";
@@ -39,11 +39,29 @@ function FooterColumn({
 }
 
 export async function Footer() {
-  const [isEthiopia, SITE] = await Promise.all([
+  const [isEthiopia, SITE, services] = await Promise.all([
     isEthiopianVisitor(),
     getSite(),
+    getServices(),
   ]);
   const { registration: reg } = SITE;
+
+  /**
+   * The Services column, built from the services themselves.
+   *
+   * Hardcoding it meant renaming a service left a stale label in the footer
+   * pointing at an anchor that still worked, which is the kind of drift nobody
+   * notices. Which services appear is an explicit per-service checkbox, not
+   * "the first five" — an implicit rule is what made the old price check a bug.
+   *
+   * Falls back to the static list when the database gives us nothing, matching
+   * getSite()'s reasoning: an unreachable database should leave the footer
+   * stale, not blank.
+   */
+  const serviceLinks = services.filter((s) => s.showInFooter);
+  const footerServices = serviceLinks.length
+    ? serviceLinks.map((s) => ({ label: s.name, href: `/services#${s.slug}` }))
+    : SITE.footerNav.services;
   const whatsappUrl = `https://wa.me/${SITE.whatsapp.replace(/\D/g, "")}`;
 
   return (
@@ -133,7 +151,7 @@ export async function Footer() {
             </ul>
           </div>
 
-          <FooterColumn title="Services" links={SITE.footerNav.services} />
+          <FooterColumn title="Services" links={footerServices} />
           <FooterColumn title="Company" links={SITE.footerNav.company} />
           <FooterColumn
             title="Legal"

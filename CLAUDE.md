@@ -59,6 +59,20 @@ Seeding is best-effort and never throws: a failed seed logs and the server still
 
 Not editable, deliberately, and each for a reason documented in `globals/SiteSettings.ts`: `SITE.url`, the registration numbers, `mapEmbedUrl`, and the nav trees.
 
+One exception to "the nav trees": the footer's **Services** column is built from the services that have `showInFooter` ticked, so renaming a service follows through. `SITE.footerNav.services` is now only the fallback used when the database returns nothing.
+
+**Services are a fixed set of six.** The collection refuses `create` and `delete`, `saveService` refuses to run without an id, and `/olympus/content/services` has no add button, no delete icons and no drag handles. That is because `slug` chooses the hand-drawn illustration in `ServiceArt`, is the `/services#…` anchor every link points at, and pairs with an `icon` name `components/Icon.tsx` has to map. Adding a seventh service means editing `content/services.ts`, `ServiceArt` and `Icon.tsx` together.
+
+A testimonial's `role` ("CEO at Three Roots International") is required and is what the card shows under the name. It replaced a `location` field, because where someone lives says nothing about whether their opinion carries weight.
+
+**Testimonials have no production seed, deliberately.** `content/testimonials.ts` exports `DEV_TESTIMONIALS`, which `lib/seed.ts` writes ONLY when `NODE_ENV !== "production"` (the standalone `server.js` always sets it, so a container never seeds them). Every person in that list is invented, and none of it is attributed to a real client. Real quotes are entered in `/olympus`; the home page hides the whole band while there are none, so an empty production database is the correct state and not a bug to fix by inventing content.
+
+### Two forms, one pipeline
+
+`components/ContactForm.tsx` (the contact page) and `components/marketing/LeadWizard.tsx` (the home page, after the office video) are different SHAPES of the same submission. Both validate against `contactSchema`, POST to `/api/contact`, carry the same honeypot and Turnstile token, write the same Leads row and end on `/thank-you`. Change the field set in `lib/validation.ts` and both follow; do not give the wizard its own endpoint or its own schema.
+
+The wizard mounts `TurnstileWidget` only on its last step, so scrolling past the home page does not pull Cloudflare's script for every visitor. Trap 9 still applies to it — the widget's hostname list gates both forms.
+
 ### Tracking
 
 - `lib/channel.ts` — pure channel classifier. Paid beats owned beats earned; click ids beat UTM tags beat the referrer.
@@ -87,6 +101,8 @@ Read these before touching the related area.
 8. **Never point a dev server at the production database.** Dev `push` writes a `batch: -1` row into `payload_migrations`, which makes production `migrate()` open an interactive prompt and hang in a non-TTY container.
 
 9. **The Turnstile widget's hostname list is a single point of failure for the whole contact form.** A hostname that is not on it gets client error `110200` and no token, for every visitor, and the form stops working. Check it before blaming the code. Related: a failed challenge is the ONE bot check in `app/api/contact/route.ts` that answers with a visible error rather than a silent `{ok:true}`. That is deliberate. The honeypot and user-agent checks can never false-positive on a human, so silence costs nothing there; a challenge that could not run is usually a real person with an ad blocker or a misconfigured hostname, and a silent 200 sends them to `/thank-you` while the enquiry is discarded.
+
+10. **A Tailwind arbitrary value that Tailwind cannot parse fails SILENTLY, as no rule at all.** Two real bugs from this in one component: `[mask-image:…calc(100%-6rem)…]` emitted invalid CSS (Tailwind converts underscores to spaces, nothing else, and `calc` needs whitespace around the minus), so the edge fade never existed and the cards were sliced flat; and `w-[min(88vw,34rem)]` generated nothing, so the card stretched to its container. Neither produces a warning. For anything with `calc()`, `min()` or a comma, use an inline `style` or plain utilities (`w-full max-w-[34rem]`) and verify the COMPUTED style in the browser, not the class list.
 
 ## Conventions
 

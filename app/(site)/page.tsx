@@ -5,6 +5,7 @@ import {
   Handshake,
   Video,
   ArrowRight,
+  Check,
   ScrollText,
   FileCheck2,
 } from "lucide-react";
@@ -15,8 +16,13 @@ import {
   WALKTHROUGH_POSTER,
   WALKTHROUGH_CAPTIONS,
 } from "@/content/media";
-import { SERVICES } from "@/content/services";
-import { getProjects } from "@/lib/content";
+import {
+  getProjects,
+  getServices,
+  getSite,
+  getTestimonials,
+} from "@/lib/content";
+import { turnstileSiteKey } from "@/lib/turnstile";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { SectionHeading } from "@/components/SectionHeading";
@@ -28,6 +34,8 @@ import { ClientLogos } from "@/components/marketing/ClientLogos";
 import { ServiceCard } from "@/components/marketing/ServiceCard";
 import { ProjectCard } from "@/components/marketing/ProjectCard";
 import { TrustSignals } from "@/components/marketing/TrustSignals";
+import { TestimonialCarousel } from "@/components/marketing/TestimonialCarousel";
+import { LeadWizard } from "@/components/marketing/LeadWizard";
 import { OfficeVideo } from "@/components/marketing/OfficeVideo";
 import { Button } from "@/components/ui/button";
 
@@ -126,10 +134,14 @@ function BentoCell({
 }
 
 export default async function HomePage() {
-  const [isEthiopia, projects] = await Promise.all([
-    isEthiopianVisitor(),
-    getProjects(),
-  ]);
+  const [isEthiopia, projects, services, testimonials, site] =
+    await Promise.all([
+      isEthiopianVisitor(),
+      getProjects(),
+      getServices(),
+      getTestimonials(),
+      getSite(),
+    ]);
 
   const featured = projects.filter((p) => p.featured);
   // Keep the declared order. Strings resolve against the CMS and drop out if
@@ -187,7 +199,7 @@ export default async function HomePage() {
         </Reveal>
         <Reveal delay={0.05}>
           <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {SERVICES.map((service) => (
+            {services.map((service) => (
               <ServiceCard key={service.slug} service={service} />
             ))}
           </div>
@@ -243,6 +255,72 @@ export default async function HomePage() {
             poster={WALKTHROUGH_POSTER}
             captions={WALKTHROUGH_CAPTIONS}
             title="A walkthrough of the Doxa Innovations office in Bishoftu"
+          />
+        </div>
+      </Section>
+
+      {/* Start a project, the stepped version of the contact form.
+          Sits straight after the office walkthrough: they have just seen the
+          room and the people, which is the moment the ask costs least. */}
+      <Section variant="muted" frame>
+        <div className="grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
+          <Reveal>
+            <div>
+              <SectionHeading
+                eyebrow="Start a project"
+                title="Tell us what you're building"
+                lead="Four short questions. No call to book, no form to download, and a real person replies within one business day."
+                align="left"
+              />
+              <ul className="mt-8 space-y-4">
+                {[
+                  {
+                    title: "We read it, not a bot",
+                    detail:
+                      "Every enquiry lands with the two founders directly.",
+                  },
+                  {
+                    title: "A reply within one business day",
+                    detail:
+                      "With honest questions, and a rough shape of the work.",
+                  },
+                  {
+                    title: "A video call before any invoice",
+                    detail: "Nothing is owed until scope is agreed in writing.",
+                  },
+                ].map((item) => (
+                  <li key={item.title} className="flex gap-3">
+                    <span className="mt-0.5 grid size-6 shrink-0 place-items-center rounded-full border border-line bg-pj-primary/15 text-brand">
+                      <Check className="size-3.5" strokeWidth={2.5} aria-hidden />
+                    </span>
+                    <div>
+                      <p className="text-sm font-semibold text-ink">
+                        {item.title}
+                      </p>
+                      <p className="text-sm text-ink-muted">{item.detail}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-8 text-sm text-ink-muted">
+                Would rather just write to us?{" "}
+                <Link
+                  href="/contact"
+                  className="text-brand underline underline-offset-4 hover:text-glow"
+                >
+                  Use the contact page
+                </Link>
+                .
+              </p>
+            </div>
+          </Reveal>
+
+          {/* Not wrapped in <Reveal>: it introduces a transform, which becomes
+              the containing block for the Turnstile challenge iframe and can
+              pin it to the wrong place on screen. */}
+          <LeadWizard
+            turnstileSiteKey={turnstileSiteKey()}
+            fallbackEmail={site.email}
           />
         </div>
       </Section>
@@ -338,6 +416,24 @@ export default async function HomePage() {
             <Reveal delay={0.05}>
               <TrustSignals />
             </Reveal>
+          </div>
+        </Section>
+      )}
+
+      {/* Testimonials, the last thing before the footer.
+          Rendered only when there are some: an empty scrolling row, or worse a
+          heading with nothing under it, is a bigger tell than no section at
+          all. See content/testimonials.ts on why there are none by default. */}
+      {testimonials.length > 0 && (
+        <Section variant="muted">
+          <Reveal>
+            <SectionHeading
+              title="In their words"
+              lead="The people we built for, on what it was like."
+            />
+          </Reveal>
+          <div className="mt-12">
+            <TestimonialCarousel testimonials={testimonials} />
           </div>
         </Section>
       )}

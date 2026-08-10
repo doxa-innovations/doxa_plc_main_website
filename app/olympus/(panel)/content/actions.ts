@@ -25,12 +25,16 @@ import { getPayloadClient } from "@/lib/payload";
 export type Collection =
   | "team-members"
   | "projects"
+  | "services"
+  | "testimonials"
   | "pricing-tiers"
   | "add-ons";
 
 const TAG_FOR: Record<Collection, string> = {
   "team-members": TAGS.team,
   projects: TAGS.projects,
+  services: TAGS.services,
+  testimonials: TAGS.testimonials,
   "pricing-tiers": TAGS.pricing,
   "add-ons": TAGS.pricing,
 };
@@ -38,6 +42,8 @@ const TAG_FOR: Record<Collection, string> = {
 const LABEL_FOR: Record<Collection, string> = {
   "team-members": "team member",
   projects: "project",
+  services: "service",
+  testimonials: "testimonial",
   "pricing-tiers": "tier",
   "add-ons": "add-on",
 };
@@ -263,6 +269,74 @@ export async function saveProject(
     ...(id
       ? {}
       : { slug: await uniqueSlug("projects", slugify(`${client}-${title}`)) }),
+  });
+}
+
+/**
+ * Services are UPDATE-ONLY.
+ *
+ * The lineup is fixed at six, because `slug` selects the hand-drawn
+ * illustration in ServiceArt, is the /services#… anchor every link points at,
+ * and pairs with an `icon` name that components/Icon.tsx has to know. None of
+ * those can be filled in from this form, so a created record would be a
+ * service with the wrong drawing and a broken anchor.
+ *
+ * Refusing here rather than only omitting the Add button is what makes that
+ * real: the collection's `create: () => false` is bypassed by the
+ * `overrideAccess: true` every write in this file uses, so it documents the
+ * intent without enforcing it. This is the enforcement.
+ */
+export async function saveService(
+  _prev: ActionResult,
+  formData: FormData,
+): Promise<ActionResult> {
+  const id = str(formData.get("id"));
+  if (!id) {
+    return {
+      ok: false,
+      error:
+        "Services cannot be created here. They are a fixed set defined in content/services.ts.",
+    };
+  }
+
+  const etbMode = str(formData.get("etbMode")) || "amount";
+
+  return write("services", id, {
+    name: str(formData.get("name")),
+    summary: str(formData.get("summary")),
+    description: str(formData.get("description")),
+    forWhom: str(formData.get("forWhom")),
+    deliverables: list(formData.get("deliverables")),
+    techStack: list(formData.get("techStack")),
+    timeline: str(formData.get("timeline")),
+    amountUsd: num(formData.get("amountUsd")) ?? 0,
+    etbMode,
+    // Cleared on a custom-priced service so a stale figure cannot reappear if
+    // it is later switched back, matching how the pricing tiers behave.
+    amountEtb: etbMode === "custom" ? null : num(formData.get("amountEtb")),
+    billing: str(formData.get("billing")) || "project",
+    showInFooter: formData.get("showInFooter") === "on",
+  });
+}
+
+export async function saveTestimonial(
+  _prev: ActionResult,
+  formData: FormData,
+): Promise<ActionResult> {
+  const id = str(formData.get("id")) || null;
+
+  return write("testimonials", id, {
+    name: str(formData.get("name")),
+    quote: str(formData.get("quote")),
+    // Clamped here as well as in the collection, because a hand-edited number
+    // input can post anything and a row of eleven stars is a silent bug.
+    rating: Math.max(1, Math.min(5, num(formData.get("rating")) ?? 5)),
+    photo: str(formData.get("photo")) || null,
+    role: str(formData.get("role")),
+    // An empty date must be null, not "". Postgres rejects the empty string
+    // for a date column, and the failure would surface as a generic save error.
+    date: str(formData.get("date")) || null,
+    published: formData.get("published") === "on",
   });
 }
 

@@ -74,6 +74,14 @@ export const SITE: SiteConfig = {
     { label: "Team", href: "/team" },
   ],
   footerNav: {
+    /**
+     * FALLBACK ONLY. The footer builds this column from the services that have
+     * "Show in footer" ticked, so a rename in /olympus follows through; this
+     * list is what it shows when the database returns nothing, which is a
+     * failed connection or a build with no database attached.
+     *
+     * Keep it in step with the seeded services, or an outage swaps the labels.
+     */
     services: [
       { label: "Website Development", href: "/services#website-development" },
       { label: "E-Commerce", href: "/services#e-commerce" },

@@ -74,6 +74,8 @@ export interface Config {
     'consent-events': ConsentEvent;
     'team-members': TeamMember;
     projects: Project;
+    services: Service;
+    testimonials: Testimonial;
     'pricing-tiers': PricingTier;
     'add-ons': AddOn;
     'payload-kv': PayloadKv;
@@ -90,6 +92,8 @@ export interface Config {
     'consent-events': ConsentEventsSelect<false> | ConsentEventsSelect<true>;
     'team-members': TeamMembersSelect<false> | TeamMembersSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
+    services: ServicesSelect<false> | ServicesSelect<true>;
+    testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
     'pricing-tiers': PricingTiersSelect<false> | PricingTiersSelect<true>;
     'add-ons': AddOnsSelect<false> | AddOnsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -420,6 +424,103 @@ export interface Project {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services".
+ */
+export interface Service {
+  id: number;
+  /**
+   * Fixed. It selects the illustration and is the /services#… anchor, so changing it breaks both.
+   */
+  slug: string;
+  name: string;
+  /**
+   * lucide-react icon name. Only the names mapped in components/Icon.tsx render; anything else falls back to Globe.
+   */
+  icon: string;
+  summary: string;
+  description: string;
+  forWhom: string;
+  deliverables?:
+    | {
+        value: string;
+        id?: string | null;
+      }[]
+    | null;
+  techStack?:
+    | {
+        value: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * e.g. "3 to 6 weeks"
+   */
+  timeline: string;
+  /**
+   * Starting price. Number only, no symbol or commas. Also the price in the Service/Offer structured data.
+   */
+  amountUsd: number;
+  etbMode: 'amount' | 'custom';
+  /**
+   * Shown to visitors in Ethiopia. Ignored when custom.
+   */
+  amountEtb?: number | null;
+  /**
+   * A retainer prints the starting price as "/mo".
+   */
+  billing: 'project' | 'monthly';
+  /**
+   * Lists this service in the footer's Services column.
+   */
+  showInFooter?: boolean | null;
+  /**
+   * Fixed. Lower numbers appear first.
+   */
+  order: number;
+  published?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials".
+ */
+export interface Testimonial {
+  id: number;
+  name: string;
+  /**
+   * Their words, without surrounding quote marks. The card draws those.
+   */
+  quote: string;
+  /**
+   * Whole stars, 1 to 5.
+   */
+  rating: number;
+  /**
+   * Optional. Without one the card shows their initials.
+   */
+  photo?: string | null;
+  /**
+   * What makes them worth listening to. Include the organisation, e.g. "CEO at Three Roots International" or "Programme Director, ZOA Ethiopia".
+   */
+  role: string;
+  /**
+   * When they said it. Shown as the month and year.
+   */
+  date?: string | null;
+  /**
+   * Lower numbers appear first.
+   */
+  order: number;
+  /**
+   * Uncheck to hide without deleting.
+   */
+  published?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pricing-tiers".
  */
 export interface PricingTier {
@@ -527,6 +628,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'projects';
         value: number | Project;
+      } | null)
+    | ({
+        relationTo: 'services';
+        value: number | Service;
+      } | null)
+    | ({
+        relationTo: 'testimonials';
+        value: number | Testimonial;
       } | null)
     | ({
         relationTo: 'pricing-tiers';
@@ -789,6 +898,56 @@ export interface ProjectsSelect<T extends boolean = true> {
   recommendationUrl?: T;
   featured?: T;
   status?: T;
+  order?: T;
+  published?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services_select".
+ */
+export interface ServicesSelect<T extends boolean = true> {
+  slug?: T;
+  name?: T;
+  icon?: T;
+  summary?: T;
+  description?: T;
+  forWhom?: T;
+  deliverables?:
+    | T
+    | {
+        value?: T;
+        id?: T;
+      };
+  techStack?:
+    | T
+    | {
+        value?: T;
+        id?: T;
+      };
+  timeline?: T;
+  amountUsd?: T;
+  etbMode?: T;
+  amountEtb?: T;
+  billing?: T;
+  showInFooter?: T;
+  order?: T;
+  published?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials_select".
+ */
+export interface TestimonialsSelect<T extends boolean = true> {
+  name?: T;
+  quote?: T;
+  rating?: T;
+  photo?: T;
+  role?: T;
+  date?: T;
   order?: T;
   published?: T;
   updatedAt?: T;

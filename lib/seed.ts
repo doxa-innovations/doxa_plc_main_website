@@ -3,6 +3,8 @@ import type { Payload } from "payload";
 import { SITE } from "../content/site";
 import { TEAM } from "../content/team";
 import { PROJECTS } from "../content/projects";
+import { SERVICES } from "../content/services";
+import { DEV_TESTIMONIALS } from "../content/testimonials";
 import { PRICING_TIERS, ADD_ONS } from "../content/pricing";
 
 /**
@@ -19,9 +21,22 @@ import { PRICING_TIERS, ADD_ONS } from "../content/pricing";
 
 const list = (values: string[]) => values.map((value) => ({ value }));
 
+/**
+ * The gate on the sample testimonials.
+ *
+ * Read here rather than at call time so there is ONE place to look for "can
+ * invented content reach production". The standalone `server.js` hard-codes
+ * NODE_ENV=production, so a deployed container always takes the false branch;
+ * `next dev` and a bare `payload run` of the seed script do not set it to
+ * production, so both get the samples.
+ */
+const IS_PRODUCTION = process.env.NODE_ENV === "production";
+
 export type SeedCollection =
   | "team-members"
   | "projects"
+  | "services"
+  | "testimonials"
   | "pricing-tiers"
   | "add-ons";
 
@@ -103,6 +118,60 @@ export function seedRecords(): SeedRecord[] {
         published: true,
       },
     });
+  }
+
+  for (const [i, service] of SERVICES.entries()) {
+    records.push({
+      collection: "services",
+      matchField: "slug",
+      matchValue: service.slug,
+      data: {
+        slug: service.slug,
+        name: service.name,
+        icon: service.icon,
+        summary: service.summary,
+        description: service.description,
+        forWhom: service.forWhom,
+        deliverables: list(service.deliverables),
+        techStack: list(service.techStack),
+        timeline: service.timeline,
+        amountUsd: service.startingFrom.amount,
+        // The `number | "custom"` union splits into an explicit mode and a
+        // nullable amount, so "quoted per client" cannot be mistaken for "the
+        // ETB price has not been filled in".
+        etbMode: service.etStartingFrom === "custom" ? "custom" : "amount",
+        amountEtb:
+          service.etStartingFrom === "custom"
+            ? undefined
+            : service.etStartingFrom,
+        billing: service.billing,
+        showInFooter: service.showInFooter,
+        order: (i + 1) * 10,
+        published: true,
+      },
+    });
+  }
+
+  // Development only. See content/testimonials.ts: real quotes are entered in
+  // /olympus, and production ships the section empty until they exist.
+  if (!IS_PRODUCTION) {
+    for (const [i, testimonial] of DEV_TESTIMONIALS.entries()) {
+      records.push({
+        collection: "testimonials",
+        matchField: "name",
+        matchValue: testimonial.name,
+        data: {
+          name: testimonial.name,
+          quote: testimonial.quote,
+          rating: testimonial.rating,
+          photo: testimonial.photo || undefined,
+          role: testimonial.role,
+          date: testimonial.date ?? undefined,
+          order: (i + 1) * 10,
+          published: true,
+        },
+      });
+    }
   }
 
   for (const [i, tier] of PRICING_TIERS.entries()) {

@@ -9,16 +9,20 @@ import type {
   Address,
   PricingTier,
   Project,
+  Service,
   SiteConfig,
   TeamMember,
+  Testimonial,
 } from "@/content/types";
 import { getPayloadClient, IS_BUILD } from "@/lib/payload";
 import type {
   AddOn as AddOnDoc,
   PricingTier as PricingTierDoc,
   Project as ProjectDoc,
+  Service as ServiceDoc,
   SiteSetting,
   TeamMember as TeamMemberDoc,
+  Testimonial as TestimonialDoc,
 } from "@/payload-types";
 
 /**
@@ -42,6 +46,8 @@ import type {
 export const TAGS = {
   team: "content:team",
   projects: "content:projects",
+  services: "content:services",
+  testimonials: "content:testimonials",
   pricing: "content:pricing",
   site: "content:site",
 } as const;
@@ -99,6 +105,45 @@ function toProject(doc: ProjectDoc): Project {
   };
 }
 
+function toService(doc: ServiceDoc): Service {
+  return {
+    slug: doc.slug,
+    name: doc.name,
+    icon: doc.icon,
+    summary: doc.summary,
+    description: doc.description,
+    forWhom: doc.forWhom,
+    deliverables: readStringList(doc.deliverables),
+    techStack: readStringList(doc.techStack),
+    timeline: doc.timeline,
+    startingFrom: { amount: doc.amountUsd, currency: "USD" },
+    // "custom" is the stored intent, not an inference from a missing number.
+    // A null amount on an `amount`-mode service is a half-finished edit, and
+    // showing "Pricing: Custom" for it would hide the mistake rather than the
+    // price, so it falls back to custom but the two cases stay distinct in the
+    // database and in /olympus.
+    etStartingFrom:
+      doc.etbMode === "custom" ? "custom" : (doc.amountEtb ?? "custom"),
+    billing: doc.billing,
+    showInFooter: Boolean(doc.showInFooter),
+  };
+}
+
+function toTestimonial(doc: TestimonialDoc): Testimonial {
+  return {
+    id: String(doc.id),
+    quote: doc.quote,
+    name: doc.name,
+    // Clamped rather than trusted. The field is constrained to 1–5 in the
+    // collection, but rows written before a constraint changes would render a
+    // row of eleven stars rather than fail visibly.
+    rating: Math.max(1, Math.min(5, Math.round(doc.rating))),
+    photo: doc.photo ?? "",
+    role: doc.role,
+    date: doc.date ?? null,
+  };
+}
+
 function toPricingTier(doc: PricingTierDoc): PricingTier {
   return {
     name: doc.name,
@@ -125,7 +170,13 @@ function toAddOn(doc: AddOnDoc): AddOn {
 // --- Readers ----------------------------------------------------------------
 
 async function fetchAll<T>(
-  collection: "team-members" | "projects" | "pricing-tiers" | "add-ons",
+  collection:
+    | "team-members"
+    | "projects"
+    | "services"
+    | "testimonials"
+    | "pricing-tiers"
+    | "add-ons",
   map: (doc: never) => T,
 ): Promise<T[]> {
   // The Docker build has no database. Returning empty rather than throwing
@@ -156,6 +207,18 @@ export const getProjects = unstable_cache(
   () => fetchAll("projects", toProject as (d: never) => Project),
   ["content:projects"],
   { tags: [TAGS.projects], revalidate: REVALIDATE },
+);
+
+export const getServices = unstable_cache(
+  () => fetchAll("services", toService as (d: never) => Service),
+  ["content:services"],
+  { tags: [TAGS.services], revalidate: REVALIDATE },
+);
+
+export const getTestimonials = unstable_cache(
+  () => fetchAll("testimonials", toTestimonial as (d: never) => Testimonial),
+  ["content:testimonials"],
+  { tags: [TAGS.testimonials], revalidate: REVALIDATE },
 );
 
 export const getPricingTiers = unstable_cache(
