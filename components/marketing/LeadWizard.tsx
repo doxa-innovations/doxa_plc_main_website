@@ -27,6 +27,7 @@ import {
   PROJECT_TYPES,
   BUDGET_RANGES,
 } from "@/lib/validation";
+import { trackLead } from "@/lib/gtm";
 import { TurnstileWidget } from "@/components/TurnstileWidget";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -271,6 +272,10 @@ export function LeadWizard({
       const data = (await res.json()) as { ok?: boolean; error?: string };
       if (res.ok && data.ok) {
         form.reset();
+        // Same conversion as the contact page, tagged with which form it came
+        // from. One event name, so a GTM trigger does not need updating when a
+        // third entry point appears.
+        trackLead("home-wizard");
         router.push("/thank-you");
       } else {
         toast.error(data.error ?? "Something went wrong. Please try again.");

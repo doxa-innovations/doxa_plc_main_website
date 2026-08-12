@@ -79,6 +79,14 @@ The wizard mounts `TurnstileWidget` only on its last step, so scrolling past the
 - `lib/attribution.ts` — the daily-rotating salted hash of IP and user agent. **No IP is ever stored.**
 - `app/api/t/route.ts` — the visit beacon. Cookieless by default, so it measures people who decline cookies.
 - `app/api/consent/route.ts` — consent audit trail, and deletes the visitor cookie on withdrawal.
+- `lib/consent-mode.ts` — Google Consent Mode v2. Exports a script SOURCE as well as a function, because the all-denied default has to reach the dataLayer before the tag manager container loads. `app/layout.tsx` renders it as a raw inline `<script>` in the head; `next/script` cannot promise that ordering. It also reads the consent cookie synchronously, so a returning visitor is not stuck in the denied default until React hydrates. `SIGNAL_SOURCE` is the single source of truth both the inline script and the runtime path derive from — do not hand-write the signal list in either.
+- `lib/gtm.ts` — `trackLead()` pushes `generate_lead` from BOTH forms on a successful POST, never from `/thank-you`. That page is a plain URL anyone can open, reload or share, so a pageview-triggered conversion would report inflated numbers and ad bidding would optimise against them. The event deliberately carries no personal data.
+- `components/analytics/GoogleTagManager.tsx` — mounted in `(site)`, not the root layout, so /olympus staff sessions are not measured. Renders nothing unless `GTM_CONTAINER_ID` is set.
+
+**GA4 and Microsoft Clarity are configured INSIDE the container, not in this repo.** Two consequences worth knowing before you touch either:
+
+- **Consent Mode is a Google-only protocol.** GA4 and Google Ads read the signals `lib/consent-mode.ts` pushes and hold themselves back. Clarity does not, and will record every visitor including those who declined, unless its tag carries GTM's **Additional Consent Checks** requiring `analytics_storage`. That checkbox is the entire gate, it lives in a web UI with no code review, and nothing in this repo can enforce it.
+- **The privacy policy names the vendors.** `app/(site)/privacy/page.tsx` lists Google and Microsoft, and describes session recording specifically. Publishing a tag that collects something new makes that page wrong, and needs a `CONSENT_POLICY_VERSION` bump in `lib/consent.ts` — which re-asks every visitor, by design.
 
 ## Traps that have already cost time
 
@@ -122,6 +130,7 @@ Copy `.env.example` to `.env`.
 - **Database:** `DATABASE_URI`, `PAYLOAD_SECRET`. `PAYLOAD_SECRET` is also required at build time; the Dockerfile passes a throwaway value inline so the real one never enters the image.
 - **Email:** `SMTP_*` only. There is no recipient env var: both the customer confirmation's `Reply-To` and the company notification's `To` are `site.email` from the CMS, so the address is changed in `/olympus` and in one place. `CONTACT_NOTIFY_TO` and `CONTACT_TO` are gone; setting them now does nothing. Locally, point SMTP at Mailpit on 1025 so development never sends real mail to a real person.
 - **Media:** `R2_BUCKET`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_ENDPOINT`, `R2_PUBLIC_URL`. Uploads are disabled when `R2_BUCKET` is unset, so local development works without credentials.
+- **Google Tag Manager:** `GTM_CONTAINER_ID` only. Unset means nothing Google-owned is requested at all, which is the correct state until someone is actually running ads. GA4, Ads conversions and everything else are configured inside the container, not in this repo. Note the missing `NEXT_PUBLIC_` prefix, for the same reason `TURNSTILE_SITE_KEY` lacks one: that prefix resolves at BUILD time and the Docker build has no environment variables, so the id would compile to an empty string. It is read at request time by a server component instead, which is safe because every `(site)` route is dynamic.
 - `FORCE_COUNTRY` previews the Ethiopian view. **Analytics deliberately ignores it** (`countryFromHeaders` vs `getCountryCode` in `lib/geo.ts`), or a value left set in production would mislabel all traffic.
 
 ## Deployment

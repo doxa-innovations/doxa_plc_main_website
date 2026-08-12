@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { SITE } from "@/content/site";
 import { Toaster } from "@/components/ui/sonner";
+import { consentBootstrapScript } from "@/lib/consent-mode";
 
 const georama = localFont({
   variable: "--font-georama",
@@ -73,6 +74,21 @@ export default function RootLayout({
     <html lang="en" className={`dark ${georama.variable}`}>
       <head>
         <link rel="preconnect" href="https://cdn.doxaplc.com" crossOrigin="" />
+        {/* Google Consent Mode defaults, inline and first.
+
+            This has to execute before the tag manager container does, and it
+            has to be a raw inline script rather than next/script to get that
+            guarantee: `beforeInteractive` is only permitted in this file and
+            only promises to run before Next's own code, whereas an inline
+            script in the head runs during HTML parsing, full stop.
+
+            It lives in the ROOT layout while the container itself is mounted
+            in `(site)` — the split is what makes the ordering unconditional.
+            Costing a few hundred bytes and no network request, it is cheap
+            enough to ship on /olympus too. */}
+        <script
+          dangerouslySetInnerHTML={{ __html: consentBootstrapScript() }}
+        />
       </head>
       <body className="min-h-dvh bg-surface font-sans text-ink antialiased">
         {children}

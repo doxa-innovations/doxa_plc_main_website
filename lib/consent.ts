@@ -12,7 +12,13 @@
  * legally required behaviour: consent is given against a specific description
  * of processing, so changing the processing voids the old answer.
  */
-export const CONSENT_POLICY_VERSION = 1;
+/*
+ * 1 → 2: Google Analytics and Microsoft Clarity were added behind the
+ * Analytics toggle. Clarity records sessions — pointer movement, clicks,
+ * scrolling — and replays them. Nobody who ticked "Analytics" in version 1 was
+ * agreeing to be recorded, so their answer does not carry over.
+ */
+export const CONSENT_POLICY_VERSION = 2;
 
 export const CONSENT_COOKIE = "doxa_consent";
 

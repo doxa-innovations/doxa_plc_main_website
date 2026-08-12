@@ -239,8 +239,9 @@ export function ConsentManager() {
             <p className="mt-1.5 text-sm text-ink-muted">
               That part works without storing anything on your device, so it
               runs either way. Optional cookies let us recognise a returning
-              visit across days and measure our ads. They stay off unless you
-              turn them on.{" "}
+              visit across days, record how pages are used so we can see where
+              they confuse people, and measure our ads. They stay off unless
+              you turn them on.{" "}
               <a
                 href="/privacy"
                 className="text-brand underline underline-offset-4 hover:text-glow"
@@ -296,9 +297,13 @@ export function ConsentManager() {
               checked
               disabled
             />
+            {/* This wording has to state the session recording outright.
+                "Analytics" reads to most people as counting, and Clarity
+                replays the actual visit — agreeing to one is not agreeing to
+                the other unless we say so. */}
             <Row
               title="Analytics"
-              body="Recognises a returning visit across days, instead of only within one session."
+              body="Recognises a returning visit across days, and records how pages are used, including a replay of mouse movement, clicks and scrolling."
               checked={draft.analytics}
               onChange={(analytics) => setDraft((d) => ({ ...d, analytics }))}
             />

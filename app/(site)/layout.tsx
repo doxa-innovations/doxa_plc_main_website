@@ -2,6 +2,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { ConsentManager } from "@/components/consent/ConsentManager";
+import { GoogleTagManager } from "@/components/analytics/GoogleTagManager";
 import { getSite } from "@/lib/content";
 import { isEthiopianVisitor } from "@/lib/geo";
 import { RouteLoaderProvider } from "@/components/loading/RouteLoaderProvider";
@@ -56,6 +57,9 @@ export default async function SiteLayout({
         </div>
         <ConsentManager />
       </RouteLoaderProvider>
+      {/* Renders nothing unless GTM_CONTAINER_ID is set. Scoped to the public
+          site so admin sessions at /olympus are not measured as traffic. */}
+      <GoogleTagManager />
     </>
   );
 }

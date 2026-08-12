@@ -12,6 +12,7 @@ import {
   PROJECT_TYPES,
   BUDGET_RANGES,
 } from "@/lib/validation";
+import { trackLead } from "@/lib/gtm";
 import {
   Form,
   FormControl,
@@ -75,6 +76,9 @@ export function ContactForm({
       const data = (await res.json()) as { ok?: boolean; error?: string };
       if (res.ok && data.ok) {
         form.reset();
+        // Fired here, not on /thank-you: that page is a plain URL that can be
+        // opened, reloaded or shared without an enquiry behind it.
+        trackLead("contact-page");
         router.push("/thank-you");
       } else {
         toast.error(data.error ?? "Something went wrong. Please try again.");
