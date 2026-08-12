@@ -37,7 +37,9 @@ const DESTINATIONS = [
   map.getPin({ lat: 40.7, lng: -74 }), // United States
   map.getPin({ lat: 52.1, lng: 5.3 }), // Netherlands
   map.getPin({ lat: 52.52, lng: 13.4 }), // Germany
-  map.getPin({ lat: 1.35, lng: 103.82 }), // Singapore
+  // Beijing, not Singapore. At this grid resolution a pin on the equator at
+  // 103°E snaps onto the Sumatra/Borneo dots and reads as Indonesia.
+  map.getPin({ lat: 39.9, lng: 116.4 }), // China
   map.getPin({ lat: -23.55, lng: -46.63 }), // Brazil
   map.getPin({ lat: -33.87, lng: 151.21 }), // Australia
 ].filter((p): p is NonNullable<typeof p> => Boolean(p));

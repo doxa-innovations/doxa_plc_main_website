@@ -95,9 +95,51 @@ function CardFrame({
 }
 
 /**
+ * Manual control for the deck: one dot per project, the active one stretched
+ * into a pill. The hit area is the padded button, not the 6px dot, so it stays
+ * tappable on a phone.
+ */
+function Dots({
+  projects,
+  active,
+  onSelect,
+}: {
+  projects: ShowcaseItem[];
+  active: number;
+  onSelect: (i: number) => void;
+}) {
+  if (projects.length < 2) return null;
+  return (
+    <div className="mt-8 flex items-center justify-center gap-1 sm:mt-6">
+      {projects.map((project, i) => (
+        <button
+          key={project.slug}
+          type="button"
+          onClick={() => onSelect(i)}
+          aria-label={`Show ${project.client}, ${project.title}`}
+          aria-current={i === active}
+          // p-2.5 around a 6px dot is what carries the button past the 24px
+          // minimum tap target; the dot itself is deliberately smaller.
+          className="group grid cursor-pointer place-items-center rounded-full p-2.5 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-brand"
+        >
+          <span
+            className={`h-1.5 rounded-full transition-[width,background-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+              i === active
+                ? "w-6 bg-brand"
+                : "w-1.5 bg-white/25 group-hover:bg-white/50"
+            }`}
+          />
+        </button>
+      ))}
+    </div>
+  );
+}
+
+/**
  * Auto-rotating "deck of cards" showcase. The cards continuously cycle which
- * project sits in the center (front). Works for any number of projects (up to
- * five are visible at a time, center plus two a side).
+ * project sits in the center (front), and the dots underneath jump straight to
+ * one. Works for any number of projects (up to five are visible at a time,
+ * center plus two a side).
  */
 export function HeroShowcase({
   projects,
@@ -110,6 +152,15 @@ export function HeroShowcase({
   const n = projects.length;
   const [active, setActive] = useState(initialIndex);
   const [isMobile, setIsMobile] = useState(false);
+  // Bumped on every dot press. It is a dependency of the rotate effect purely
+  // so the interval restarts: without it a click made a quarter-second before
+  // the tick would flick straight past the card the visitor just chose.
+  const [picks, setPicks] = useState(0);
+
+  function goTo(i: number) {
+    setActive(i);
+    setPicks((p) => p + 1);
+  }
 
   // Mobile uses a centered vertical card-stack instead of the horizontal fan.
   useEffect(() => {
@@ -131,7 +182,7 @@ export function HeroShowcase({
       ROTATE_MS,
     );
     return () => clearInterval(id);
-  }, [reduce, n, dir]);
+  }, [reduce, n, dir, picks]);
 
   // Signed offset of card i from the active one, wrapped to the nearest side.
   function rel(i: number) {
@@ -140,62 +191,71 @@ export function HeroShowcase({
     return d;
   }
 
-  // Reduced motion: a single static centered card, no rotation.
+  // Reduced motion: a single static centered card. Nothing rotates on its own,
+  // which makes the dots the only way through the deck rather than a shortcut.
   if (reduce) {
     return (
-      <div className="relative mx-auto mt-10 flex h-[18rem] w-full items-center justify-center sm:mt-16 sm:h-[20rem] md:h-[22rem] lg:h-[24rem]">
-        <div className="w-[86vw] max-w-[22rem] sm:w-[500px] sm:max-w-[90vw]">
-          <CardFrame project={projects[active]} priority />
+      <div className="mt-10 sm:mt-16">
+        <div className="relative mx-auto flex h-[18rem] w-full items-center justify-center sm:h-[20rem] md:h-[22rem] lg:h-[24rem]">
+          <div className="w-[86vw] max-w-[22rem] sm:w-[500px] sm:max-w-[90vw]">
+            <CardFrame project={projects[active]} priority />
+          </div>
         </div>
+        <Dots projects={projects} active={active} onSelect={goTo} />
       </div>
     );
   }
 
   return (
-    <div className="relative mx-auto mt-10 h-[18rem] w-full sm:mt-16 sm:h-[20rem] md:h-[22rem] lg:h-[24rem]">
-      {projects.map((project, i) => {
-        // Mobile: centered vertical stack, depth 0 = front.
-        if (isMobile) {
-          const d = (i - active + n) % n;
-          const v = mobileVariant(d);
+    <div className="mt-10 sm:mt-16">
+      <div className="relative mx-auto h-[18rem] w-full sm:h-[20rem] md:h-[22rem] lg:h-[24rem]">
+        {projects.map((project, i) => {
+          // Mobile: centered vertical stack, depth 0 = front.
+          if (isMobile) {
+            const d = (i - active + n) % n;
+            const v = mobileVariant(d);
+            return (
+              <div
+                key={project.slug}
+                className="absolute inset-0 flex items-center justify-center"
+                style={{ zIndex: n - d }}
+              >
+                <motion.div
+                  className="w-[86vw] max-w-[22rem] will-change-transform"
+                  animate={v}
+                  transition={{ duration: 0.55, ease: EASE }}
+                >
+                  <CardFrame project={project} priority={d === 0} />
+                </motion.div>
+              </div>
+            );
+          }
+
+          // Desktop: horizontal fan.
+          const off = rel(i);
+          const v = variantFor(off);
           return (
             <div
               key={project.slug}
               className="absolute inset-0 flex items-center justify-center"
-              style={{ zIndex: n - d }}
+              style={{ zIndex: off === 0 ? 30 : 30 - Math.abs(off) * 4 }}
             >
               <motion.div
-                className="w-[86vw] max-w-[22rem] will-change-transform"
+                className={`will-change-transform ${
+                  off === 0
+                    ? "w-[500px] max-w-[90vw]"
+                    : "w-[400px] max-w-[72vw]"
+                }`}
                 animate={v}
-                transition={{ duration: 0.55, ease: EASE }}
+                transition={{ duration: 0.6, ease: EASE }}
               >
-                <CardFrame project={project} priority={d === 0} />
+                <CardFrame project={project} priority={off === 0} />
               </motion.div>
             </div>
           );
-        }
-
-        // Desktop: horizontal fan.
-        const off = rel(i);
-        const v = variantFor(off);
-        return (
-          <div
-            key={project.slug}
-            className="absolute inset-0 flex items-center justify-center"
-            style={{ zIndex: off === 0 ? 30 : 30 - Math.abs(off) * 4 }}
-          >
-            <motion.div
-              className={`will-change-transform ${
-                off === 0 ? "w-[500px] max-w-[90vw]" : "w-[400px] max-w-[72vw]"
-              }`}
-              animate={v}
-              transition={{ duration: 0.6, ease: EASE }}
-            >
-              <CardFrame project={project} priority={off === 0} />
-            </motion.div>
-          </div>
-        );
-      })}
+        })}
+      </div>
+      <Dots projects={projects} active={active} onSelect={goTo} />
     </div>
   );
 }

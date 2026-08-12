@@ -101,7 +101,7 @@ export function Hero({
           </motion.p>
         </motion.div>
 
-        {/* Auto-rotating deck: hover any card to slide it to the front */}
+        {/* Auto-rotating deck: the dots under it jump to a card by hand */}
         <HeroShowcase projects={showcase} initialIndex={initialIndex} />
       </Container>
     </section>
