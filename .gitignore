@@ -51,3 +51,11 @@ next-env.d.ts
 
 # Local dev image uploads. Production writes to R2 instead.
 /public/uploads
+
+# Team headshots staged for CDN upload, not web assets. Named individually
+# rather than /public/*.png, because office_planning.png, workers.png and
+# everything under /public/work are tracked and a glob would swallow the next
+# one silently. Gedion--older.png is an 11.7 MB 4600x4111 original; content/
+# team.ts serves both faces from cdn.doxaplc.com, so neither belongs in git.
+/public/Ephrem.png
+/public/Gedion--older.png
