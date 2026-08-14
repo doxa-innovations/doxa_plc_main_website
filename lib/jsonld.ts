@@ -182,6 +182,32 @@ export function personSchema(member: TeamMember) {
   };
 }
 
+/**
+ * A named list of links to pages that describe the items properly elsewhere.
+ *
+ * Used on the home page for the services band and the work showcase. An
+ * ItemList rather than a second set of full Service nodes on purpose: the
+ * canonical descriptions live on /services and /works/<slug>, and repeating
+ * them on the home page would leave two pages competing to describe the same
+ * thing rather than one pointing at the other.
+ */
+export function itemListSchema(
+  name: string,
+  items: { name: string; url: string }[],
+) {
+  return {
+    "@type": "ItemList",
+    name,
+    numberOfItems: items.length,
+    itemListElement: items.map((item, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: item.name,
+      url: item.url,
+    })),
+  };
+}
+
 export function breadcrumbSchema(items: { name: string; path: string }[]) {
   return {
     "@type": "BreadcrumbList",

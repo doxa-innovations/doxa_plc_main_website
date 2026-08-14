@@ -154,6 +154,13 @@ export interface Project {
   order: number;
   /** Direct link to this project's recommendation letter, if it has its own. */
   recommendationUrl?: string;
+  /**
+   * ISO timestamp of the last CMS edit, straight from Payload. Carried purely
+   * so app/sitemap.ts can emit <lastmod>, which is the one hint Google acts on
+   * when deciding what to recrawl. Absent for a project that only exists as
+   * seed data.
+   */
+  updatedAt?: string;
 }
 
 export interface TeamMember {

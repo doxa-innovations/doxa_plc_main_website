@@ -102,6 +102,7 @@ function toProject(doc: ProjectDoc): Project {
     status: doc.status,
     order: doc.order,
     recommendationUrl: doc.recommendationUrl || undefined,
+    updatedAt: doc.updatedAt,
   };
 }
 

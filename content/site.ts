@@ -13,8 +13,16 @@ export const SITE: SiteConfig = {
     "",
   ),
   tagline: "Software Excellence, Business Success.",
+  // 153 characters, and it has to stay under about 155: this is the meta
+  // description on every route without its own, and Google truncates the rest.
+  // The previous version ran to 242 and was cut mid-sentence in results.
+  //
+  // globals/SiteSettings.ts has no `description` field, so getSite() cannot
+  // override this. Editing it here changes the meta description, the OG and
+  // Twitter descriptions, and the Organization and WebSite JSON-LD together —
+  // no /olympus edit and no seed:content run.
   description:
-    "Doxa Innovations is a legally registered Ethiopian software company building websites, e-commerce stores, and custom software tools for small and medium businesses in the US, EU, Asia, and beyond, at 40-70% below typical Western agency rates.",
+    "Legally registered Ethiopian software company building websites, e-commerce stores and custom software for clients worldwide, 40-70% below Western rates.",
   email: "company@doxaplc.com",
   phone: "+251 961 412 909",
   phone2: "+251 989 932 714",

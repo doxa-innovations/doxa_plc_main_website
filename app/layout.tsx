@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { SITE } from "@/content/site";
@@ -23,8 +23,12 @@ const georama = localFont({
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
+  // 50 characters. The legal name was in here, which pushed it to 76 and got
+  // it cut in results at roughly 60. It still reaches crawlers through
+  // og:site_name, the JSON-LD legalName, and the footer, so nothing is lost
+  // but the truncation.
   title: {
-    default: `${SITE.legalName}, Affordable Software Outsourcing`,
+    default: `Affordable Software Outsourcing · ${SITE.name}`,
     template: `%s · ${SITE.name}`,
   },
   description: SITE.description,
@@ -49,7 +53,7 @@ export const metadata: Metadata = {
     siteName: SITE.legalName,
     locale: "en_US",
     url: SITE.url,
-    title: `${SITE.legalName}, Affordable Software Outsourcing`,
+    title: `Affordable Software Outsourcing · ${SITE.name}`,
     description: SITE.description,
   },
   twitter: {
@@ -57,6 +61,14 @@ export const metadata: Metadata = {
     title: SITE.legalName,
     description: SITE.description,
   },
+};
+
+/**
+ * The body ships `dark` on <html> unconditionally, so mobile browsers should
+ * paint their chrome to match rather than guessing from a default white.
+ */
+export const viewport: Viewport = {
+  themeColor: "#19003a",
 };
 
 /**

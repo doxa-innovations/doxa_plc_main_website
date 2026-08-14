@@ -73,9 +73,22 @@ export function Hero({
             <span className="text-brand">built to last.</span>
           </motion.h1>
 
+          {/* The headline is deliberately about tone, which left nothing above
+              the fold saying what the company actually sells — the h1 is the
+              strongest on-page signal there is and it named neither the work
+              nor the country. This carries that, so the line above does not
+              have to. */}
+          <motion.p
+            variants={item}
+            className="mx-auto mt-5 max-w-2xl text-balance text-base text-ink-muted sm:text-lg"
+          >
+            A legally registered Ethiopian software company building websites,
+            online stores and custom tools for businesses worldwide.
+          </motion.p>
+
           <motion.div
             variants={item}
-            className="mt-9 flex flex-wrap items-center justify-center gap-3"
+            className="mt-7 flex flex-wrap items-center justify-center gap-3"
           >
             <Link
               href="/contact"

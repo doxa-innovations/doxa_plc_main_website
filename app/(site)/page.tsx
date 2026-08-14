@@ -23,6 +23,8 @@ import {
   getTestimonials,
 } from "@/lib/content";
 import { turnstileSiteKey } from "@/lib/turnstile";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { graph, itemListSchema } from "@/lib/jsonld";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { SectionHeading } from "@/components/SectionHeading";
@@ -437,6 +439,33 @@ export default async function HomePage() {
           </div>
         </Section>
       )}
+
+      {/* The home page renders services and work but described neither: the
+          only structured data reaching it was the site-wide graph inherited
+          from (site)/layout.tsx, which says nothing about this page.
+          Both lists are built from the same arrays the sections above render.
+
+          The testimonials are deliberately NOT expressed as an AggregateRating
+          on the Organization. A rating you publish about yourself is ignored
+          by Google at best and a structured-data policy violation at worst. */}
+      <JsonLd
+        schema={graph(
+          itemListSchema(
+            "Services",
+            services.map((s) => ({
+              name: s.name,
+              url: `${site.url}/services#${s.slug}`,
+            })),
+          ),
+          itemListSchema(
+            "Selected work",
+            featured.map((p) => ({
+              name: `${p.client}, ${p.title}`,
+              url: `${site.url}/works/${p.slug}`,
+            })),
+          ),
+        )}
+      />
     </>
   );
 }

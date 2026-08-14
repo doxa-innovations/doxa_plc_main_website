@@ -11,7 +11,7 @@ import { CountryFlag } from "@/components/CountryFlag";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { creativeWorkSchema, graph } from "@/lib/jsonld";
+import { breadcrumbSchema, creativeWorkSchema, graph } from "@/lib/jsonld";
 
 type Params = Promise<{ slug: string }>;
 
@@ -249,7 +249,20 @@ export default async function ProjectPage({ params }: { params: Params }) {
         </div>
       </Section>
 
-      <JsonLd schema={graph(creativeWorkSchema(project))} />
+      {/* The breadcrumb is here and nowhere else: this is the only route deep
+          enough for the trail to say anything Google would render under the
+          result. The labels have to match the visible navigation, so "Our
+          Work" is the nav's wording, not the URL segment. */}
+      <JsonLd
+        schema={graph(
+          creativeWorkSchema(project),
+          breadcrumbSchema([
+            { name: "Home", path: "/" },
+            { name: "Our Work", path: "/works" },
+            { name: project.client, path: `/works/${project.slug}` },
+          ]),
+        )}
+      />
     </>
   );
 }
