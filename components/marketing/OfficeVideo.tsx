@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   Play,
@@ -170,9 +171,16 @@ export function OfficeVideo({
             iframe, no YouTube script, no request to Google at all. */}
         {!activated &&
           (poster ? (
-            <img
+            // Through next/image: the poster on the CDN is a full-size JPEG
+            // (~182 KiB) for a frame drawn at most 1024px wide, and it is the
+            // whole visual before the first press. `fill` because the stage
+            // sizes itself, and the mini-player reuses the same element at a
+            // fraction of the size.
+            <Image
               src={poster}
               alt=""
+              fill
+              sizes="(max-width:768px) 100vw, 1024px"
               className="size-full object-cover"
               aria-hidden
             />
