@@ -4,9 +4,20 @@ import { Badge } from "@/components/ui/badge";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { graph, personSchema } from "@/lib/jsonld";
 
+/**
+ * `card-lift` rather than a hover of its own, so this matches the founder panel
+ * on the same page: the same 4px rise, the same border lift, and the same
+ * violet glow pooling underneath. It used to rise half as far with no glow at
+ * all, and carried `hover:bg-panel` on top of `bg-panel` — a no-op — so the
+ * card barely reacted next to the founders above it.
+ *
+ * The shared class is also where the glow's arithmetic is documented (see
+ * globals.css): the negative spread means a tile under 60px tall paints no
+ * shadow at all. These cards are far taller than that.
+ */
 function TeamCard({ member, showBio }: { member: TeamMember; showBio: boolean }) {
   return (
-    <div className="group flex flex-col items-center rounded-[1.4rem] border border-line bg-panel p-6 text-center transition-[transform,border-color,background-color] duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 hover:border-line-strong hover:bg-panel">
+    <div className="card-lift group flex flex-col items-center rounded-[1.4rem] border border-line bg-panel p-6 text-center">
       <div className="relative size-28 overflow-hidden rounded-full bg-surface-muted ring-2 ring-pj-secondary/30">
         <Image
           src={member.photo}
