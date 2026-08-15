@@ -106,7 +106,10 @@ export const SITE: SiteConfig = {
     ],
     legal: [
       { label: "Legal & Trust", href: "/legal" },
-      { label: "FAQ", href: "/faq" },
+      // PAUSED with the page — /faq answers with a 404 until the FAQ clips are
+      // filmed, and a footer link to a 404 is on every page of the site.
+      // Restore alongside app/(site)/faq/page.tsx.
+      // { label: "FAQ", href: "/faq" },
       { label: "Privacy", href: "/privacy" },
       { label: "Terms", href: "/terms" },
     ],

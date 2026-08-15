@@ -175,11 +175,13 @@ const PAGES: { path: string; title: string; note: string }[] = [
     title: "Team",
     note: "The people who do the work, named, with their expertise.",
   },
-  {
-    path: "/faq",
-    title: "FAQ",
-    note: "The questions international clients ask most, answered on video.",
-  },
+  // PAUSED with the page — pointing a model at a 404 is worse than omitting
+  // the line. Restore alongside app/(site)/faq/page.tsx.
+  // {
+  //   path: "/faq",
+  //   title: "FAQ",
+  //   note: "The questions international clients ask most, answered on video.",
+  // },
   {
     path: "/legal",
     title: "Legal & Trust",

@@ -12,9 +12,8 @@ import {
 import { buildMetadata } from "@/lib/metadata";
 import { isEthiopianVisitor } from "@/lib/geo";
 import {
-  WALKTHROUGH_VIDEO,
+  WALKTHROUGH_YOUTUBE_ID,
   WALKTHROUGH_POSTER,
-  WALKTHROUGH_CAPTIONS,
 } from "@/content/media";
 import {
   getProjects,
@@ -253,9 +252,8 @@ export default async function HomePage() {
             which a transformed scroll-reveal ancestor would break. */}
         <div className="mt-12">
           <OfficeVideo
-            src={WALKTHROUGH_VIDEO}
+            videoId={WALKTHROUGH_YOUTUBE_ID}
             poster={WALKTHROUGH_POSTER}
-            captions={WALKTHROUGH_CAPTIONS}
             title="A walkthrough of the Doxa Innovations office in Bishoftu"
           />
         </div>

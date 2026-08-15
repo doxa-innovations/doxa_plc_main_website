@@ -12,6 +12,7 @@ import {
   X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useYouTubePlayer } from "./useYouTubePlayer";
 
 function fmt(t: number) {
   if (!Number.isFinite(t) || t < 0) return "0:00";
@@ -24,12 +25,22 @@ const ctrlBtn =
   "grid size-9 place-items-center rounded-full border border-line bg-panel-strong text-ink transition-colors hover:border-pj-secondary/50 hover:bg-pj-secondary/20 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pj-secondary";
 
 /**
- * Branded, fully custom video player for the "A look inside Doxa" walkthrough.
- * Plays inline in its own player (no native chrome). Once it has been started
- * and the user scrolls it out of view, the same <video> element re-docks to a
- * floating mini-player in the corner so playback continues while they browse.
- * Floating relies on `position: fixed`, so this must not sit under a
- * transformed / backdrop-filtered ancestor (it is rendered outside <Reveal>).
+ * Branded, fully custom player for the walkthrough clips.
+ *
+ * The video is hosted on YouTube and played through the IFrame Player API with
+ * `controls: 0`, so none of this UI is YouTube's — the play button, scrubber,
+ * mute and fullscreen below are ours, driving their player through
+ * useYouTubePlayer. An iframe is the only supported way to play a YouTube
+ * video; it is not the only way to LOOK like YouTube, and this does not.
+ *
+ * Nothing loads from Google until the visitor presses play. Until then the
+ * stage is just a poster image, which is why `poster` matters: it is the whole
+ * pre-click experience, not a decoration.
+ *
+ * Once started and scrolled out of view, the player re-docks to a floating
+ * mini-player in the corner so playback continues while they browse. Floating
+ * relies on `position: fixed`, so this must not sit under a transformed /
+ * backdrop-filtered ancestor (it is rendered outside <Reveal>).
  *
  * Its Section also needs a z-index above the sections that follow it. `Section`
  * is `isolate`, which traps this component's z-[60] inside that one band — so
@@ -37,32 +48,44 @@ const ctrlBtn =
  * moment you scrolled past the video.
  */
 export function OfficeVideo({
-  src,
+  videoId,
   poster,
-  captions,
   title,
 }: {
-  src: string;
+  /** YouTube video id, e.g. the `awuPRpS0Cqw` in a youtu.be link. */
+  videoId: string;
   poster?: string;
-  captions?: string;
   title: string;
 }) {
-  const videoRef = useRef<HTMLVideoElement>(null);
   const playerRef = useRef<HTMLDivElement>(null);
   const anchorRef = useRef<HTMLDivElement>(null);
 
-  const [playing, setPlaying] = useState(false);
-  const [started, setStarted] = useState(false);
-  const [muted, setMuted] = useState(false);
-  const [current, setCurrent] = useState(0);
-  const [duration, setDuration] = useState(0);
+  const {
+    containerRef,
+    activated,
+    playing,
+    muted,
+    current,
+    duration,
+    activate,
+    toggle,
+    stop,
+    toggleMute,
+    seek,
+  } = useYouTubePlayer(videoId);
+
   const [ratio, setRatio] = useState(1);
   const [dismissed, setDismissed] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   // Float once the player has been started, the user hasn't dismissed it, and
   // the inline anchor has mostly scrolled off screen.
-  const floating = started && !dismissed && ratio < 0.25;
+  const floating = activated && !dismissed && ratio < 0.25;
+
+  // Falls back to YouTube's own thumbnail. That IS a request to Google before
+  // any click, unlike the iframe — supply a poster to avoid it entirely.
+  const still =
+    poster ?? `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`;
 
   useEffect(() => {
     const el = anchorRef.current;
@@ -82,40 +105,13 @@ export function OfficeVideo({
   }, []);
 
   const togglePlay = useCallback(() => {
-    const v = videoRef.current;
-    if (!v) return;
-    if (v.paused) {
-      // Pressing play is the only thing that re-arms the mini player. The
-      // observer used to clear `dismissed` whenever the anchor came back into
-      // view, which meant closing it while ABOVE the video and then scrolling
-      // down re-opened it on the way past — the close never held.
-      setDismissed(false);
-      void v.play();
-    } else {
-      v.pause();
-    }
-  }, []);
-
-  const stop = useCallback(() => {
-    const v = videoRef.current;
-    if (!v) return;
-    v.pause();
-    v.currentTime = 0;
-  }, []);
-
-  const toggleMute = useCallback(() => {
-    const v = videoRef.current;
-    if (!v) return;
-    v.muted = !v.muted;
-    setMuted(v.muted);
-  }, []);
-
-  const seek = useCallback((value: number) => {
-    const v = videoRef.current;
-    if (!v) return;
-    v.currentTime = value;
-    setCurrent(value);
-  }, []);
+    // Pressing play is the only thing that re-arms the mini player. The
+    // observer used to clear `dismissed` whenever the anchor came back into
+    // view, which meant closing it while ABOVE the video and then scrolling
+    // down re-opened it on the way past — the close never held.
+    if (!playing) setDismissed(false);
+    toggle();
+  }, [playing, toggle]);
 
   const toggleFullscreen = useCallback(() => {
     if (document.fullscreenElement) void document.exitFullscreen();
@@ -127,9 +123,9 @@ export function OfficeVideo({
   }, []);
 
   const dismiss = useCallback(() => {
-    videoRef.current?.pause();
+    if (playing) toggle();
     setDismissed(true);
-  }, []);
+  }, [playing, toggle]);
 
   return (
     <div ref={anchorRef} className="relative aspect-video w-full">
@@ -167,44 +163,46 @@ export function OfficeVideo({
             : "absolute inset-0 rounded-[1.4rem] border border-line",
         )}
       >
-        <video
-          ref={videoRef}
-          src={src}
-          poster={poster}
-          playsInline
-          preload="metadata"
-          aria-label={title}
-          className="size-full cursor-pointer object-cover"
-          onClick={togglePlay}
-          onPlay={() => {
-            setPlaying(true);
-            setStarted(true);
-          }}
-          onPause={() => setPlaying(false)}
-          onEnded={() => setPlaying(false)}
-          onTimeUpdate={(e) => setCurrent(e.currentTarget.currentTime)}
-          onLoadedMetadata={(e) => setDuration(e.currentTarget.duration)}
-          onVolumeChange={(e) => setMuted(e.currentTarget.muted)}
-        >
-          {captions && (
-            <track
-              kind="captions"
-              src={captions}
-              srcLang="en"
-              label="English"
-              default
-            />
-          )}
-        </video>
+        {/* Before the first press this is a still image and nothing else — no
+            iframe, no YouTube script, no request to Google at all. */}
+        {!activated && (
+          <img
+            src={still}
+            alt=""
+            className="size-full object-cover"
+            aria-hidden
+          />
+        )}
 
-        {/* Center play button (visible whenever paused) */}
-        {!playing && (
-          <button
-            type="button"
-            onClick={togglePlay}
-            aria-label={current > 0 ? "Resume video" : "Play video"}
-            className="absolute inset-0 grid place-items-center bg-deep/30 transition-colors hover:bg-deep/20 focus-visible:outline-none"
-          >
+        {/* The API replaces this div with the iframe. `pointer-events-none` is
+            what keeps the player ours: every click lands on our own controls
+            above instead of YouTube's click-through to their watch page. */}
+        <div className="pointer-events-none absolute inset-0">
+          <div ref={containerRef} />
+        </div>
+
+        {/* Whole-stage click target, so clicking the picture toggles playback
+            the way clicking a <video> used to. It sits BEFORE the control bar
+            in the DOM, so the bar still takes its own clicks. */}
+        <button
+          type="button"
+          onClick={activated ? togglePlay : activate}
+          // Names the clip rather than saying "video". This button is the only
+          // thing describing what is about to play — the poster is decorative
+          // and the iframe is hidden from the tree.
+          aria-label={
+            playing
+              ? `Pause ${title}`
+              : current > 0
+                ? `Resume ${title}`
+                : `Play ${title}`
+          }
+          className={cn(
+            "absolute inset-0 grid place-items-center transition-colors focus-visible:outline-none",
+            playing ? "bg-transparent" : "bg-deep/30 hover:bg-deep/20",
+          )}
+        >
+          {!playing && (
             <span
               className={cn(
                 "grid place-items-center rounded-full bg-pj-primary text-white shadow-[0_18px_50px_-12px_rgba(120,81,169,0.95)] transition-transform duration-200 group-hover:scale-105",
@@ -217,8 +215,8 @@ export function OfficeVideo({
                 aria-hidden
               />
             </span>
-          </button>
-        )}
+          )}
+        </button>
 
         {/* Floating-only: return + close */}
         {floating && (

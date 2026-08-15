@@ -25,7 +25,10 @@ const STATIC_ROUTES = [
   "/team",
   "/contact",
   "/legal",
-  "/faq",
+  // PAUSED with the page. Submitting a URL that answers 404 is a crawl error
+  // in Search Console, not a neutral extra line. Restore alongside
+  // app/(site)/faq/page.tsx.
+  // "/faq",
   "/privacy",
   "/terms",
 ];

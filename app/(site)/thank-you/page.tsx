@@ -1,17 +1,14 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { buildMetadata } from "@/lib/metadata";
-import { FAQ_VIDEOS } from "@/content/faqVideos";
-import {
-  WALKTHROUGH_VIDEO,
-  WALKTHROUGH_POSTER,
-  WALKTHROUGH_CAPTIONS,
-} from "@/content/media";
+import { THANK_YOU_YOUTUBE_ID } from "@/content/media";
 import { Container } from "@/components/layout/Container";
-import { SectionHeading } from "@/components/SectionHeading";
 import { OfficeVideo } from "@/components/marketing/OfficeVideo";
-import { FaqVideos } from "@/components/marketing/FaqVideos";
 import { Button } from "@/components/ui/button";
+// PAUSED until the FAQ clips are filmed — see the commented-out section below.
+// import { FAQ_VIDEOS } from "@/content/faqVideos";
+// import { SectionHeading } from "@/components/SectionHeading";
+// import { FaqVideos } from "@/components/marketing/FaqVideos";
 
 export const metadata = buildMetadata({
   title: "Thank You",
@@ -47,11 +44,12 @@ export default function ThankYouPage() {
       {/* Walkthrough video — press the expand control for a large (full-screen) view */}
       <Container className="pb-10">
         <div className="mx-auto max-w-4xl">
+          {/* A different clip to the home page walkthrough, so someone who has
+              just sent a message is not shown the video they already watched.
+              No `poster`, so this falls back to the YouTube still. */}
           <OfficeVideo
-            src={WALKTHROUGH_VIDEO}
-            poster={WALKTHROUGH_POSTER}
-            captions={WALKTHROUGH_CAPTIONS}
-            title="A walkthrough of Doxa Innovations"
+            videoId={THANK_YOU_YOUTUBE_ID}
+            title="A thank-you from Doxa Innovations"
           />
         </div>
       </Container>
@@ -70,7 +68,18 @@ export default function ThankYouPage() {
         </div>
       </Container>
 
-      {/* FAQ videos — same component as the FAQ page */}
+      {/* FAQ videos — PAUSED, NOT REMOVED.
+          The short clips this section promises have not been filmed, and every
+          tile in content/faqVideos.ts currently points at the office
+          walkthrough as a placeholder. Four identical videos under four
+          different questions reads worse than no section at all, so the band is
+          commented out until the real clips land. /faq is switched off for the
+          same reason (see app/(site)/faq/page.tsx).
+
+          To bring it back: restore the imports at the top of this file, delete
+          the comment markers below, and check that FAQ_VIDEOS no longer uses
+          PLACEHOLDER_VIDEO.
+
       <section className="pb-16 sm:pb-20">
         <Container>
           <SectionHeading
@@ -82,6 +91,7 @@ export default function ThankYouPage() {
           </div>
         </Container>
       </section>
+      */}
 
       {/* Onward */}
       <Container className="pb-24">
