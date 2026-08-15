@@ -82,10 +82,13 @@ export function OfficeVideo({
   // the inline anchor has mostly scrolled off screen.
   const floating = activated && !dismissed && ratio < 0.25;
 
-  // Falls back to YouTube's own thumbnail. That IS a request to Google before
-  // any click, unlike the iframe — supply a poster to avoid it entirely.
-  const still =
-    poster ?? `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`;
+  // NO fallback to YouTube's own thumbnail (i.ytimg.com/vi/<id>/...), even
+  // though it would look better than the panel below. That URL is a request to
+  // Google on page load, for every visitor, which is exactly the thing the
+  // facade exists to prevent — and /privacy now states in plain words that
+  // nothing reaches Google until you press play. A prettier still is not worth
+  // making the privacy policy false. Supply `poster` from our own CDN or
+  // /public instead.
 
   useEffect(() => {
     const el = anchorRef.current;
@@ -165,14 +168,22 @@ export function OfficeVideo({
       >
         {/* Before the first press this is a still image and nothing else — no
             iframe, no YouTube script, no request to Google at all. */}
-        {!activated && (
-          <img
-            src={still}
-            alt=""
-            className="size-full object-cover"
-            aria-hidden
-          />
-        )}
+        {!activated &&
+          (poster ? (
+            <img
+              src={poster}
+              alt=""
+              className="size-full object-cover"
+              aria-hidden
+            />
+          ) : (
+            // No poster supplied: a brand panel rather than a Google-hosted
+            // still. Plainer, but it keeps the no-contact-before-click promise.
+            <div
+              aria-hidden
+              className="size-full bg-[radial-gradient(60%_60%_at_50%_40%,rgba(124,60,180,0.35),transparent)]"
+            />
+          ))}
 
         {/* The API replaces this div with the iframe. `pointer-events-none` is
             what keeps the player ours: every click lands on our own controls

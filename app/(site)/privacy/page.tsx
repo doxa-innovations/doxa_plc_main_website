@@ -27,6 +27,14 @@ export const metadata = buildMetadata({
  *    is edited in a web UI with no review. Adding a tag there is a change to
  *    this policy and, if it collects something new, a CONSENT_POLICY_VERSION
  *    bump in lib/consent.ts — which re-asks every visitor.
+ *  - the "Videos on this site" section matches how OfficeVideo actually loads.
+ *    It promises that nothing reaches Google before a click, which is true only
+ *    while the player stays a facade: the iframe and the YouTube script are
+ *    created in the play handler, not on mount. Making it load eagerly, or
+ *    giving it a YouTube thumbnail instead of one of ours, makes that paragraph
+ *    false. No consent version bump was needed for it, because a deliberate
+ *    press of play is the lawful basis and nobody's earlier answer was about
+ *    something else.
  */
 const sections = (SITE: SiteConfig): { heading: string; body: string[] }[] => [
   {
@@ -62,6 +70,15 @@ const sections = (SITE: SiteConfig): { heading: string; body: string[] }[] => [
     ],
   },
   {
+    heading: "Videos on this site",
+    body: [
+      "Two pages carry a video: the walkthrough of our office on the home page, and a short message on the page you reach after sending an enquiry. Both are hosted on YouTube, which is owned by Google.",
+      "Until you press play, nothing is requested from YouTube or Google at all. What you see before then is a still image served from our own network, and no YouTube player, script or cookie exists on the page. This is deliberate: an ordinary embedded video would contact Google for every visitor who scrolled past it, whether or not they ever watched.",
+      "Pressing play loads YouTube's player. From that moment YouTube can see your IP address and browser, and which video you played, and may store data on your device relating to playback. We load the player from youtube-nocookie.com, Google's privacy-enhanced mode, which limits what is stored, but it does not reduce it to nothing.",
+      "Because this only ever happens after you deliberately press play, it is not governed by the cookie choice above. If you would rather not contact Google at all, simply do not press play; nothing else on these pages depends on it. The player's controls are our own, so playback stays on this site and does not send you to YouTube.",
+    ],
+  },
+  {
     heading: "How we use your information",
     body: [
       "We use your information only to respond to your enquiry, schedule a discovery call, prepare a proposal, and deliver and support the work you engage us for. We use the measurement data to understand which channels bring us enquiries so we know where to spend our effort.",
@@ -73,6 +90,7 @@ const sections = (SITE: SiteConfig): { heading: string; body: string[] }[] => [
     body: [
       "We share data only with the service providers that help us operate, and only to the extent needed to provide the service. Those are our email provider, which delivers the messages described above, Cloudflare, which serves this site and provides the country information, and our hosting and database provider, which stores the enquiries and visit records. They are bound to protect your data and may not use it for their own purposes.",
       "If you accept optional cookies, two more are added. Google receives analytics and advertising measurement data through Google Analytics and Google Ads. Microsoft receives the session recordings and heatmaps described above through Microsoft Clarity. Both are large companies that set their own terms for the data they gather, which is precisely why they are switched off until you say otherwise. Neither receives your name, email address or the contents of your enquiry: that is stored in our own database and sent to our own inbox, and nowhere else.",
+      "Separately, if you press play on either video, Google receives the playback data described above through YouTube. That is the only thing on this site triggered by an action rather than by a cookie choice.",
     ],
   },
   {
