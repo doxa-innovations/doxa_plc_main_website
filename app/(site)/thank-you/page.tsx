@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ChevronRight } from "lucide-react";
 import { buildMetadata } from "@/lib/metadata";
 import { THANK_YOU_YOUTUBE_ID } from "@/content/media";
+import { PROCESS_STAGES } from "@/content/process";
 import { Container } from "@/components/layout/Container";
 import { OfficeVideo } from "@/components/marketing/OfficeVideo";
 import { Button } from "@/components/ui/button";
@@ -9,6 +10,9 @@ import { Button } from "@/components/ui/button";
 // import { FAQ_VIDEOS } from "@/content/faqVideos";
 // import { SectionHeading } from "@/components/SectionHeading";
 // import { FaqVideos } from "@/components/marketing/FaqVideos";
+
+/** The stages that are still ahead of someone who has just sent a message. */
+const NEXT_STAGES = PROCESS_STAGES.slice(0, 3);
 
 export const metadata = buildMetadata({
   title: "Thank You",
@@ -54,17 +58,45 @@ export default function ThankYouPage() {
         </div>
       </Container>
 
-      {/* Appreciation note */}
+      {/* What happens next — this used to be a second "Thank you, sincerely",
+          which the page has already said in its own headline forty lines up.
+          Saying it twice reads as filler, and the space is better spent on the
+          one thing a visitor at this point does not know yet: the order the
+          rest runs in.
+
+          The stage names come from PROCESS_STAGES rather than being retyped,
+          so renaming a stage on /how-it-works follows through here instead of
+          leaving two versions of the process on the site. */}
       <Container className="pb-14">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="font-display text-2xl font-semibold tracking-[-0.02em] text-ink sm:text-3xl">
-            Thank you, sincerely.
+            What happens next
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-pretty text-lg text-ink-muted">
-            We appreciate you trusting us with your project, and we&apos;d love
-            the chance to keep building together. Whatever you need next, we&apos;re
-            ready when you are.
+            You&apos;ve done your part. Here is the order the rest runs in, and
+            you approve each stage before the next one starts.
           </p>
+
+          {/* Numbered because these genuinely are a sequence — the order is the
+              information, not decoration. */}
+          <ol className="mx-auto mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center sm:gap-2">
+            {NEXT_STAGES.map((stage, i) => (
+              <li key={stage.number} className="flex items-center gap-2">
+                <span className="grid size-7 shrink-0 place-items-center rounded-full border border-line bg-pj-primary font-display text-xs font-semibold text-pj-white">
+                  {stage.number}
+                </span>
+                <span className="text-sm font-medium text-ink">
+                  {stage.title}
+                </span>
+                {i < NEXT_STAGES.length - 1 && (
+                  <ChevronRight
+                    className="hidden size-4 shrink-0 text-ink-muted/50 sm:block"
+                    aria-hidden
+                  />
+                )}
+              </li>
+            ))}
+          </ol>
         </div>
       </Container>
 
