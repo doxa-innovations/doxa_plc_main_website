@@ -14,6 +14,7 @@ import { isEthiopianVisitor } from "@/lib/geo";
 import {
   WALKTHROUGH_YOUTUBE_ID,
   WALKTHROUGH_POSTER,
+  WALKTHROUGH_VIDEO_META,
 } from "@/content/media";
 import {
   getProjects,
@@ -23,7 +24,7 @@ import {
 } from "@/lib/content";
 import { turnstileSiteKey } from "@/lib/turnstile";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { graph, itemListSchema } from "@/lib/jsonld";
+import { graph, itemListSchema, videoSchema } from "@/lib/jsonld";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { SectionHeading } from "@/components/SectionHeading";
@@ -462,6 +463,14 @@ export default async function HomePage() {
               url: `${site.url}/works/${p.slug}`,
             })),
           ),
+          // The office walkthrough. It is the page's strongest "we are a real
+          // company in a real room" signal and, unmarked, was invisible to
+          // anything that does not execute the YouTube embed.
+          videoSchema({
+            ...WALKTHROUGH_VIDEO_META,
+            youtubeId: WALKTHROUGH_YOUTUBE_ID,
+            thumbnailUrl: WALKTHROUGH_POSTER,
+          }),
         )}
       />
     </>

@@ -11,8 +11,30 @@ import {
 import { usePathname } from "next/navigation";
 import { LoadingScreen, type LoaderState } from "./LoadingScreen";
 
-/** How long the curtain stays up once the destination is ready. */
-const MIN_HOLD_MS = 2000;
+/**
+ * How long the curtain stays up on a CLICKED NAVIGATION once the destination
+ * is ready. A deliberate beat: the destination is usually prefetched and
+ * commits almost instantly, and a curtain that flashes for 80ms reads as a
+ * glitch rather than a transition.
+ */
+const NAV_MIN_HOLD_MS = 2000;
+
+/**
+ * The floor for the BOOT curtain, and nothing more.
+ *
+ * This used to share NAV_MIN_HOLD_MS, which meant every first paint sat
+ * behind the curtain until 2s after navigation start no matter how fast the
+ * page actually arrived. It was the single largest performance cost on the
+ * site: first contentful paint and largest contentful paint landed at the
+ * same timestamp — the moment the curtain lifted — so Lighthouse measured the
+ * timer, not the page. Speed Index followed it up to 2.3s.
+ *
+ * The boot curtain now lifts when the page is genuinely ready. This effect
+ * runs on mount, i.e. once React has hydrated and the page is interactive,
+ * so "ready" is simply "we got here". The floor only exists so a very fast
+ * hydration does not show a 40ms flash of curtain.
+ */
+const BOOT_MIN_HOLD_MS = 250;
 
 /** Backstop, so an abandoned navigation can never strand the curtain. */
 const FAILSAFE_MS = 8000;
@@ -21,12 +43,12 @@ const FAILSAFE_MS = 8000;
 const PENDING_CEILING = 0.9;
 
 /**
- * Time constant for the bar's approach, derived from the hold so the two stay
- * in step. Tuned to roughly half the hold: the bar is still visibly travelling
- * when the curtain lifts, rather than parking at the ceiling and reading as
- * stuck. Change MIN_HOLD_MS and this follows.
+ * Time constant for the bar's approach, derived from the navigation hold so
+ * the two stay in step. Tuned to roughly half the hold: the bar is still
+ * visibly travelling when the curtain lifts, rather than parking at the
+ * ceiling and reading as stuck. Change NAV_MIN_HOLD_MS and this follows.
  */
-const BAR_TAU_MS = MIN_HOLD_MS * 0.5;
+const BAR_TAU_MS = NAV_MIN_HOLD_MS * 0.5;
 
 type RouteLoaderContextValue = { start: () => void };
 
@@ -100,12 +122,14 @@ export function RouteLoaderProvider({
     );
   }, [clearTimers, transition]);
 
-  // Boot curtain. `performance.now()` is milliseconds since navigation start,
-  // so a page that already took 2s to arrive lifts the curtain immediately
-  // instead of adding another 900ms on top.
+  // Boot curtain. Reaching this effect means React has hydrated and the page
+  // is interactive, so the curtain has already done its job and comes down.
+  // `performance.now()` is milliseconds since navigation start, so on any
+  // real-world load the floor has long since passed and `remaining` is 0 —
+  // the curtain lifts on the same frame rather than waiting out a timer.
   useEffect(() => {
     target.current = 1;
-    const remaining = Math.max(0, MIN_HOLD_MS - performance.now());
+    const remaining = Math.max(0, BOOT_MIN_HOLD_MS - performance.now());
     const timer = setTimeout(() => transition("idle"), remaining);
     return () => clearTimeout(timer);
   }, [transition]);
@@ -122,7 +146,7 @@ export function RouteLoaderProvider({
     const elapsed = performance.now() - startedAt.current;
     hideTimer.current = setTimeout(
       () => transition("idle"),
-      Math.max(0, MIN_HOLD_MS - elapsed),
+      Math.max(0, NAV_MIN_HOLD_MS - elapsed),
     );
   }, [pathname, clearTimers, transition]);
 

@@ -11,6 +11,8 @@ import { SectionHeading } from "@/components/SectionHeading";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Reveal } from "@/components/Reveal";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { graph, pricingSchema } from "@/lib/jsonld";
 
 export const metadata = buildMetadata({
   title: "Pricing",
@@ -137,6 +139,10 @@ export default async function PricingPage() {
           </p>
         </div>
       </Section>
+
+      {/* Tiers and add-ons as an OfferCatalog, built from the same arrays the
+          cards above render. */}
+      <JsonLd schema={graph(pricingSchema(tiers, addOns))} />
     </>
   );
 }

@@ -17,7 +17,10 @@ import { Button } from "@/components/ui/button";
 import { isEthiopianVisitor } from "@/lib/geo";
 
 export const metadata = buildMetadata({
-  title: "About Doxa Innovations",
+  // Just "About": the root layout's template appends " · Doxa Innovations",
+  // so naming the company here rendered "About Doxa Innovations · Doxa
+  // Innovations" in results.
+  title: "About",
   description:
     "Doxa Innovations is a registered Ethiopian software company building websites, e-commerce, and custom software for businesses worldwide. Meet the team and verify our legal standing.",
   path: "/about",

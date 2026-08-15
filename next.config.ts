@@ -29,6 +29,16 @@ const nextConfig: NextConfig = {
 
   // Portfolio/team imagery is served from the company CDN and optimized by next/image.
   images: {
+    // Optimized images were going out with `max-age=14400, must-revalidate`
+    // (4 hours). `must-revalidate` is what stopped Cloudflare caching them at
+    // all — every /_next/image request read cf-cache-status: DYNAMIC and went
+    // to the origin optimizer. 30 days lets the edge hold them.
+    //
+    // Safe because the URL carries the source path, width and quality: a
+    // genuinely new picture is uploaded under a new name and gets a new URL.
+    // Overwriting a file in place at the SAME path is the one thing this
+    // makes slow to propagate, so don't do that.
+    minimumCacheTTL: 60 * 60 * 24 * 30,
     remotePatterns: [
       { protocol: "https", hostname: "cdn.doxaplc.com", pathname: "/**" },
       // Single reused placeholder photo for slots awaiting real photography.
@@ -45,6 +55,24 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       { source: "/:path*", headers: securityHeaders },
+      // Static media out of public/ shipped with `public, max-age=14400`,
+      // four hours, which is why Lighthouse reports several hundred KiB of
+      // avoidable refetching. These files are portfolio screenshots, the logo
+      // and the walkthrough poster: they are replaced by uploading a new name,
+      // not by editing bytes in place.
+      //
+      // /_next/static is NOT listed because Next already serves it immutable
+      // for a year — those filenames carry a content hash.
+      {
+        source:
+          "/:path*.(png|jpg|jpeg|gif|svg|webp|avif|ico|mp4|webm|vtt|woff2)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=2592000, stale-while-revalidate=86400",
+          },
+        ],
+      },
       // The admin panel is deliberately NOT listed in robots.txt, since that
       // would publish the path to anyone who reads it. A response header keeps
       // it out of indexes without announcing where it lives.

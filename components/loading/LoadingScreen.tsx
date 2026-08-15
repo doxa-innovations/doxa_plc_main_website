@@ -34,10 +34,14 @@ export function LoadingScreen({
   return (
     <AnimatePresence>
       {state !== "idle" && (
-        <motion.div
+        // A <section> with an accessible name, not a <div>: that maps to the
+        // `region` landmark, and every other element here is decorative and
+        // aria-hidden, so as a plain div the curtain was the one piece of page
+        // content sitting outside any landmark. `role="status"` moved to the
+        // sr-only line below, which is the thing that should actually be
+        // announced.
+        <motion.section
           key="route-loader"
-          role="status"
-          aria-live="polite"
           aria-label="Loading"
           // `initial={false}` renders straight at the animate state, so the
           // curtain is simply *there* — no fade-in, on boot or on a click. A
@@ -46,12 +50,19 @@ export function LoadingScreen({
           initial={false}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.5, ease: EASE }}
+          // The boot curtain gets out of the way faster than a navigation one.
+          // On first load this fade is pure cost — it sits between the browser
+          // and the page it is covering, and Speed Index counts every frame of
+          // it. On a click it is the transition itself, so it keeps its beat.
+          transition={{ duration: state === "boot" ? 0.28 : 0.5, ease: EASE }}
           className={cn(
             "fixed inset-0 z-[90] overflow-hidden",
             state === "boot" && "route-loader-boot",
           )}
         >
+          <p className="sr-only" role="status" aria-live="polite">
+            Loading
+          </p>
           {/* The glass itself. Deliberately /70 rather than the site's usual
               /95: at 95% nothing shows through, and the brief is "no legible
               content, but visible movement". A 64px blur destroys legibility
@@ -118,7 +129,7 @@ export function LoadingScreen({
               />
             </div>
           </div>
-        </motion.div>
+        </motion.section>
       )}
     </AnimatePresence>
   );

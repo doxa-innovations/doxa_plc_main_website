@@ -71,7 +71,8 @@ function CardFrame({
   priority,
 }: {
   project: ShowcaseItem;
-  priority: boolean;
+  /** The card at the front of the deck — the LCP candidate. */
+  priority?: boolean;
 }) {
   return (
     <div className="overflow-hidden rounded-xl border border-line bg-deep shadow-[0_50px_120px_-40px_rgba(124,60,180,0.9)]">
@@ -81,13 +82,28 @@ function CardFrame({
         <span className="size-2.5 rounded-full bg-white/15" />
       </div>
       <div className="relative aspect-[16/10]">
+        {/* `fetchPriority` + `loading`, NOT `priority`.
+
+            This image is the measured LCP element, and `priority` (deprecated
+            in Next 16 in favour of `preload`) emitted a preload <link> with no
+            fetchpriority on it at all — which is precisely what Lighthouse
+            reports as "fetchpriority=high should be applied to the image
+            preload request".
+
+            The docs also steer away from preload when several images could be
+            the LCP depending on viewport, which is exactly this deck: mobile
+            renders a vertical stack and desktop a horizontal fan, each with a
+            different card in front. Marking the front card high-priority lets
+            the browser pick, rather than preloading a card that may not be
+            the one on screen. */}
         <Image
           src={project.coverImage}
           alt={`${project.client}, ${project.title}`}
           fill
           sizes="(max-width:1024px) 90vw, 640px"
           className="object-cover"
-          priority={priority}
+          fetchPriority={priority ? "high" : "auto"}
+          loading={priority ? "eager" : "lazy"}
         />
       </div>
     </div>

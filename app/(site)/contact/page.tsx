@@ -11,7 +11,8 @@ import { ContactForm } from "@/components/ContactForm";
 // static config rather than hardcoding the address, which is what it used to
 // do and the only place an email was duplicated outside content/site.ts.
 export const metadata = buildMetadata({
-  title: "Contact Doxa Innovations",
+  // See /about: the title template already appends the company name.
+  title: "Contact",
   description: `Book a free 30-minute discovery call. Email ${STATIC_SITE.email}, message us on WhatsApp or Telegram, or send the form. We respond within 24 hours on business days.`,
   path: "/contact",
 });

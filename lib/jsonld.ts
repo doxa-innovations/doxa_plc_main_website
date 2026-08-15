@@ -1,6 +1,8 @@
 import { SITE } from "@/content/site";
 import type {
+  AddOn,
   FaqItem,
+  PricingTier,
   Project,
   Service,
   SiteConfig,
@@ -179,6 +181,90 @@ export function personSchema(member: TeamMember) {
     ...(member.social.length
       ? { sameAs: member.social.map((s) => s.href) }
       : {}),
+  };
+}
+
+/**
+ * The pricing tiers as an OfferCatalog.
+ *
+ * Only tiers with a real USD figure carry a price. A "quote" tier is still
+ * listed — it is a genuine option — but as an Offer with no price rather than
+ * one priced at zero, which is what emitting `price: null` would imply.
+ *
+ * The ETB figures are deliberately absent: an Offer carries ONE currency, the
+ * page shows USD or ETB depending on the visitor's country, and publishing
+ * both would put a price in the schema that no visitor was ever shown.
+ */
+export function pricingSchema(tiers: PricingTier[], addOns: AddOn[] = []) {
+  const offer = (
+    name: string,
+    description: string,
+    amountUsd: number | null,
+  ) => ({
+    "@type": "Offer",
+    name,
+    description,
+    ...(amountUsd !== null
+      ? {
+          price: amountUsd,
+          priceCurrency: "USD",
+          priceSpecification: {
+            "@type": "PriceSpecification",
+            minPrice: amountUsd,
+            priceCurrency: "USD",
+            valueAddedTaxIncluded: false,
+          },
+        }
+      : {}),
+    availability: "https://schema.org/InStock",
+    seller: { "@id": ORG_ID },
+    url: `${SITE.url}/pricing`,
+  });
+
+  return {
+    "@type": "OfferCatalog",
+    "@id": `${SITE.url}/pricing#catalog`,
+    name: "Software development packages",
+    url: `${SITE.url}/pricing`,
+    provider: { "@id": ORG_ID },
+    itemListElement: [
+      ...tiers.map((t) => offer(t.name, t.bestFor, t.amountUsd)),
+      ...addOns.map((a) =>
+        offer(
+          a.name,
+          a.interval === "month" ? `${a.detail} Billed monthly.` : a.detail,
+          a.amountUsd,
+        ),
+      ),
+    ],
+  };
+}
+
+/**
+ * A hosted video. `uploadDate` and `duration` are required by Google for a
+ * video rich result, which is why they are arguments rather than optional —
+ * a VideoObject missing them is invalid, not merely thinner.
+ */
+export function videoSchema(video: {
+  name: string;
+  description: string;
+  youtubeId: string;
+  thumbnailUrl: string;
+  /** ISO 8601 date. */
+  uploadDate: string;
+  /** ISO 8601 duration, e.g. "PT1M3S". */
+  duration: string;
+}) {
+  return {
+    "@type": "VideoObject",
+    name: video.name,
+    description: video.description,
+    thumbnailUrl: video.thumbnailUrl,
+    uploadDate: video.uploadDate,
+    duration: video.duration,
+    embedUrl: `https://www.youtube.com/embed/${video.youtubeId}`,
+    contentUrl: `https://www.youtube.com/watch?v=${video.youtubeId}`,
+    publisher: { "@id": ORG_ID },
   };
 }
 
