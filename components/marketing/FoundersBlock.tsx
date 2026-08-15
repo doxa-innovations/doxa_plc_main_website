@@ -101,14 +101,21 @@ function FounderCard({
               className="pointer-events-none absolute left-1/2 top-[4%] w-[92%] -translate-x-1/2"
             />
 
-            {/* The photo has no hover of its own — the wrapper above moves it.
-                The old `scale-[1.02]` is gone with the box that clipped it (an
-                unclipped cut-out growing past its shape reads as a glitch) and
-                `grayscale-0` did nothing, since all three photos are already
-                monochrome.
+            {/* Desaturated at rest, full colour on hover — the same treatment
+                TeamGrid gives the rest of the team, so the two blocks behave
+                alike.
 
-                `grayscale` itself stays for the next photo: a colour cut-out
-                uploaded in /olympus would otherwise break the row. */}
+                Be aware of what it can and cannot do TODAY: the three founder
+                photos on the CDN are already black-and-white files (measured
+                peak chroma 15–26 out of 255, i.e. a faint tint and nothing
+                more), so removing the filter reveals colour that was never in
+                the image. The effect is correct and costs nothing, and it
+                starts working the moment a colour cut-out is uploaded in
+                /olympus — which is the fix, not more CSS here.
+
+                The `scale-[1.02]` that used to ride along with it is still
+                gone: it worked because the card clipped the photo, and an
+                unclipped cut-out growing past its polygon reads as a glitch. */}
             <div className="absolute inset-x-[6%] bottom-0 top-[12%]">
               <Image
                 src={member.photo}
@@ -116,7 +123,7 @@ function FounderCard({
                 fill
                 sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 340px"
                 unoptimized
-                className="object-contain object-bottom grayscale"
+                className="object-contain object-bottom grayscale transition-[filter] duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:grayscale-0"
               />
             </div>
           </div>
