@@ -5,8 +5,11 @@ export const PROCESS_STAGES: ProcessStage[] = [
   {
     number: 1,
     title: "Discovery Call",
-    image:
-      "https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=1200&q=70",
+    // One of our own calls in progress, in place of the stock photo that used
+    // to sit here. It carries the two claims the description makes: a real
+    // video call with faces on screen, and the framed business registration on
+    // the desk beside it.
+    image: "/discovery-call.webp",
     description:
       "You send a short message or email. Within 24 hours we propose a video-call time. On the call we show our faces and, if you ask, our government-issued ID and business registration. This is about understanding your project, not selling to you. Zero financial commitment.",
   },
@@ -46,8 +49,9 @@ export const PROCESS_STAGES: ProcessStage[] = [
   {
     number: 6,
     title: "Post-Launch Support",
-    image:
-      "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1200&q=70",
+    // The Bishoftu office still working after handover, in place of the stock
+    // photo that used to sit here — which is the point the stage is making.
+    image: "/post-launch-support.webp",
     description:
       "Optional monthly maintenance retainers start at $100/month. Even without a retainer, you get a 30-day post-launch bug-fix period at no additional cost.",
   },
