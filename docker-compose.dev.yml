@@ -1,0 +1,43 @@
+# Local development database only. Production Postgres is provisioned and
+# managed by Dokploy; this file never ships and is not referenced by the
+# production stack.
+#
+#   docker compose -f docker-compose.dev.yml up -d
+#
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: doxa_web_dev_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: doxa
+      POSTGRES_PASSWORD: doxa
+      POSTGRES_DB: doxa_web
+    ports:
+      # 5433 on the host: 5432 is commonly already taken by another project's
+      # database. The container still listens on 5432 internally.
+      - "5433:5432"
+    volumes:
+      - doxa_dev_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U doxa -d doxa_web"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # Catches every outbound email locally so development never sends real mail
+  # to a real person. SMTP on 1025, web UI on http://localhost:8025.
+  # Point SMTP_HOST=localhost and SMTP_PORT=1025 at it in .env for local work.
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: doxa_web_dev_mail
+    restart: unless-stopped
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    environment:
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+
+volumes:
+  doxa_dev_pgdata:

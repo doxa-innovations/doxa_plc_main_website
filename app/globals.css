@@ -1,0 +1,853 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+@custom-variant light (&:is(.light *));
+
+/* ------------------------------------------------------------------ */
+/*  Midnight Violet is the default canvas (html carries .dark, so the   */
+/*  .dark token block below applies everywhere). Brand purple (pj-*,    */
+/*  FIXED per CLAUDE.md) is glow/accent on the violet ramp. To break    */
+/*  the monochrome, a band can opt INTO white by adding the ".light"    */
+/*  class (Section variant="muted") — there the tokens flip to a white  */
+/*  surface with dark ink, used as periodic accents, not the default.   */
+/* ------------------------------------------------------------------ */
+@theme {
+  /* Fixed brand purple — never changes */
+  --color-pj-primary: #7851a9;
+  --color-pj-secondary: #b277d3;
+  --color-pj-accent: #19003a;
+  --color-pj-dark: #1e1e1e;
+  --color-pj-white: #ececec;
+
+  --font-sans: var(--font-georama), system-ui, -apple-system, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
+  --font-display: var(--font-georama), system-ui, sans-serif;
+
+  --animate-blob: blob 14s infinite ease-in-out;
+  --animate-marquee: marquee 38s linear infinite;
+  --animate-float: float 7s ease-in-out infinite;
+
+  /* Route-transition loading screen. `var()` resolves at use time, so
+     referencing the :root easing curves declared further down is fine. */
+  --animate-letter-pop: letter-pop 1.7s var(--ease-out-quint) infinite;
+  --animate-logo-breathe: logo-breathe 3.4s ease-in-out infinite;
+  /* Period is deliberately shorter than the curtain's hold, so the ping
+     visibly repeats instead of being cut off mid-cycle. */
+  --animate-sonar: sonar 1.8s var(--ease-out-expo) infinite;
+  --animate-ring-drift: ring-drift 24s ease-in-out infinite;
+  --animate-emblem-ping: emblem-ping 3.6s var(--ease-out-quint) infinite;
+  --animate-arrow-seq-1: arrow-seq-1 5.5s ease-in-out infinite;
+  --animate-arrow-seq-2: arrow-seq-2 5.5s ease-in-out infinite;
+  --animate-arrow-seq-3: arrow-seq-3 5.5s ease-in-out infinite;
+}
+
+@keyframes blob {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(40px, -30px) scale(1.12);
+  }
+  66% {
+    transform: translate(-30px, 20px) scale(0.94);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Tokens. Raw values live in :root (light) / .dark (violet); the      */
+/*  @theme inline block below maps them to Tailwind color utilities so  */
+/*  bg-surface / text-ink / border-line / text-brand flip by context.   */
+/* ------------------------------------------------------------------ */
+:root {
+  --radius: 0.875rem;
+
+  /* Aurora ground. Near-black with a violet cast rather than pure #000, so
+     the blooms have something to bleed into instead of a hard edge. */
+  --aurora-base: #06000f;
+
+  /* premium easing curves */
+  --ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+
+  /* Midnight Violet is the default canvas everywhere (html also carries .dark
+     so shadcn dark: variants resolve). */
+  --surface: #14002e;
+  --surface-muted: #1e0a45;
+  --surface-nested: #2a1458;
+  --deep: #0d0020;
+  --ink: #f3effb;
+  --ink-muted: #b8a8d8;
+  --line: rgba(255, 255, 255, 0.1);
+  --line-strong: rgba(255, 255, 255, 0.18);
+  --panel: rgba(255, 255, 255, 0.03);
+  --panel-strong: rgba(255, 255, 255, 0.07);
+  --glow: #c69bff;
+  --brand: #b277d3;
+  /* blueprint decoration — faint grid / guide lines and crisper registration marks */
+  --grid: rgba(255, 255, 255, 0.07);
+  --grid-strong: rgba(199, 155, 255, 0.2);
+  --mark: rgba(199, 155, 255, 0.6);
+
+  --background: #14002e;
+  --foreground: #f3effb;
+  --card: #1e0a45;
+  --card-foreground: #f3effb;
+  --popover: #1e0a45;
+  --popover-foreground: #f3effb;
+
+  --primary: #8a5fc0; /* brightened brand for fills on dark */
+  --primary-foreground: #ffffff;
+  --secondary: #2a1458;
+  --secondary-foreground: #f3effb;
+  --muted: #241050;
+  --muted-foreground: #b8a8d8;
+  --accent: #2f1860;
+  --accent-foreground: #f3effb;
+  --destructive: oklch(0.62 0.21 18);
+
+  --border: rgba(255, 255, 255, 0.1);
+  --input: rgba(255, 255, 255, 0.16);
+  --ring: #b277d3;
+
+  --chart-1: #b277d3;
+  --chart-2: #8a5fc0;
+  --chart-3: #c69bff;
+  --chart-4: #6a3fa0;
+  --chart-5: #e0c3ff;
+
+  --sidebar: #1e0a45;
+  --sidebar-foreground: #f3effb;
+  --sidebar-primary: #8a5fc0;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #2f1860;
+  --sidebar-accent-foreground: #f3effb;
+  --sidebar-border: rgba(255, 255, 255, 0.1);
+  --sidebar-ring: #b277d3;
+}
+
+/* White accent scope — opt a band in by adding the .light class (Section
+   variant "muted"/"light"). Standalone rule, never grouped with :root, so the
+   CSS minifier can't collapse and drop it. */
+.light {
+  --surface: #ffffff;
+  --surface-muted: #f6f3fc;
+  --surface-nested: #efe8fb;
+  --deep: #14002e; /* dark-glass-over-imagery token stays dark even here */
+  --ink: #211238;
+  --ink-muted: #574a70;
+  --line: rgba(25, 0, 58, 0.12);
+  --line-strong: rgba(25, 0, 58, 0.18);
+  --panel: #f4effc; /* faint violet card fill — reads against white */
+  --panel-strong: #ebe1f8;
+  --glow: #b277d3;
+  --brand: #7851a9;
+  /* blueprint decoration on white */
+  --grid: rgba(25, 0, 58, 0.07);
+  --grid-strong: rgba(120, 81, 169, 0.22);
+  --mark: rgba(120, 81, 169, 0.6);
+
+  --background: #ffffff;
+  --foreground: #211238;
+  --card: #ffffff;
+  --card-foreground: #211238;
+  --popover: #ffffff;
+  --popover-foreground: #211238;
+
+  --primary: #7851a9;
+  --primary-foreground: #ffffff;
+  --secondary: #f1ebfb;
+  --secondary-foreground: #2a1458;
+  --muted: #f6f3fc;
+  --muted-foreground: #574a70;
+  --accent: #efe8fb;
+  --accent-foreground: #2a1458;
+  --destructive: oklch(0.58 0.22 18);
+
+  --border: rgba(25, 0, 58, 0.1);
+  --input: rgba(25, 0, 58, 0.18);
+  --ring: #7851a9;
+
+  --chart-1: #7851a9;
+  --chart-2: #b277d3;
+  --chart-3: #8a5fc0;
+  --chart-4: #6a3fa0;
+  --chart-5: #19003a;
+
+  --sidebar: #ffffff;
+  --sidebar-foreground: #211238;
+  --sidebar-primary: #7851a9;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #efe8fb;
+  --sidebar-accent-foreground: #2a1458;
+  --sidebar-border: rgba(25, 0, 58, 0.1);
+  --sidebar-ring: #7851a9;
+
+  /* Re-assert the text colour, not just the variable.
+     `text-ink` on <body> resolves var(--ink) ONCE, at the body, and children
+     inherit the resulting near-white value. Redefining --ink here does not
+     retroactively change it, so any element inside a .light panel that relies
+     on inherited colour stays near-white on white and becomes invisible.
+     Section's light variant papered over this by re-applying `text-ink`, but
+     a bare `class="light ..."` panel did not, which is how the contact form's
+     field labels ended up at roughly 1:1 contrast. Setting colour here fixes
+     every .light region at once and keeps future ones correct by default. */
+  color: var(--ink);
+}
+
+/* Re-assert violet — for html.dark and for any element that opts back into
+   dark inside a .light band (e.g. dark-glass chips over imagery). */
+.dark {
+  --surface: #14002e;
+  --surface-muted: #1e0a45;
+  --surface-nested: #2a1458;
+  --deep: #0d0020;
+  --ink: #f3effb;
+  --ink-muted: #b8a8d8;
+  --line: rgba(255, 255, 255, 0.1);
+  --line-strong: rgba(255, 255, 255, 0.18);
+  --panel: rgba(255, 255, 255, 0.03);
+  --panel-strong: rgba(255, 255, 255, 0.07);
+  --glow: #c69bff;
+  --brand: #b277d3;
+  /* blueprint decoration — faint grid / guide lines and crisper registration marks */
+  --grid: rgba(255, 255, 255, 0.07);
+  --grid-strong: rgba(199, 155, 255, 0.2);
+  --mark: rgba(199, 155, 255, 0.6);
+
+  --background: #14002e;
+  --foreground: #f3effb;
+  --card: #1e0a45;
+  --card-foreground: #f3effb;
+  --popover: #1e0a45;
+  --popover-foreground: #f3effb;
+
+  --primary: #8a5fc0; /* brightened brand for fills on dark */
+  --primary-foreground: #ffffff;
+  --secondary: #2a1458;
+  --secondary-foreground: #f3effb;
+  --muted: #241050;
+  --muted-foreground: #b8a8d8;
+  --accent: #2f1860;
+  --accent-foreground: #f3effb;
+  --destructive: oklch(0.62 0.21 18);
+
+  --border: rgba(255, 255, 255, 0.1);
+  --input: rgba(255, 255, 255, 0.16);
+  --ring: #b277d3;
+
+  --chart-1: #b277d3;
+  --chart-2: #8a5fc0;
+  --chart-3: #c69bff;
+  --chart-4: #6a3fa0;
+  --chart-5: #e0c3ff;
+
+  --sidebar: #1e0a45;
+  --sidebar-foreground: #f3effb;
+  --sidebar-primary: #8a5fc0;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #2f1860;
+  --sidebar-accent-foreground: #f3effb;
+  --sidebar-border: rgba(255, 255, 255, 0.1);
+  --sidebar-ring: #b277d3;
+
+  /* Symmetry with .light: an element that opts back into dark inside a light
+     band would otherwise inherit that band's dark ink. Harmless on <html>,
+     where body's own `text-ink` takes over immediately. */
+  color: var(--ink);
+}
+
+@theme inline {
+  /* context-aware canvas / ink / hairline / accent */
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-surface-nested: var(--surface-nested);
+  --color-deep: var(--deep);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-panel: var(--panel);
+  --color-panel-strong: var(--panel-strong);
+  --color-glow: var(--glow);
+  --color-brand: var(--brand);
+  --color-grid: var(--grid);
+  --color-grid-strong: var(--grid-strong);
+  --color-mark: var(--mark);
+
+  /* shadcn/ui */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 6px);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply text-foreground;
+    background-color: var(--aurora-base);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    line-height: 1.6;
+  }
+  ::selection {
+    background: color-mix(in oklab, var(--color-pj-secondary) 35%, transparent);
+    color: inherit;
+  }
+}
+
+/* Fixed film-grain overlay — subtle physical texture, never blocks input */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0.03;
+  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Display utility */
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.03em;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Scroll reveal — visible by default; entrance only as a pure CSS    */
+/*  enhancement where supported. Never gates visibility (SSR/no-JS/    */
+/*  reduced-motion all render fully visible).                          */
+/* ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: reveal-rise linear both;
+      animation-timeline: view();
+      /* Both ends in `entry`, never `cover`. The two ranges scale off different
+         things: `cover` runs the subject's whole height PLUS the viewport, so a
+         percentage of it grows with the element, and /works wraps its entire
+         card grid in one Reveal. 28% of that was most of a phone screen's worth
+         of scrolling several times over, which is why the top card stayed
+         half-revealed while fully in view.
+
+         `entry` is capped at the viewport height however tall the subject gets,
+         so 35% is roughly a third of a screen on any page, at any width, for a
+         single card or a grid of twelve. Short enough that a small scroll
+         finishes it, which is the whole ask. */
+      animation-range: entry 0% entry 35%;
+    }
+  }
+}
+
+/* No `filter: blur()` here, unlike `header-rise` below, and the difference is
+   the timeline rather than taste. `header-rise` runs on a clock and is over in
+   0.75s; this one is scroll-driven over `entry 0% cover 28%`, and `cover` spans
+   the element's whole height plus the viewport. On a tall wrapper — the /works
+   grid is one Reveal around every card — 28% of that is a long scroll, so the
+   first card sits ON SCREEN, at its `from` state, unreadably blurred until you
+   scroll far past it. Opacity and translate degrade gracefully when caught
+   mid-range. A blur does not. */
+@keyframes reveal-rise {
+  from {
+    opacity: 0;
+    transform: translateY(26px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Floating mini video-player entrance */
+@keyframes mini-pop {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Route-transition loading screen.                                   */
+/*                                                                     */
+/*  `letter-pop` and `logo-breathe` animate TRANSFORM ONLY, never       */
+/*  opacity. The global reduced-motion rule above forces every          */
+/*  animation to 0.001ms, which freezes a keyframe at its 0% frame — an */
+/*  opacity there would leave the word permanently dimmed. Anything     */
+/*  that must fade (sonar) is gated behind `motion-safe:` instead and   */
+/*  rests at opacity 0, so it simply never appears.                     */
+/* ------------------------------------------------------------------ */
+@keyframes letter-pop {
+  0%,
+  30%,
+  100% {
+    transform: none;
+  }
+  12% {
+    transform: translateY(-0.45em);
+  }
+}
+
+@keyframes logo-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.045);
+  }
+}
+
+@keyframes sonar {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+/* Orbit rings on the About emblem, pushing outward and fading. Three of them
+   run on the same cycle offset by a third, so one is always near full strength
+   and the group reads as a continuous ping rather than a blink.
+   Gated behind `motion-safe:` at the call site; the rings' resting `opacity-60`
+   is what reduced-motion visitors see, so they still get the rings, static. */
+@keyframes emblem-ping {
+  0% {
+    transform: scale(0.94);
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.65;
+  }
+  100% {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+}
+
+/* Process arrows: 1 -> 2 -> 3 light up in turn, all three hold together for
+   ~2s, then all go dark on the SAME frame, and the cycle rests before
+   repeating.
+
+   That "off together" is why these are three separate keyframes rather than
+   one keyframe with a per-arrow animation-delay. A shared delay staggers the
+   END as well as the start, so each arrow would switch off on its own
+   schedule — which is exactly the behaviour being corrected here. Same
+   duration, no delay, different on-ramps.
+
+   They never fade to zero: the arrows are what make the staircase read as a
+   progression, so they rest at 35% and the animation only lifts them. Gated
+   behind `motion-safe:` at the call site. */
+@keyframes arrow-seq-1 {
+  0% {
+    opacity: 0.35;
+  }
+  4%,
+  51% {
+    opacity: 1;
+  }
+  56%,
+  100% {
+    opacity: 0.35;
+  }
+}
+
+@keyframes arrow-seq-2 {
+  0%,
+  7% {
+    opacity: 0.35;
+  }
+  11%,
+  51% {
+    opacity: 1;
+  }
+  56%,
+  100% {
+    opacity: 0.35;
+  }
+}
+
+@keyframes arrow-seq-3 {
+  0%,
+  14% {
+    opacity: 0.35;
+  }
+  18%,
+  51% {
+    opacity: 1;
+  }
+  56%,
+  100% {
+    opacity: 0.35;
+  }
+}
+
+@keyframes ring-drift {
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.14) rotate(7deg);
+  }
+}
+
+/* Scroll lock. Scoped to <html> rather than reusing the body.overflow
+   idiom in Navbar.tsx, because the mobile menu clears body.overflow when
+   it closes — which is exactly when a nav click starts a transition. */
+html.route-loading,
+html.route-loading body {
+  overflow: hidden;
+}
+
+/* The boot overlay ships in the server-rendered HTML, so it must be able
+   to clear itself without React. */
+@media (scripting: none) {
+  .route-loader-boot {
+    display: none;
+  }
+}
+
+/* A 0.001ms failsafe (see the reduced-motion rule) would read as a flash,
+   so reduced-motion visitors skip the boot overlay entirely. */
+@media (prefers-reduced-motion: reduce) {
+  .route-loader-boot {
+    display: none;
+  }
+}
+
+/* There was a `boot-failsafe` animation here that faded the curtain out after
+   4s in case hydration never ran. It has been removed on purpose.
+
+   Any animation on this element promotes it to its own compositing layer,
+   which makes it a BACKDROP ROOT — and a backdrop root confines the
+   `backdrop-filter` on the glass plate inside it to sampling only its own
+   (empty) contents. The result was that on every hard refresh the curtain
+   rendered with no frost at all and the page behind it stayed perfectly
+   legible, while in-page navigation looked correct.
+
+   A certain, universal visual break is not worth insuring against a rare one:
+   visitors with no JavaScript are already covered by the `scripting: none`
+   rule above, and if JS loads but hydration dies the page is broken anyway. */
+
+/* ------------------------------------------------------------------ */
+/*  Page-header entrance — the eyebrow / title / lead rise on first     */
+/*  paint, staggered via an inline --ph-delay.                          */
+/*                                                                     */
+/*  Deliberately CSS, not motion: PageHeader stays a server component   */
+/*  (no client JS, nothing to hydrate) and the global reduced-motion    */
+/*  rule above neutralises it for free. That rule zeroes duration but   */
+/*  NOT delay, so the delay is cleared explicitly below — otherwise a   */
+/*  staggered item would sit at `from` (invisible) through its delay    */
+/*  and then snap in.                                                   */
+/* ------------------------------------------------------------------ */
+@keyframes header-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+.ph-rise {
+  animation: header-rise 0.75s var(--ease-out-expo) both;
+  animation-delay: var(--ph-delay, 0ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ph-rise {
+    animation-delay: 0ms !important;
+  }
+}
+
+/* Delivery arcs on the About page's reach map: a short dash chases each
+   route, and the origin breathes. Decorative only — the map is fully legible
+   with both animations stopped, which is what reduced-motion gets. */
+/* Values are in the map's own viewBox units (119 x 60 from dotted-map), not
+   pixels, so they are small numbers — 31.6 is one dash + one gap. */
+@keyframes reach-flow {
+  from {
+    stroke-dashoffset: 31.6;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes reach-pulse-sm {
+  0% {
+    r: 1.6;
+    stroke-opacity: 0.7;
+  }
+  100% {
+    r: 5.5;
+    stroke-opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .reach-flow {
+    animation: reach-flow 3.6s linear infinite;
+  }
+  .reach-pulse-sm {
+    animation: reach-pulse-sm 3s var(--ease-out-expo) infinite;
+  }
+}
+
+/* Without the animation the chase dash would sit as a stray tick on the arc. */
+@media (prefers-reduced-motion: reduce) {
+  .reach-flow,
+  .reach-pulse-sm {
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Card hover — the site's one tile interaction: a small lift, the     */
+/*  hairline brightening, and a violet bloom pooling underneath.        */
+/*                                                                     */
+/*  Defined once and shared by the portfolio, service and bento tiles   */
+/*  so they cannot drift apart. The global reduced-motion rule zeroes   */
+/*  the duration, which leaves the hover state instant rather than      */
+/*  animated — correct, and nothing here gates visibility.              */
+/* ------------------------------------------------------------------ */
+.card-lift {
+  /* Positioned so the hover rule's `z-index: 1` has something to apply to: the
+     glow pools BELOW the card, and in a stacked list the next item would
+     otherwise paint over it.
+
+     This was once blamed for the glow flashing and vanishing on the process
+     steps. It was not the cause — that is the negative spread, see below — but
+     the raise is still needed, so it stays. */
+  position: relative;
+  transition-property: transform, border-color, box-shadow;
+  transition-duration: 300ms;
+  transition-timing-function: var(--ease-out-quint);
+}
+
+.card-lift:hover,
+.card-lift:focus-visible {
+  z-index: 1;
+  transform: translateY(-4px);
+  border-color: var(--line-strong);
+  /* The spread is NEGATIVE, so it insets the shadow box by that much on every
+     side — which means a tile shorter than twice the spread has no shadow box
+     left and paints no glow at all. At the old -50px that floor was 100px, and
+     the process steps are 90px: the glow appeared while the spread animated
+     through 0 → -50px, then vanished the instant it settled. It read as a
+     flash, not as a missing shadow, which is what made it look like a
+     compositing bug rather than arithmetic.
+
+     -30px puts the floor at 60px, below every tile on the site, and the offset
+     and blur come down with it so the bloom on the tall tiles lands where it
+     did before. Anything added here that is shorter than 60px needs these
+     numbers revisited. */
+  box-shadow: 0 30px 80px -30px rgba(124, 60, 180, 0.9);
+}
+
+/* ------------------------------------------------------------------ */
+/*  AURORA CANVAS                                                      */
+/*                                                                     */
+/*  Near-black ground with large violet blooms, so the page reads as    */
+/*  lit rather than as one flat fill. Put `aurora-canvas` on the page   */
+/*  wrapper; bands inside opt out of their own fill with                */
+/*  `bg-transparent` so the canvas shows through.                       */
+/*                                                                     */
+/*  Radial gradients, not blurred circles: a `blur()` of this size is a */
+/*  per-frame compositor cost on scroll, and the gradient falloff is    */
+/*  indistinguishable at these radii.                                   */
+/*                                                                     */
+/*  Fixed, so the light stays put while content moves past it — the     */
+/*  page feels lit by the room rather than papered with a texture.      */
+/* ------------------------------------------------------------------ */
+/*
+ * Two pieces on purpose.
+ *
+ * `.aurora-bg` is the painting layer: one fixed element, rendered once per
+ * page, sitting at z-index 0. `.aurora-canvas` wraps the page and sits at
+ * z-index 1, so EVERY piece of content is above the blooms by construction
+ * rather than by relying on a negative-z pseudo-element staying behind — which
+ * only held as long as nothing above it created a stacking context.
+ */
+.aurora-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-color: var(--aurora-base);
+  background-image:
+    radial-gradient(
+      67% 57% at 3% 0%,
+      rgba(88, 56, 142, 0.66),
+      transparent 62%
+    ),
+    radial-gradient(
+      73% 67% at 88% 26%,
+      rgba(72, 43, 118, 0.62),
+      transparent 64%
+    ),
+    radial-gradient(
+      60% 53% at 99% 97%,
+      rgba(108, 64, 158, 0.36),
+      transparent 62%
+    ),
+    radial-gradient(
+      53% 47% at 6% 96%,
+      rgba(72, 43, 118, 0.32),
+      transparent 64%
+    );
+}
+
+.aurora-canvas {
+  position: relative;
+  z-index: 1;
+}
+
+/* ------------------------------------------------------------------ */
+/*  SPECIAL THEME                                                      */
+/*                                                                     */
+/*  The deep-glow band treatment, preserved by name from the closing   */
+/*  CTA section that used to carry it ("Ready to build something       */
+/*  great?"). The section is gone; this is the background system it    */
+/*  wore, kept so it can be reapplied on request.                      */
+/*                                                                     */
+/*  Three layers: the darkest canvas (--deep, #0d0020), a large violet */
+/*  bloom centred in the band, and a soft radial vignette over the top.*/
+/*                                                                     */
+/*  Usage — put it on any full-bleed section:                          */
+/*    <section className="special-theme py-24 sm:py-32">               */
+/*      <GridField />                                                  */
+/*      <FrameMarks variant="plus" />                                  */
+/*      <Container className="relative">…</Container>                  */
+/*    </section>                                                       */
+/*                                                                     */
+/*  `isolation: isolate` is what lets the negative-z layers paint above */
+/*  the band's own background but still behind its content, and it is  */
+/*  also what keeps GridField's -z-10 scoped to the band.              */
+/* ------------------------------------------------------------------ */
+.special-theme {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background-color: var(--deep);
+}
+
+.special-theme::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: -1;
+  width: 44rem;
+  height: 44rem;
+  transform: translate(-50%, -50%);
+  border-radius: 9999px;
+  background-color: color-mix(
+    in oklab,
+    var(--color-pj-primary) 25%,
+    transparent
+  );
+  filter: blur(130px);
+  pointer-events: none;
+}
+
+.special-theme::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.4;
+  background: radial-gradient(
+    60% 60% at 50% 50%,
+    rgba(178, 119, 211, 0.12),
+    transparent
+  );
+  pointer-events: none;
+}

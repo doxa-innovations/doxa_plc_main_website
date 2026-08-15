@@ -1,0 +1,65 @@
+import { Navbar } from "@/components/layout/Navbar";
+import { Footer } from "@/components/layout/Footer";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { ConsentManager } from "@/components/consent/ConsentManager";
+import { GoogleTagManager } from "@/components/analytics/GoogleTagManager";
+import { getSite } from "@/lib/content";
+import { isEthiopianVisitor } from "@/lib/geo";
+import { RouteLoaderProvider } from "@/components/loading/RouteLoaderProvider";
+import {
+  graph,
+  localBusinessSchema,
+  organizationSchema,
+  websiteSchema,
+} from "@/lib/jsonld";
+
+/**
+ * The public site's chrome.
+ *
+ * Split out of the root layout so /olympus can render without a marketing
+ * navbar, footer and cookie banner wrapped around a data table. Route groups
+ * do not appear in URLs, so every path here is exactly what it was.
+ *
+ * RouteLoaderProvider mounting here — rather than in the root layout — is
+ * what scopes the transition curtain to the public site. Navbar and Footer
+ * stay server components: passing them through as `children` from a server
+ * layout does not pull them into the client bundle.
+ */
+export default async function SiteLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
+  // Structured data reads the same CMS-backed config the pages render, so a
+  // changed phone number updates the visible footer and the LocalBusiness
+  // schema together rather than letting them drift apart.
+  const [site, isEthiopia] = await Promise.all([
+    getSite(),
+    isEthiopianVisitor(),
+  ]);
+
+  return (
+    <>
+      <JsonLd
+        schema={graph(
+          organizationSchema(site, !isEthiopia),
+          websiteSchema(),
+          localBusinessSchema(site),
+        )}
+      />
+      <RouteLoaderProvider>
+        {/* The blooms, painted once behind everything. Separate element so
+            the whole page can sit above it on z-index rather than depending on
+            a negative-z pseudo-element. The Footer keeps its own `bg-deep`. */}
+        <div className="aurora-bg" aria-hidden />
+        <div className="aurora-canvas">
+          <Navbar />
+          <main>{children}</main>
+          <Footer />
+        </div>
+        <ConsentManager />
+      </RouteLoaderProvider>
+      {/* Renders nothing unless GTM_CONTAINER_ID is set. Scoped to the public
+          site so admin sessions at /olympus are not measured as traffic. */}
+      <GoogleTagManager />
+    </>
+  );
+}

@@ -5,3 +5,18 @@ npm-debug.log
 README.md
 .next
 .git
+
+# Secrets. The builder stage does `COPY . .`, so without these the real SMTP
+# credentials, PAYLOAD_SECRET and DATABASE_URI get baked into the image that is
+# pushed to GHCR and are readable by anyone who can pull it.
+.env
+.env.*
+!.env.example
+
+# Never needed by the build, and they make the build context large.
+_archive
+docs
+.playwright-mcp
+.claude
+.github
+*.tsbuildinfo
