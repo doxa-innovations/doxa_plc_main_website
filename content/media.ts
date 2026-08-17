@@ -31,13 +31,19 @@ export const THANK_YOU_YOUTUBE_ID = "mMF-YRzn9Rg";
  * `uploadDate` and `duration` are REQUIRED for a video rich result — a
  * VideoObject without them is invalid rather than merely sparse. Both are read
  * off the YouTube video itself, so update them if the clip is re-uploaded.
+ *
+ * `uploadDate` must be a full ISO 8601 date-time WITH a timezone offset. A bare
+ * "2026-08-14" earned two Search Console warnings at once — "missing a
+ * timezone" and "invalid datetime value" — because Google's video parser wants
+ * an instant, not a day. Copy the string YouTube itself publishes in the watch
+ * page's ld+json, so ours and theirs cannot disagree about when it went up.
  */
 export const WALKTHROUGH_VIDEO_META = {
   name: "Doxa Innovations Office Walkthrough",
   description:
     "A walk through the Doxa Innovations office in Bishoftu, Ethiopia: the room, the desks and the people who build the software.",
-  /** From the video's own metadata. */
-  uploadDate: "2026-08-14",
+  /** From the video's own metadata, offset included. */
+  uploadDate: "2026-08-14T15:52:20-07:00",
   /** ISO 8601. The clip runs 63 seconds. */
   duration: "PT1M3S",
 };

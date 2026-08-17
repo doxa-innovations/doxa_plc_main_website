@@ -250,7 +250,11 @@ export function videoSchema(video: {
   description: string;
   youtubeId: string;
   thumbnailUrl: string;
-  /** ISO 8601 date. */
+  /**
+   * ISO 8601 date-time WITH a timezone offset, e.g. "2026-08-14T15:52:20-07:00".
+   * A date alone is rejected by Google as an invalid datetime, and separately
+   * warned about for having no timezone.
+   */
   uploadDate: string;
   /** ISO 8601 duration, e.g. "PT1M3S". */
   duration: string;
