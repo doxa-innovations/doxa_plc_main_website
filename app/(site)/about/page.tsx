@@ -86,7 +86,7 @@ export default async function AboutPage() {
             </div>
             {/* Destinations are the countries we have actually delivered for,
                 read off content/projects.ts — not decorative pins. */}
-            <div className="relative overflow-hidden rounded-[1.5rem] border border-line bg-deep p-4 sm:p-6">
+            <div className="relative overflow-hidden rounded-[1.5rem] border border-line bg-deep p-4 light:bg-surface-muted sm:p-6">
               <div
                 aria-hidden
                 className="pointer-events-none absolute left-1/2 top-1/2 size-[28rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-pj-primary/20 blur-[110px]"

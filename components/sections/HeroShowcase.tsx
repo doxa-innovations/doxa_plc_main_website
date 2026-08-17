@@ -75,7 +75,7 @@ function CardFrame({
   priority?: boolean;
 }) {
   return (
-    <div className="overflow-hidden rounded-xl border border-line bg-deep shadow-[0_50px_120px_-40px_rgba(124,60,180,0.9)]">
+    <div className="overflow-hidden rounded-xl border border-line bg-deep shadow-[0_50px_120px_-40px_rgba(124,60,180,0.9)] light:bg-surface-muted">
       <div className="flex items-center gap-1.5 border-b border-line bg-panel px-3 py-2.5">
         <span className="size-2.5 rounded-full bg-white/15" />
         <span className="size-2.5 rounded-full bg-white/15" />
