@@ -166,7 +166,7 @@ export default async function HomePage() {
       <Hero showcase={showcase} initialIndex={heroInitial} />
 
       {/* Micro-trust strip */}
-      <section className="border-y border-line bg-deep/60">
+      <section className="border-y border-line bg-deep/60 light:bg-surface-muted">
         <Container>
           {/* Mobile: a single, barely-there line so it never competes for attention */}
           <p className="py-2.5 text-center text-[0.6rem] leading-relaxed text-ink-muted/60 sm:hidden">

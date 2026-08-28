@@ -65,11 +65,12 @@ export async function Footer() {
   const whatsappUrl = `https://wa.me/${SITE.whatsapp.replace(/\D/g, "")}`;
 
   return (
-    <footer className="relative isolate overflow-hidden bg-deep text-ink">
-      {/* Glow */}
+    <footer className="relative isolate overflow-hidden bg-deep text-ink light:bg-surface-muted">
+      {/* Glow — softer under the white light-mode footer so it reads as a
+          faint bloom rather than a saturated wash */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -top-40 left-1/2 size-[60rem] -translate-x-1/2 rounded-full bg-pj-primary/20 blur-[120px]"
+        className="pointer-events-none absolute -top-40 left-1/2 size-[60rem] -translate-x-1/2 rounded-full bg-pj-primary/20 blur-[120px] light:bg-pj-primary/10"
       />
       {/* Special footer backdrop: full-width concentric rings, faded center */}
       <Rings />
@@ -185,7 +186,7 @@ export async function Footer() {
       >
         {/* Opaque vertical gradient (light → footer bg) clipped to the glyphs,
             so the letters cover the ring lines while keeping the fade. */}
-        <p className="bg-gradient-to-b from-[#3a3052] to-[#0d0020] bg-clip-text text-center font-display text-[26vw] font-semibold leading-[0.8] tracking-[-0.04em] text-transparent">
+        <p className="bg-gradient-to-b from-[#3a3052] to-[#0d0020] bg-clip-text text-center font-display text-[26vw] font-semibold leading-[0.8] tracking-[-0.04em] text-transparent light:from-pj-secondary/40 light:to-pj-primary/10">
           DOXA
         </p>
       </div>
