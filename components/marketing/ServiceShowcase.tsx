@@ -215,7 +215,7 @@ export function ServiceShowcase({
         </div>
 
         {/* The art panel, same treatment as the About page's reach map. */}
-        <div className="relative overflow-hidden rounded-[1.4rem] border border-line bg-deep/70 p-4 sm:p-6">
+        <div className="relative overflow-hidden rounded-[1.4rem] border border-line bg-deep/70 p-4 light:bg-surface-muted sm:p-6">
           <div
             aria-hidden
             className="pointer-events-none absolute left-1/2 top-1/2 size-[22rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-pj-primary/20 blur-[100px]"

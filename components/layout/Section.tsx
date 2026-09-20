@@ -17,11 +17,16 @@ const variantClasses: Record<SectionVariant, string> = {
   // paint straight over it. They stay as separate names because call sites use
   // them to mean "default band" vs "the next one along", and `deep`/`accent`
   // still darken deliberately on top of the canvas.
+  //
+  // In light mode `deep` flips to the soft violet-tint accent band so it does
+  // not paint a full-height dark box on an otherwise white page. `accent`
+  // stays as pj-accent by design — it is a hero-strength surface and reads
+  // fine as a dark accent in either theme.
   surface: "text-ink",
   muted: "text-ink",
   light: "light bg-surface text-ink",
   tint: "light bg-surface-muted text-ink",
-  deep: "bg-deep text-ink",
+  deep: "bg-deep text-ink light:bg-surface-muted",
   accent: "bg-pj-accent text-pj-white",
 };
 

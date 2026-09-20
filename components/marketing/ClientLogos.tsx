@@ -41,7 +41,7 @@ const LOGOS = [
 export function ClientLogos() {
   const track = [...LOGOS, ...LOGOS];
   return (
-    <section className="border-y border-line bg-deep py-12">
+    <section className="border-y border-line bg-deep py-12 light:bg-surface-muted">
       <Container>
         <p className="text-center text-sm text-ink-muted">
           Trusted by clients across the US, the Netherlands, and East Africa
@@ -54,7 +54,14 @@ export function ClientLogos() {
                   <img
                     src={logo.src}
                     alt={logo.alt}
-                    className="h-9 w-auto max-w-[160px] object-contain"
+                    // The logos were authored for a dark band. On the light
+                    // panel most keep their contrast, but the pure-white ones
+                    // (KLA, ZOA) would disappear against a soft violet tint.
+                    // Desaturating + darkening slightly in light mode
+                    // normalises the wall — matches the grayscale logo strip
+                    // pattern common on premium marketing sites (Stripe,
+                    // Linear) and keeps the row visually calm.
+                    className="h-9 w-auto max-w-[160px] object-contain light:opacity-80 light:brightness-50 light:contrast-125 light:grayscale hover:light:opacity-100 hover:light:grayscale-0"
                     loading="lazy"
                   />
                 ) : (
@@ -69,7 +76,7 @@ export function ClientLogos() {
                     width={LOGO_W}
                     height={LOGO_H}
                     sizes={`${LOGO_W}px`}
-                    className="h-9 w-auto max-w-[160px] object-contain"
+                    className="h-9 w-auto max-w-[160px] object-contain light:opacity-80 light:brightness-50 light:contrast-125 light:grayscale hover:light:opacity-100 hover:light:grayscale-0"
                     loading="lazy"
                   />
                 )}

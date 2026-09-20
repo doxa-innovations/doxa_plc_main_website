@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { SITE } from "@/content/site";
 import { Toaster } from "@/components/ui/sonner";
+import { ThemeProvider } from "@/components/ThemeProvider";
 import { consentBootstrapScript } from "@/lib/consent-mode";
 
 const georama = localFont({
@@ -64,11 +65,16 @@ export const metadata: Metadata = {
 };
 
 /**
- * The body ships `dark` on <html> unconditionally, so mobile browsers should
- * paint their chrome to match rather than guessing from a default white.
+ * Two entries so mobile browsers pick the chrome that matches the active
+ * theme. next-themes writes .dark or .light on <html> after hydration; the
+ * server ships .dark by default (see RootLayout below), and the OS-preferred
+ * value overrides both once the client mounts.
  */
 export const viewport: Viewport = {
-  themeColor: "#19003a",
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#19003a" },
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+  ],
 };
 
 /**
@@ -83,7 +89,15 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`dark ${georama.variable}`}>
+    // suppressHydrationWarning is required by next-themes: the client script
+    // rewrites the class attribute on <html> before React hydrates so the
+    // stored theme paints on the first frame, and that write shows up as a
+    // benign mismatch otherwise.
+    <html
+      lang="en"
+      className={`dark ${georama.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         <link rel="preconnect" href="https://cdn.doxaplc.com" crossOrigin="" />
         {/* Google Consent Mode defaults, inline and first.
@@ -103,8 +117,10 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-dvh bg-surface font-sans text-ink antialiased">
-        {children}
-        <Toaster richColors position="top-center" />
+        <ThemeProvider>
+          {children}
+          <Toaster richColors position="top-center" />
+        </ThemeProvider>
       </body>
     </html>
   );

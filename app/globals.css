@@ -346,7 +346,10 @@
   }
   body {
     @apply text-foreground;
-    background-color: var(--aurora-base);
+    /* Was hard-coded to --aurora-base (near-black violet). Now follows the
+       active theme via the surface token, so light-mode renders on white
+       without the film-grain overlay reading against a dark ground. */
+    background-color: var(--surface);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     line-height: 1.6;
@@ -367,6 +370,13 @@ body::after {
   opacity: 0.03;
   mix-blend-mode: soft-light;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Notely/Plantoria references keep light surfaces perfectly clean, so the
+   grain is dropped on light mode. Keeps the physical texture on the violet
+   canvas where it actually reads. */
+html.light body::after {
+  opacity: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -729,7 +739,13 @@ html.route-loading body {
      and blur come down with it so the bloom on the tall tiles lands where it
      did before. Anything added here that is shorter than 60px needs these
      numbers revisited. */
-  box-shadow: 0 30px 80px -30px rgba(124, 60, 180, 0.9);
+  box-shadow: 0 30px 80px -30px var(--card-lift-glow, rgba(124, 60, 180, 0.9));
+}
+
+/* Lighter glow on white so the hover doesn't paint a hard violet bruise
+   under the tile — matches the soft aesthetic in the Notely/Plantoria refs. */
+.light {
+  --card-lift-glow: rgba(120, 81, 169, 0.28);
 }
 
 /* ------------------------------------------------------------------ */
@@ -781,6 +797,35 @@ html.route-loading body {
     radial-gradient(
       53% 47% at 6% 96%,
       rgba(72, 43, 118, 0.32),
+      transparent 64%
+    );
+}
+
+/* Light-mode aurora: same four-bloom layout, but the ground is white and the
+   blooms are much fainter tints of the brand purple. Same geometry so the
+   page lighting feels consistent when the user flips theme; alpha is roughly
+   1/8 of dark so the blooms read as a soft wash, not a violet page. */
+.light .aurora-bg {
+  background-color: #ffffff;
+  background-image:
+    radial-gradient(
+      67% 57% at 3% 0%,
+      rgba(178, 119, 211, 0.09),
+      transparent 62%
+    ),
+    radial-gradient(
+      73% 67% at 88% 26%,
+      rgba(120, 81, 169, 0.08),
+      transparent 64%
+    ),
+    radial-gradient(
+      60% 53% at 99% 97%,
+      rgba(178, 119, 211, 0.07),
+      transparent 62%
+    ),
+    radial-gradient(
+      53% 47% at 6% 96%,
+      rgba(120, 81, 169, 0.06),
       transparent 64%
     );
 }
@@ -850,4 +895,28 @@ html.route-loading body {
     transparent
   );
   pointer-events: none;
+}
+
+/* Light-mode: keep the spotlight geometry but paint on a white card ground.
+   The centre glow drops in strength so the section reads as a soft accent
+   band rather than a violet paint patch on a white page. */
+.light .special-theme {
+  background-color: var(--surface-muted);
+}
+
+.light .special-theme::before {
+  background-color: color-mix(
+    in oklab,
+    var(--color-pj-secondary) 14%,
+    transparent
+  );
+}
+
+.light .special-theme::after {
+  opacity: 0.6;
+  background: radial-gradient(
+    60% 60% at 50% 50%,
+    rgba(120, 81, 169, 0.08),
+    transparent
+  );
 }

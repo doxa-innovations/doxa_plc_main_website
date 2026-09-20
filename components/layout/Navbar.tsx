@@ -8,6 +8,7 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { SITE } from "@/content/site";
 import type { NavLink } from "@/content/types";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -101,7 +102,7 @@ function NavGroup({ link, active }: { link: NavLink; active: boolean }) {
           >
             <div
               role="menu"
-              className="overflow-hidden rounded-2xl border border-line bg-deep/95 p-1.5 shadow-[0_24px_60px_-24px_rgba(124,60,180,0.9)] backdrop-blur-xl"
+              className="overflow-hidden rounded-2xl border border-line bg-surface-muted/95 p-1.5 shadow-[0_24px_60px_-24px_rgba(124,60,180,0.9)] backdrop-blur-xl"
             >
               {link.children?.map((child) => (
                 <Link
@@ -174,7 +175,7 @@ export function Navbar() {
           className={cn(
             "flex w-full items-center justify-between gap-2 rounded-full border px-3 py-2 pl-5 transition-[background-color,border-color,box-shadow] duration-300",
             scrolled || open
-              ? "border-line bg-deep/80 shadow-[0_18px_50px_-24px_rgba(124,60,180,0.8)] backdrop-blur-xl"
+              ? "border-line bg-surface/80 shadow-[0_18px_50px_-24px_rgba(124,60,180,0.8)] backdrop-blur-xl"
               : "border-line bg-panel backdrop-blur-md",
           )}
         >
@@ -206,6 +207,7 @@ export function Navbar() {
           </nav>
 
           <div className="flex items-center gap-2">
+            <ThemeToggle />
             <Link
               href="/contact"
               className="group hidden items-center gap-2 rounded-full bg-primary py-2 pl-4 pr-2 text-sm font-medium text-primary-foreground shadow-[0_10px_30px_-10px_rgba(138,95,192,0.9)] transition-[transform,box-shadow] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:shadow-[0_16px_44px_-12px_rgba(178,119,211,1)] active:scale-[0.98] sm:inline-flex"
@@ -251,7 +253,7 @@ export function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-0 top-0 z-40 flex flex-col overflow-y-auto bg-deep/95 backdrop-blur-2xl lg:hidden"
+            className="fixed inset-0 top-0 z-40 flex flex-col overflow-y-auto bg-surface/95 backdrop-blur-2xl lg:hidden"
           >
             {/* The menu owns its own header. The floating island sits behind
                 this sheet, so without one the panel opened with no mark and no
@@ -269,14 +271,17 @@ export function Navbar() {
                 />
                 Doxa Innovations
               </Link>
-              <button
-                type="button"
-                onClick={closeMenu}
-                aria-label="Close menu"
-                className="grid size-11 place-items-center rounded-full border border-line bg-panel text-ink transition-colors duration-200 hover:bg-panel-strong"
-              >
-                <X className="size-5" strokeWidth={2} aria-hidden />
-              </button>
+              <div className="flex items-center gap-2">
+                <ThemeToggle className="size-11" />
+                <button
+                  type="button"
+                  onClick={closeMenu}
+                  aria-label="Close menu"
+                  className="grid size-11 place-items-center rounded-full border border-line bg-panel text-ink transition-colors duration-200 hover:bg-panel-strong"
+                >
+                  <X className="size-5" strokeWidth={2} aria-hidden />
+                </button>
+              </div>
             </div>
 
             <nav className="mt-8 flex flex-col gap-1 px-6 pb-10">
