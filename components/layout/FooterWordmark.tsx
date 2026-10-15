@@ -60,13 +60,14 @@ export function FooterWordmark() {
       className="pointer-events-none relative -mb-[4vw] select-none overflow-hidden"
     >
       {/* Opaque vertical gradient clipped to the glyphs, so the letters cover
-          the ring lines while keeping the fade. */}
+          the ring lines while keeping the fade. Its colours are theme tokens
+          (globals.css): deep violet on light, near-black violet on dark. */}
       <p className="text-center font-display text-[26vw] font-semibold leading-[0.8] tracking-[-0.04em]">
         {LETTERS.map((letter, i) => (
           <span
             key={i}
             data-letter
-            className="inline-block bg-gradient-to-b from-[#5a3a8c] to-[#cdbbe9] bg-clip-text text-transparent will-change-transform"
+            className="inline-block bg-gradient-to-b from-(--wordmark-from) to-(--wordmark-to) bg-clip-text text-transparent will-change-transform"
           >
             {letter}
           </span>

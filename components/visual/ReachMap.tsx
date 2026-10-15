@@ -69,9 +69,11 @@ export function ReachMap({ className }: { className?: string }) {
           <stop offset="100%" stopColor="#c69bff" stopOpacity="0" />
         </radialGradient>
         <linearGradient id="reach-arc" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stopColor="#7851a9" stopOpacity="0.45" />
-          <stop offset="50%" stopColor="#5a3a8c" stopOpacity="1" />
-          <stop offset="100%" stopColor="#7851a9" stopOpacity="0.6" />
+          {/* Route and pulse colours are theme tokens (globals.css), so the
+              map reads on both the light and the dark site. */}
+          <stop offset="0%" style={{ stopColor: "var(--reach-arc-edge)" }} />
+          <stop offset="50%" style={{ stopColor: "var(--reach-arc-mid)" }} />
+          <stop offset="100%" style={{ stopColor: "var(--reach-arc-end)" }} />
         </linearGradient>
       </defs>
 
@@ -101,15 +103,17 @@ export function ReachMap({ className }: { className?: string }) {
                   className="reach-flow"
                   d={d}
                   fill="none"
-                  stroke="#3d1f6b"
-                  strokeWidth={0.7}
                   strokeLinecap="round"
                   // Dash plus gap stays 31.6, the distance the reach-flow
                   // keyframes move it, so the loop has no visible jump.
                   strokeDasharray="2.6 29"
                   // Offset per route, or six pulses leave in lockstep and the
                   // map reads as one blinking object rather than live traffic.
-                  style={{ animationDelay: `${i * 0.55}s` }}
+                  style={{
+                    animationDelay: `${i * 0.55}s`,
+                    stroke: "var(--reach-pulse)",
+                    strokeWidth: "var(--reach-pulse-width)",
+                  }}
                 />
                 <circle cx={dest.x} cy={dest.y} r={0.7} fill="var(--mark)" />
                 <circle
@@ -133,10 +137,15 @@ export function ReachMap({ className }: { className?: string }) {
             cy={ORIGIN.y}
             r={1.6}
             fill="none"
-            stroke="#5a3a8c"
             strokeWidth={0.35}
+            style={{ stroke: "var(--reach-origin)" }}
           />
-          <circle cx={ORIGIN.x} cy={ORIGIN.y} r={0.95} fill="#5a3a8c" />
+          <circle
+            cx={ORIGIN.x}
+            cy={ORIGIN.y}
+            r={0.95}
+            style={{ fill: "var(--reach-origin)" }}
+          />
         </>
       )}
     </svg>

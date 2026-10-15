@@ -1,10 +1,11 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-/* `dark:` applies under html.dark EXCEPT on the public site, which is light
-   (its layout carries .site-light, see the light token block below), and
-   inside any element that opts back into dark with its own .dark class. */
-@custom-variant dark (&:is(html.dark:not(:has(.site-light)) *, :not(html).dark, :not(html).dark *));
+/* `dark:` applies under html.dark EXCEPT on the public site while it is in
+   light mode (its layout carries .site-light and <html> does not carry
+   data-theme="dark", see the light token block below), and inside any element
+   that opts back into dark with its own .dark class. */
+@custom-variant dark (&:is(html.dark:not(:has(.site-light)) *, html.dark[data-theme="dark"] *, :not(html).dark, :not(html).dark *));
 @custom-variant light (&:is(.light *));
 
 /* ------------------------------------------------------------------ */
@@ -88,6 +89,17 @@
   /* Aurora ground. Near-black with a violet cast rather than pure #000, so
      the blooms have something to bleed into instead of a hard edge. */
   --aurora-base: #06000f;
+
+  /* About page reach map and the footer wordmark, which paint fixed
+     colours rather than surface tokens. Light overrides below. */
+  --reach-arc-edge: rgba(178, 119, 211, 0.15);
+  --reach-arc-mid: rgba(198, 155, 255, 0.9);
+  --reach-arc-end: rgba(178, 119, 211, 0.3);
+  --reach-pulse: #e0c3ff;
+  --reach-pulse-width: 0.5;
+  --reach-origin: #c69bff;
+  --wordmark-from: #3a3052;
+  --wordmark-to: #0d0020;
 
   /* premium easing curves */
   --ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
@@ -283,6 +295,8 @@
 
 /* ------------------------------------------------------------------ */
 /*  PUBLIC SITE LIGHT MODE                                              */
+/*  Light unless <html> carries data-theme="dark" (lib/theme.ts: the    */
+/*  visitor's clock, or the footer switch); dark is the set above.      */
 /*  The public layout puts .site-light on its page wrapper and :has()   */
 /*  lifts these tokens onto <html>, so the whole site, including        */
 /*  portalled popovers, dialogs and the cookie bar, is light without a   */
@@ -292,8 +306,17 @@
 /*  colour, so the bands that were the darker stripe on dark are the    */
 /*  tinted stripe here. A sub-tree can still opt into dark with .dark.  */
 /* ------------------------------------------------------------------ */
-html:has(.site-light) {
+html:has(.site-light):not([data-theme="dark"]) {
   --aurora-base: #fbf9fe;
+
+  --reach-arc-edge: rgba(120, 81, 169, 0.45);
+  --reach-arc-mid: #5a3a8c;
+  --reach-arc-end: rgba(120, 81, 169, 0.6);
+  --reach-pulse: #3d1f6b;
+  --reach-pulse-width: 0.7;
+  --reach-origin: #5a3a8c;
+  --wordmark-from: #5a3a8c;
+  --wordmark-to: #cdbbe9;
 
   --surface: #ffffff;
   --surface-muted: #f6f3fc;
@@ -344,7 +367,7 @@ html:has(.site-light) {
 }
 
 /* The blooms behind the page, as a pale violet wash on white. */
-html:has(.site-light) .aurora-bg {
+html:has(.site-light):not([data-theme="dark"]) .aurora-bg {
   background-image:
     radial-gradient(67% 57% at 3% 0%, rgba(178, 119, 211, 0.16), transparent 62%),
     radial-gradient(73% 67% at 88% 26%, rgba(120, 81, 169, 0.1), transparent 64%),
@@ -352,8 +375,17 @@ html:has(.site-light) .aurora-bg {
     radial-gradient(53% 47% at 6% 96%, rgba(120, 81, 169, 0.08), transparent 64%);
 }
 
+/* Switching theme with the footer toggle: the new theme is revealed as a
+   circle growing out of the switch (ThemeToggle drives the clip-path).
+   The browser's default crossfade is turned off so only that circle moves. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
 /* Film grain multiplies on white instead of soft-lighting on black. */
-html:has(.site-light) body::after {
+html:has(.site-light):not([data-theme="dark"]) body::after {
   mix-blend-mode: multiply;
   opacity: 0.025;
 }
