@@ -69,9 +69,9 @@ export function ReachMap({ className }: { className?: string }) {
           <stop offset="100%" stopColor="#c69bff" stopOpacity="0" />
         </radialGradient>
         <linearGradient id="reach-arc" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stopColor="#b277d3" stopOpacity="0.15" />
-          <stop offset="50%" stopColor="#c69bff" stopOpacity="0.9" />
-          <stop offset="100%" stopColor="#b277d3" stopOpacity="0.3" />
+          <stop offset="0%" stopColor="#7851a9" stopOpacity="0.45" />
+          <stop offset="50%" stopColor="#5a3a8c" stopOpacity="1" />
+          <stop offset="100%" stopColor="#7851a9" stopOpacity="0.6" />
         </linearGradient>
       </defs>
 
@@ -101,10 +101,12 @@ export function ReachMap({ className }: { className?: string }) {
                   className="reach-flow"
                   d={d}
                   fill="none"
-                  stroke="#e0c3ff"
-                  strokeWidth={0.36}
+                  stroke="#3d1f6b"
+                  strokeWidth={0.7}
                   strokeLinecap="round"
-                  strokeDasharray="1.6 30"
+                  // Dash plus gap stays 31.6, the distance the reach-flow
+                  // keyframes move it, so the loop has no visible jump.
+                  strokeDasharray="2.6 29"
                   // Offset per route, or six pulses leave in lockstep and the
                   // map reads as one blinking object rather than live traffic.
                   style={{ animationDelay: `${i * 0.55}s` }}
@@ -131,10 +133,10 @@ export function ReachMap({ className }: { className?: string }) {
             cy={ORIGIN.y}
             r={1.6}
             fill="none"
-            stroke="#c69bff"
-            strokeWidth={0.18}
+            stroke="#5a3a8c"
+            strokeWidth={0.35}
           />
-          <circle cx={ORIGIN.x} cy={ORIGIN.y} r={0.95} fill="#e0c3ff" />
+          <circle cx={ORIGIN.x} cy={ORIGIN.y} r={0.95} fill="#5a3a8c" />
         </>
       )}
     </svg>

@@ -1,7 +1,10 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
+/* `dark:` applies under html.dark EXCEPT on the public site, which is light
+   (its layout carries .site-light, see the light token block below), and
+   inside any element that opts back into dark with its own .dark class. */
+@custom-variant dark (&:is(html.dark:not(:has(.site-light)) *, :not(html).dark, :not(html).dark *));
 @custom-variant light (&:is(.light *));
 
 /* ------------------------------------------------------------------ */
@@ -276,6 +279,83 @@
      band would otherwise inherit that band's dark ink. Harmless on <html>,
      where body's own `text-ink` takes over immediately. */
   color: var(--ink);
+}
+
+/* ------------------------------------------------------------------ */
+/*  PUBLIC SITE LIGHT MODE                                              */
+/*  The public layout puts .site-light on its page wrapper and :has()   */
+/*  lifts these tokens onto <html>, so the whole site, including        */
+/*  portalled popovers, dialogs and the cookie bar, is light without a   */
+/*  class toggle in JavaScript. /olympus has no .site-light and keeps   */
+/*  the Midnight Violet set above. Colours only: every layout, size and */
+/*  word is the dark site's. `--deep` becomes the soft violet band      */
+/*  colour, so the bands that were the darker stripe on dark are the    */
+/*  tinted stripe here. A sub-tree can still opt into dark with .dark.  */
+/* ------------------------------------------------------------------ */
+html:has(.site-light) {
+  --aurora-base: #fbf9fe;
+
+  --surface: #ffffff;
+  --surface-muted: #f6f3fc;
+  --surface-nested: #efe8fb;
+  --deep: #f1ebfa;
+  --ink: #211238;
+  --ink-muted: #574a70;
+  --line: rgba(25, 0, 58, 0.12);
+  --line-strong: rgba(25, 0, 58, 0.2);
+  --panel: rgba(120, 81, 169, 0.06);
+  --panel-strong: rgba(120, 81, 169, 0.12);
+  --glow: #7851a9;
+  --brand: #7851a9;
+  --grid: rgba(25, 0, 58, 0.07);
+  --grid-strong: rgba(120, 81, 169, 0.22);
+  --mark: rgba(120, 81, 169, 0.6);
+
+  --background: #fbf9fe;
+  --foreground: #211238;
+  --card: #ffffff;
+  --card-foreground: #211238;
+  --popover: #ffffff;
+  --popover-foreground: #211238;
+
+  /* A deeper shade of the brand purple for button fills, so white labels
+     sit at a stronger contrast on the light ground. */
+  --primary: #5a3a8c;
+  --primary-foreground: #ffffff;
+  --secondary: #f1ebfb;
+  --secondary-foreground: #2a1458;
+  --muted: #f6f3fc;
+  --muted-foreground: #574a70;
+  --accent: #efe8fb;
+  --accent-foreground: #2a1458;
+  --destructive: oklch(0.58 0.22 18);
+
+  --border: rgba(25, 0, 58, 0.12);
+  --input: rgba(25, 0, 58, 0.2);
+  --ring: #7851a9;
+
+  --chart-1: #7851a9;
+  --chart-2: #b277d3;
+  --chart-3: #8a5fc0;
+  --chart-4: #6a3fa0;
+  --chart-5: #19003a;
+
+  color: var(--ink);
+}
+
+/* The blooms behind the page, as a pale violet wash on white. */
+html:has(.site-light) .aurora-bg {
+  background-image:
+    radial-gradient(67% 57% at 3% 0%, rgba(178, 119, 211, 0.16), transparent 62%),
+    radial-gradient(73% 67% at 88% 26%, rgba(120, 81, 169, 0.1), transparent 64%),
+    radial-gradient(60% 53% at 99% 97%, rgba(178, 119, 211, 0.12), transparent 62%),
+    radial-gradient(53% 47% at 6% 96%, rgba(120, 81, 169, 0.08), transparent 64%);
+}
+
+/* Film grain multiplies on white instead of soft-lighting on black. */
+html:has(.site-light) body::after {
+  mix-blend-mode: multiply;
+  opacity: 0.025;
 }
 
 @theme inline {

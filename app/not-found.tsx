@@ -20,7 +20,7 @@ export default function NotFound() {
     <RouteLoaderProvider>
       {/* Outside the (site) group, so this page mounts the canvas itself. */}
       <div className="aurora-bg" aria-hidden />
-      <div className="aurora-canvas">
+      <div className="aurora-canvas site-light">
         <Navbar />
       <main>
         <Container className="flex min-h-[70vh] flex-col items-center justify-center gap-5 py-32 text-center">

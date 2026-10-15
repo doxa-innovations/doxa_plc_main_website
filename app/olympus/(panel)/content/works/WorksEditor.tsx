@@ -72,6 +72,7 @@ export function WorksEditor({ projects }: { projects: Project[] }) {
                       {project.featured && (
                         <Chip icon={<Star className="size-3" />}>Featured</Chip>
                       )}
+                      {project.ownProduct && <Chip>Doxa product</Chip>}
                       {project.status === "in-development" && (
                         <Chip>In development</Chip>
                       )}
@@ -155,6 +156,10 @@ export function WorksEditor({ projects }: { projects: Project[] }) {
                 value={p.status === "live" ? "Live" : "In development"}
               />
               <DetailRow label="Featured" value={p.featured ? "Yes" : "No"} />
+              <DetailRow
+                label="Doxa product"
+                value={p.ownProduct ? "Yes" : "No"}
+              />
               <DetailRow
                 label="Published"
                 value={p.published ? "Live" : "Hidden"}
@@ -277,6 +282,12 @@ export function WorksEditor({ projects }: { projects: Project[] }) {
                 label="Featured"
                 defaultChecked={Boolean(p?.featured)}
                 hint="Shows in the Featured Work block on the homepage."
+              />
+              <Switch
+                name="ownProduct"
+                label="Doxa product"
+                defaultChecked={Boolean(p?.ownProduct)}
+                hint="Our own software, not a client's. Listed under Our own products on the Works page."
               />
               <Switch
                 name="published"

@@ -157,7 +157,9 @@ export function OfficeVideo({
       <div
         ref={playerRef}
         className={cn(
-          "group overflow-hidden bg-deep shadow-[0_40px_90px_-50px_rgba(124,60,180,0.8)]",
+          // `dark`: the player sits over footage, so its scrim and control chips keep
+          // the dark tokens on the light site instead of washing the video white.
+          "dark group overflow-hidden bg-deep shadow-[0_40px_90px_-50px_rgba(124,60,180,0.8)]",
           floating
             // The consent banner publishes its height as --consent-banner-h
             // while it is open, so the dock lifts above it instead of hiding

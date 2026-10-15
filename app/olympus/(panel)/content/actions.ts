@@ -264,6 +264,7 @@ export async function saveProject(
       role: str(formData.get("testimonialRole")) || null,
     },
     featured: formData.get("featured") === "on",
+    ownProduct: formData.get("ownProduct") === "on",
     status: str(formData.get("status")) || "live",
     published: formData.get("published") === "on",
     ...(id

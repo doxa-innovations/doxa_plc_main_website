@@ -99,6 +99,7 @@ function toProject(doc: ProjectDoc): Project {
     logo: doc.logo,
     coverImage: doc.coverImage,
     featured: Boolean(doc.featured),
+    ownProduct: Boolean(doc.ownProduct),
     status: doc.status,
     order: doc.order,
     recommendationUrl: doc.recommendationUrl || undefined,

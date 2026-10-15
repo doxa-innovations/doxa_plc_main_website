@@ -113,6 +113,7 @@ export function seedRecords(): SeedRecord[] {
         coverImage: project.coverImage,
         recommendationUrl: project.recommendationUrl ?? undefined,
         featured: project.featured,
+        ownProduct: project.ownProduct ?? false,
         status: project.status,
         order: project.order,
         published: true,

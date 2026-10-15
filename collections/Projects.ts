@@ -94,6 +94,15 @@ export const Projects: CollectionConfig = {
 
     { name: "featured", type: "checkbox", defaultValue: false, index: true },
     {
+      name: "ownProduct",
+      type: "checkbox",
+      defaultValue: false,
+      admin: {
+        description:
+          "Software Doxa builds and runs for itself. Listed under \"Our own products\" on /works instead of with client projects.",
+      },
+    },
+    {
       name: "status",
       type: "select",
       required: true,
