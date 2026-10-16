@@ -2,6 +2,8 @@ import Link from "next/link";
 import { Mail, MessageCircle, MapPin, Phone, ArrowUpRight } from "lucide-react";
 import { getServices, getSite, shortLocation } from "@/lib/content";
 import { Container } from "./Container";
+import { FooterWordmark } from "./FooterWordmark";
+import { ThemeToggle } from "./ThemeToggle";
 import { Rings } from "@/components/visual/Decor";
 import { CookieSettingsLink } from "@/components/consent/CookieSettingsLink";
 import { isEthiopianVisitor } from "@/lib/geo";
@@ -164,31 +166,25 @@ export async function Footer() {
           />
         </div>
 
-        {/* Registration + copyright */}
-        <div className="flex flex-col gap-2 border-t border-line py-8 text-center text-xs text-ink-muted/80 md:text-left">
-          <p>
-            {SITE.legalName}
-            {!isEthiopia &&
-              ` · Commercial Reg. ${reg.commercialRegNo} · TIN ${reg.tin} · VAT ${reg.vat}`}
-            {` · Established ${reg.foundingYear}`}
-          </p>
-          <p>
-            © {reg.foundingYear} {SITE.legalName}. All rights reserved.
-          </p>
+        {/* Registration + copyright, with the light/dark switch beside it */}
+        <div className="flex flex-col items-center gap-5 border-t border-line py-8 md:flex-row md:items-center md:justify-between">
+          <div className="flex flex-col gap-2 text-center text-xs text-ink-muted/80 md:text-left">
+            <p>
+              {SITE.legalName}
+              {!isEthiopia &&
+                ` · Commercial Reg. ${reg.commercialRegNo} · TIN ${reg.tin} · VAT ${reg.vat}`}
+              {` · Established ${reg.foundingYear}`}
+            </p>
+            <p>
+              © {reg.foundingYear} {SITE.legalName}. All rights reserved.
+            </p>
+          </div>
+          <ThemeToggle className="shrink-0" />
         </div>
       </Container>
 
-      {/* Oversized watermark wordmark */}
-      <div
-        aria-hidden
-        className="pointer-events-none relative -mb-[4vw] select-none overflow-hidden"
-      >
-        {/* Opaque vertical gradient (light → footer bg) clipped to the glyphs,
-            so the letters cover the ring lines while keeping the fade. */}
-        <p className="bg-gradient-to-b from-[#3a3052] to-[#0d0020] bg-clip-text text-center font-display text-[26vw] font-semibold leading-[0.8] tracking-[-0.04em] text-transparent">
-          DOXA
-        </p>
-      </div>
+      {/* Oversized watermark wordmark, rising into place on scroll */}
+      <FooterWordmark />
     </footer>
   );
 }

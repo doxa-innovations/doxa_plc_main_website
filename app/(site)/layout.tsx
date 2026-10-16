@@ -50,7 +50,7 @@ export default async function SiteLayout({
             the whole page can sit above it on z-index rather than depending on
             a negative-z pseudo-element. The Footer keeps its own `bg-deep`. */}
         <div className="aurora-bg" aria-hidden />
-        <div className="aurora-canvas">
+        <div className="aurora-canvas site-light">
           <Navbar />
           <main>{children}</main>
           <Footer />

@@ -213,7 +213,7 @@ export function TestimonialCarousel({
                 "h-1.5 rounded-full transition-[width,background-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]",
                 i === active
                   ? "w-6 bg-brand"
-                  : "w-1.5 bg-white/25 group-hover:bg-white/50",
+                  : "w-1.5 bg-line-strong group-hover:bg-ink-muted",
               )}
             />
           </button>

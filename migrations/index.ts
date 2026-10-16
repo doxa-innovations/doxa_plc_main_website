@@ -2,6 +2,7 @@ import * as migration_20260807_060807_initial from './20260807_060807_initial';
 import * as migration_20260808_222547_add_team_member_founder from './20260808_222547_add_team_member_founder';
 import * as migration_20260810_064457_add_services from './20260810_064457_add_services';
 import * as migration_20260810_165710_add_testimonials from './20260810_165710_add_testimonials';
+import * as migration_20261015_140336_add_project_own_product from './20261015_140336_add_project_own_product';
 
 export const migrations = [
   {
@@ -22,6 +23,11 @@ export const migrations = [
   {
     up: migration_20260810_165710_add_testimonials.up,
     down: migration_20260810_165710_add_testimonials.down,
-    name: '20260810_165710_add_testimonials'
+    name: '20260810_165710_add_testimonials',
+  },
+  {
+    up: migration_20261015_140336_add_project_own_product.up,
+    down: migration_20261015_140336_add_project_own_product.down,
+    name: '20261015_140336_add_project_own_product'
   },
 ];

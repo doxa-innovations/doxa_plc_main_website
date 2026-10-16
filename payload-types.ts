@@ -410,6 +410,10 @@ export interface Project {
    */
   recommendationUrl?: string | null;
   featured?: boolean | null;
+  /**
+   * Software Doxa builds and runs for itself. Listed under "Our own products" on /works instead of with client projects.
+   */
+  ownProduct?: boolean | null;
   status: 'live' | 'in-development';
   /**
    * Lower numbers appear first.
@@ -897,6 +901,7 @@ export interface ProjectsSelect<T extends boolean = true> {
   coverImage?: T;
   recommendationUrl?: T;
   featured?: T;
+  ownProduct?: T;
   status?: T;
   order?: T;
   published?: T;

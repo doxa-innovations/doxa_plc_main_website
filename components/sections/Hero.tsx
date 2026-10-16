@@ -63,7 +63,7 @@ export function Hero({
           aurora canvas now supplies the ambient violet, and stacking both
           washed the black out of the ground entirely. */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-line-strong to-transparent" />
       </div>
 
       <Container className="relative pb-20 pt-32 sm:pt-36">

@@ -4,6 +4,7 @@ import "./globals.css";
 import { SITE } from "@/content/site";
 import { Toaster } from "@/components/ui/sonner";
 import { consentBootstrapScript } from "@/lib/consent-mode";
+import { THEME_COLOR, themeBootstrapScript } from "@/lib/theme";
 
 const georama = localFont({
   variable: "--font-georama",
@@ -64,11 +65,11 @@ export const metadata: Metadata = {
 };
 
 /**
- * The body ships `dark` on <html> unconditionally, so mobile browsers should
- * paint their chrome to match rather than guessing from a default white.
+ * The browser chrome colour. Dark here; on the public site ThemeToggle
+ * swaps it to the light value whenever the light theme is showing.
  */
 export const viewport: Viewport = {
-  themeColor: "#19003a",
+  themeColor: THEME_COLOR.dark,
 };
 
 /**
@@ -83,8 +84,19 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`dark ${georama.variable}`}>
+    // suppressHydrationWarning: the theme script below sets `data-theme` on
+    // this element before React hydrates, which React would otherwise report
+    // as a mismatch. It only silences this element's own attributes.
+    <html
+      lang="en"
+      className={`dark ${georama.variable}`}
+      suppressHydrationWarning
+    >
       <head>
+        {/* Light or dark for the public site (lib/theme.ts), set during HTML
+            parsing so a visit after 16:00 never flashes the light theme
+            first. A few hundred bytes; on /olympus it changes nothing. */}
+        <script dangerouslySetInnerHTML={{ __html: themeBootstrapScript() }} />
         <link rel="preconnect" href="https://cdn.doxaplc.com" crossOrigin="" />
         {/* Google Consent Mode defaults, inline and first.
 

@@ -150,6 +150,12 @@ export interface Project {
   logo: string;
   coverImage: string;
   featured: boolean;
+  /**
+   * Doxa's own product rather than work for a client. /works lists these in a
+   * separate "Our own products" group. Optional in seed data, where it
+   * defaults to false.
+   */
+  ownProduct?: boolean;
   status: ProjectStatus;
   order: number;
   /** Direct link to this project's recommendation letter, if it has its own. */

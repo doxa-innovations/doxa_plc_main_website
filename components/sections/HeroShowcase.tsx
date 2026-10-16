@@ -77,9 +77,9 @@ function CardFrame({
   return (
     <div className="overflow-hidden rounded-xl border border-line bg-deep shadow-[0_50px_120px_-40px_rgba(124,60,180,0.9)]">
       <div className="flex items-center gap-1.5 border-b border-line bg-panel px-3 py-2.5">
-        <span className="size-2.5 rounded-full bg-white/15" />
-        <span className="size-2.5 rounded-full bg-white/15" />
-        <span className="size-2.5 rounded-full bg-white/15" />
+        <span className="size-2.5 rounded-full bg-line-strong" />
+        <span className="size-2.5 rounded-full bg-line-strong" />
+        <span className="size-2.5 rounded-full bg-line-strong" />
       </div>
       <div className="relative aspect-[16/10]">
         {/* `fetchPriority` + `loading`, NOT `priority`.
@@ -142,7 +142,7 @@ function Dots({
             className={`h-1.5 rounded-full transition-[width,background-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
               i === active
                 ? "w-6 bg-brand"
-                : "w-1.5 bg-white/25 group-hover:bg-white/50"
+                : "w-1.5 bg-line-strong group-hover:bg-ink-muted"
             }`}
           />
         </button>
