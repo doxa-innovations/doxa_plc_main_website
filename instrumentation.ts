@@ -19,6 +19,10 @@
  * calls process.exit(1) on error, so a bad schema change stops the deploy
  * instead of serving traffic against a database it does not match.
  */
+// Doxa Watch (Radar) reports the requests, exceptions, queries, outgoing requests, mail and logs of the
+// Node.js server. Without DOXA_WATCH_TOKEN it does nothing.
+export { onRequestError } from "@doxa-innovations/watch/next";
+
 export async function register() {
   // Only the Node.js runtime. Edge has no database driver, and running this
   // there would throw on every cold start.
@@ -26,6 +30,11 @@ export async function register() {
 
   // `next build` must never reach the database: the Docker build has none.
   if (process.env.NEXT_PHASE === "phase-production-build") return;
+
+  // Started before Payload so a failing boot (migration, seed) is reported too. Imported inside the Node.js
+  // branch: instrumentation is also compiled for the Edge runtime (proxy.ts).
+  const { register: registerDoxaWatch } = await import("@doxa-innovations/watch/next");
+  registerDoxaWatch();
 
   const { getPayload } = await import("payload");
   const config = (await import("@payload-config")).default;
