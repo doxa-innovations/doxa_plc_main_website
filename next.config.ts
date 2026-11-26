@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 import { withPayload } from "@payloadcms/next/withPayload";
+import { withDoxaWatch } from "@doxa-innovations/watch/next";
 
 const securityHeaders = [
   { key: "X-Content-Type-Options", value: "nosniff" },
@@ -84,4 +85,6 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default withPayload(nextConfig);
+// Doxa Watch: keeps the collector out of the server bundle and turns on source maps (browser maps are moved
+// out of the public folder by `doxa-watch postbuild`). Payload's wrapper stays outermost.
+export default withPayload(withDoxaWatch(nextConfig));
