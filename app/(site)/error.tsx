@@ -1,5 +1,6 @@
 "use client";
 
+import { captureException } from "@doxa-innovations/watch/next/client";
 import { useEffect } from "react";
 import { Container } from "@/components/layout/Container";
 import { Button } from "@/components/ui/button";
@@ -13,6 +14,7 @@ export default function Error({
 }) {
   useEffect(() => {
     console.error(error);
+    captureException(error);
   }, [error]);
 
   return (

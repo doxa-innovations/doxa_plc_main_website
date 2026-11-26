@@ -1,3 +1,4 @@
+import { DoxaWatchClient } from "@/app/doxa-watch";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -38,6 +39,8 @@ export default async function SiteLayout({
 
   return (
     <>
+      {/* Doxa Watch browser errors and web vitals, public site only (not /olympus). No cookies or storage. */}
+      <DoxaWatchClient />
       <JsonLd
         schema={graph(
           organizationSchema(site, !isEthiopia),
