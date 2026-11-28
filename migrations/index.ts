@@ -3,6 +3,7 @@ import * as migration_20260808_222547_add_team_member_founder from './20260808_2
 import * as migration_20260810_064457_add_services from './20260810_064457_add_services';
 import * as migration_20260810_165710_add_testimonials from './20260810_165710_add_testimonials';
 import * as migration_20261015_140336_add_project_own_product from './20261015_140336_add_project_own_product';
+import * as migration_20261128_173220_payload_3_94_auth from './20261128_173220_payload_3_94_auth';
 
 export const migrations = [
   {
@@ -28,6 +29,11 @@ export const migrations = [
   {
     up: migration_20261015_140336_add_project_own_product.up,
     down: migration_20261015_140336_add_project_own_product.down,
-    name: '20261015_140336_add_project_own_product'
+    name: '20261015_140336_add_project_own_product',
+  },
+  {
+    up: migration_20261128_173220_payload_3_94_auth.up,
+    down: migration_20261128_173220_payload_3_94_auth.down,
+    name: '20261128_173220_payload_3_94_auth'
   },
 ];
